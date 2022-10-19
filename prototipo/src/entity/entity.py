@@ -1,7 +1,7 @@
 from pygame import Vector3
 
 
-class Object:
+class Entity:
     pos: Vector3
     size: Vector3
 

@@ -1,7 +1,7 @@
-from .object import Object
+from .entity import Entity
 
 
-class Obstacle(Object):
+class Obstacle(Entity):
     ...
 
 

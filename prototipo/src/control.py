@@ -1,6 +1,6 @@
 from typing import Dict
 
-from .entities import GameEntities
+from .entity import EntityManager
 from .event import EventBus
 from .keyboard import Keyboard
 from .leaderboard import Leaderboard
@@ -15,7 +15,7 @@ class GameControl(IControl):
     scenes: Dict[str, Scene]
     current_scene: Scene
     leaderboard: Leaderboard
-    entities: GameEntities
+    entities: EntityManager
 
     def play(self):
         ...

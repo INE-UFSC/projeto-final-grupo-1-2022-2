@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Protocol
 
-from ..entities import GameEntities
+from ..entity import EntityManager
 from ..event import EventBus
 from ..keyboard import Keyboard
 from ..leaderboard import Leaderboard
@@ -15,7 +15,7 @@ class IControl(Protocol):
     scenes: Dict[str, "Scene"]
     current_scene: "Scene"
     leaderboard: Leaderboard
-    entities: GameEntities
+    entities: EntityManager
 
     @abstractmethod
     def transition(self, to: "Scene", duration: int = 0):
