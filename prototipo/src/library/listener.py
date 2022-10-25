@@ -1,4 +1,4 @@
-from typing import Callable, Generic, List, TypeVar, Union, overload
+from typing import Callable, Dict, Generic, List, TypeVar, Union, overload
 
 F = TypeVar("F", bound=Callable)
 
@@ -33,7 +33,7 @@ class Listener:
     Classe base para objetos que recebem e emitem eventos.
     """
 
-    __events: dict[str, list[Callable]]
+    __events: Dict[str, List[Callable]]
     __listeners: List["Listener"]
 
     def __init__(self):

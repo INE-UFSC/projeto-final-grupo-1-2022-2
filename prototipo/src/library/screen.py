@@ -1,13 +1,13 @@
-from typing import Union
+from typing import Tuple, Union
 
 import pygame as pg
 
 
 class Screen:
-    __size: tuple[int, int]
+    __size: Tuple[int, int]
     __display: Union[pg.Surface, None]
 
-    def __init__(self, size: tuple[int, int]):
+    def __init__(self, size: Tuple[int, int]):
         self.__size = size
         self.__display = None
 

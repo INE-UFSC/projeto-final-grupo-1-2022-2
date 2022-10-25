@@ -28,7 +28,7 @@ class Game:
 
 
 def run_game(path: str = None):
-    if path is not None:
+    if path:
         chdir(path)
 
     game = Game()
