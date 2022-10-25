@@ -1,5 +1,5 @@
 from collections import namedtuple
-from typing import Dict, List, Type
+from typing import Dict, List, Type, Union
 
 from ..components.Component import Component
 from .entity import Entity
@@ -39,7 +39,7 @@ class EntityManager:
 
         return new_entity
 
-    def removeEntity(self, value: int | Entity):
+    def removeEntity(self, value: Union[int, Entity]):
         """
         value: pode ser o id de uma entidade ou a própria entidade
         """
@@ -73,7 +73,7 @@ class EntityManager:
 
     def getComponentOfEntity(
         self, entity: Entity, component: Type[Component]
-    ) -> Component | None:
+    ) -> Union[Component, None]:
         """
         retorna um componente de uma entidade
 
