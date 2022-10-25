@@ -2,11 +2,12 @@ from pygame import Vector3
 
 
 class Entity:
-    pos: Vector3
-    size: Vector3
+    def __init__(self, id: int):
+        self.__id = id
 
-    def update(self):
-        ...
+    @property
+    def id(self):
+        return self.__id
 
-    def render(self):
-        ...
+    def __eq__(self, other):
+        return self.id == other.id
