@@ -14,6 +14,7 @@ class IControl(Protocol):
     mouse: Mouse
     leaderboard: Leaderboard
     entities: EntityManager
+    deltatime: float
 
     @abstractmethod
     def transition(self, to_scene: "Scene"):

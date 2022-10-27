@@ -1,7 +1,7 @@
 from collections import namedtuple
 from typing import Dict, List, Type, Union
 
-from ..components.Component import Component
+from ..components.component import Component
 from .entity import Entity
 
 ComponentKey = namedtuple("ComponentKey", ["name", "id_number"])

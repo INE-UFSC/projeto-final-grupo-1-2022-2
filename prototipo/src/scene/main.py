@@ -9,4 +9,5 @@ class MainScene(Scene):
         super().__init__(control, menu, systems)
 
     def update(self):
-        ...
+        for system in self.systems:
+            system.update(self.control)
