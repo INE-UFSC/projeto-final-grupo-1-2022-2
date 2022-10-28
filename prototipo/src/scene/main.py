@@ -10,7 +10,7 @@ class MainScene(Scene):
     def __init__(self, control: IControl):
         menu = None
         systems = [
-            RenderSystem()
+            RenderSystem(control.entities)
         ]
 
         super().__init__(control, menu, systems)

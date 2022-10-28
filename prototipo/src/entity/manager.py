@@ -15,17 +15,17 @@ class EntityManager:
     def __init__(self, *entities: Entity):
         self.__entities = dict()
 
-        self.addEntity(*entities)
+        self.add_entity(*entities)
             
 
-    def addEntity(self, *entities: Entity):
+    def add_entity(self, *entities: Entity):
         for entity in entities:
             for component in entity.components.values():
                 if type(component) not in self.__entities.keys():
-                    self.__entities[type(component)] = [component]
+                    self.__entities[type(component)] = [entity]
                     continue
 
-                self.__entities[type(component)].append(component)
+                self.__entities[type(component)].append(entity)
         
 
     def removeEntity(self, value: Entity):
