@@ -1,22 +1,18 @@
 from .system import System
 from ..components import RenderComponent, MoveComponent
 from ..icontrol import IControl
+from ..library import Screen
 
 class RenderSystem(System):
     def update(self, control: IControl):
-        entities = self.entities.get_all_with(RenderComponent)
+        entities = self.entities.get_all_with(RenderComponent, MoveComponent)
         
-        screen = control.screen.display
-        screen.fill('#0bf502')
+        screen = control.screen
+        screen.display.fill('#0bf502')
 
         for entity in entities:
             render = entity.get_component(RenderComponent)
             move = entity.get_component(MoveComponent)
 
-            if move is None:
-                continue
-
-
-
-            pos = screen.get_pos(move.pos)
-            screen.blit(render.surface, pos)
+            pos = Screen.get_pos(move.pos)
+            screen.display.blit(render.surface, pos)
