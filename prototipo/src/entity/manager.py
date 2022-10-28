@@ -53,7 +53,7 @@ class EntityManager:
     def get_all_entities(self) -> List[Entity]:
         returned_entities = set()
 
-        for entity_set in self.__entities.keys:
+        for entity_set in self.__entities.values():
             returned_entities.union(entity_set)
 
         return returned_entities 
