@@ -40,7 +40,7 @@ class EntityManager:
 
         returned_entities = set()
         for component in components:
-            new_entities = self.__entities.get(component, returned_entities)
+            new_entities = self.__entities.get(component, set())
 
             if not returned_entities:
                 returned_entities = new_entities
