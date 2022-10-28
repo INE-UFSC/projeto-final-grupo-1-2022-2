@@ -1,5 +1,6 @@
-from .scene import IControl, Scene
-from .system import RenderSystem
+from .scene import Scene
+from ..icontrol import IControl
+from ..system import RenderSystem
 from ..entity import Player
 import pygame as pg
 

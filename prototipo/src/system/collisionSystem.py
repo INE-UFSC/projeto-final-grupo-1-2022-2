@@ -1,6 +1,6 @@
 from .system import System
 from ..components import CollisionComponent
-from ..scene import IControl
+from ..icontrol import IControl
 
 class CollisionSystem(System):
     def update(self, control: IControl):

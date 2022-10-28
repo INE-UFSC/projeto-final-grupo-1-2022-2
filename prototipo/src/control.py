@@ -5,7 +5,8 @@ import pygame as pg
 from .entity import EntityManager
 from .leaderboard import Leaderboard
 from .library import EventBus, Keyboard, Mouse, Screen
-from .scene import IControl, Scene, SceneManager
+from .scene import Scene, SceneManager
+from .icontrol import IControl
 
 
 class GameControl(IControl):

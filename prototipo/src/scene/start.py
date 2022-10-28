@@ -1,4 +1,5 @@
-from .scene import IControl, Scene
+from .scene import Scene
+from ..icontrol import IControl
 
 
 class StartScene(Scene):

@@ -1,6 +1,6 @@
 from .system import System
 from ..components import RenderComponent, MoveComponent
-from ..scene import IControl
+from ..icontrol import IControl
 
 class RenderSystem(System):
     def update(self, control: IControl):

@@ -1,25 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import Dict, List, Protocol
+from typing import Dict, List
 
-from ..entity import EntityManager
-from ..leaderboard import Leaderboard
-from ..library import EventBus, Keyboard, Listener, Mouse, Screen
+
+from ..icontrol import IControl
+from ..library import Listener
 from ..menu import Menu
 from ..system import System
-
-
-class IControl(Protocol):
-    event: EventBus
-    keyboard: Keyboard
-    mouse: Mouse
-    screen: Screen
-    leaderboard: Leaderboard
-    entities: EntityManager
-    deltatime: float
-
-    @abstractmethod
-    def transition(self, to_scene: "Scene"):
-        ...
 
 
 class Scene(Listener, ABC):
