@@ -1,7 +1,7 @@
 from .system import System
 from ..components import RenderComponent, MoveComponent
 from ..icontrol import IControl
-from ..library import Screen
+
 
 class RenderSystem(System):
     def update(self, control: IControl):
@@ -14,5 +14,5 @@ class RenderSystem(System):
             render = entity.get_component(RenderComponent)
             move = entity.get_component(MoveComponent)
 
-            pos = Screen.get_pos(move.pos)
+            pos = screen.get_pos(move.pos)
             screen.display.blit(render.surface, pos)

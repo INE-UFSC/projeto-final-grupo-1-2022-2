@@ -17,7 +17,7 @@ class Screen:
     def update(self):
         pg.display.update()
     
-    def get_pos(pos: pg.Vector3 | Tuple[float, float, float]):
+    def get_pos(self, pos: pg.Vector3 | Tuple[float, float, float]):
         return (pos[0], round(pos[2]) - round(pos[1]))
 
     @property

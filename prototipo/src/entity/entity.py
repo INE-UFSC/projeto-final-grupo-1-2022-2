@@ -10,6 +10,7 @@ class Entity:
     def get_component(self, component: Component) -> Union[Component, None]:
         return self.__components.get(component)
         
+    
     @property
     def components(self):
         return self.__components
