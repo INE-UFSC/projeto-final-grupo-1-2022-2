@@ -3,7 +3,7 @@ from typing import Dict, List, Protocol
 
 from ..entity import EntityManager
 from ..leaderboard import Leaderboard
-from ..library import EventBus, Keyboard, Listener, Mouse
+from ..library import EventBus, Keyboard, Listener, Mouse, Screen
 from ..menu import Menu
 from ..system import System
 
@@ -12,6 +12,7 @@ class IControl(Protocol):
     event: EventBus
     keyboard: Keyboard
     mouse: Mouse
+    screen: Screen
     leaderboard: Leaderboard
     entities: EntityManager
     deltatime: float

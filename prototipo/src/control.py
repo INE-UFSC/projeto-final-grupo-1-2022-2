@@ -31,6 +31,7 @@ class GameControl(IControl):
         self.__screen_size = (1280, 760)
 
         self.__event = EventBus()
+        self.__entities = EntityManager()
         self.__scene = SceneManager()
         self.__clock = pg.time.Clock()
         self.__screen = Screen(self.__screen_size)
@@ -90,3 +91,7 @@ class GameControl(IControl):
     @property
     def screen(self):
         return self.__screen
+    
+    @property
+    def entities(self):
+        return self.__entities

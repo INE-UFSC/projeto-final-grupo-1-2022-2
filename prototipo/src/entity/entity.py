@@ -1,13 +1,15 @@
-from pygame import Vector3
-
+from ..components import Component
+from typing import Union
 
 class Entity:
-    def __init__(self, id: int):
-        self.__id = id
+    def __init__(self, *components):
+        self.__components = {
+            type(component): component for component in components
+        }
 
+    def get_component(self, component: Component) -> Union[Component, None]:
+        return self.__components.get(type(component))
+        
     @property
-    def id(self):
-        return self.__id
-
-    def __eq__(self, other):
-        return self.id == other.id
+    def components(self):
+        return self.__components
