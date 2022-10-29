@@ -1,6 +1,7 @@
 """
 Classe move component
 """
+from typing import Tuple, Union
 import pygame as pg
 
 from .component import Component
@@ -27,3 +28,6 @@ class MoveComponent(Component):
     @property
     def on_ground(self):
         return self.__on_ground
+    
+    def set_pos(self, value: Union[Tuple[float, float, float], pg.Vector3]):
+        self.__pos.update(value)

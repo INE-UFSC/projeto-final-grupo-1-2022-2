@@ -1,6 +1,6 @@
 from .scene import Scene
 from ..icontrol import IControl
-from ..system import RenderSystem
+from ..system import RenderSystem, MoveSystem
 from ..entity import Player
 import pygame as pg
 
@@ -10,7 +10,8 @@ class MainScene(Scene):
     def __init__(self, control: IControl):
         menu = None
         systems = [
-            RenderSystem(control)
+            MoveSystem(control),
+            RenderSystem(control),
         ]
 
         super().__init__(control, menu, systems)

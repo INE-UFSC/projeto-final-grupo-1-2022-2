@@ -9,4 +9,8 @@ class MoveSystem(System):
         entities = ctl.entities.get_all_with(MoveComponent)
 
         for entity in entities:
-            entity.pos += entity.velocity * ctl.deltatime
+            move = entity.get_component(MoveComponent)
+
+            new_pos = move.pos + move.velocity * ctl.deltatime
+            
+            move.set_pos(new_pos)
