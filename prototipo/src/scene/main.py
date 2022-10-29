@@ -1,6 +1,6 @@
 from .scene import Scene
 from ..icontrol import IControl
-from ..system import RenderSystem, MoveSystem, CameraSystem
+from ..system import RenderSystem, MoveSystem, CameraSystem, MoveControlSystem
 from ..entity import Player
 
 
@@ -9,6 +9,7 @@ class MainScene(Scene):
     def __init__(self, control: IControl):
         menu = None
         systems = [
+            MoveControlSystem(control),
             MoveSystem(control),
             CameraSystem(control),
             RenderSystem(control),
