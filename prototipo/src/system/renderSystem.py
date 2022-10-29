@@ -4,10 +4,12 @@ from ..icontrol import IControl
 
 
 class RenderSystem(System):
-    def update(self, control: IControl):
-        entities = self.entities.get_all_with(RenderComponent, MoveComponent)
+    def update(self):
+        ctl = self.control
+        screen = ctl.screen
+
+        entities = ctl.entities.get_all_with(RenderComponent, MoveComponent)
         
-        screen = control.screen
         screen.display.fill('#0bf502')
 
         for entity in entities:

@@ -1,19 +1,21 @@
 from abc import ABC, abstractmethod
 
-from ..entity import EntityManager
+from ..icontrol import IControl
 from ..library import Listener
 
 
 class System(Listener, ABC):
-    def __init__(self, entities: EntityManager):
+    __control: IControl
+
+    def __init__(self, control: IControl):
         super().__init__()
-
-        self.__entities = entities
-
-    @property
-    def entities(self):
-        return self.__entities
-
+        
+        self.__control = control
+    
     @abstractmethod
     def update(self):
         ...
+
+    @property
+    def control(self):
+        return self.__control
