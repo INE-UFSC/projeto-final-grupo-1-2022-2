@@ -1,18 +1,23 @@
 from typing import Dict, List, Type, Union, Set
 from ..components import Component
 from .entity import Entity
+from .player import Player
 
 
 class EntityManager:
     """Classe que contém as entidades do jogo e seus respectivos componentes"""
 
     __entities: Dict[Component, Set[Entity]]
-    
+    __player: Player
 
     def __init__(self, *entities: Entity):
         self.__entities = dict()
         self.add_entity(*entities)
-
+        self.__player = None
+    
+    def set_player(self, player: Player):
+        if isinstance(player, Player):
+            self.__player = player
 
     def add_entity(self, *entities: Entity):
         for entity in entities:
@@ -50,7 +55,7 @@ class EntityManager:
 
         return returned_entities
 
-    def get_all_entities(self) -> List[Entity]:
+    def get_all_entities(self) -> Set[Entity]:
         returned_entities = set()
 
         for entity_set in self.__entities.values():
@@ -64,7 +69,12 @@ class EntityManager:
         """
 
         self.__entities.clear()
+        self.__player = None
 
     @property
     def entities(self):
         return self.__entities
+
+    @property
+    def player(self):
+        return self.__player

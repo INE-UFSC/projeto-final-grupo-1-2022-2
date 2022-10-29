@@ -1,6 +1,5 @@
 from .system import System
 from ..components import MoveComponent
-from ..icontrol import IControl
 
 class MoveSystem(System):
     def update(self):

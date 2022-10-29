@@ -1,8 +1,7 @@
 from .scene import Scene
 from ..icontrol import IControl
-from ..system import RenderSystem, MoveSystem
+from ..system import RenderSystem, MoveSystem, CameraSystem
 from ..entity import Player
-import pygame as pg
 
 
 
@@ -11,6 +10,7 @@ class MainScene(Scene):
         menu = None
         systems = [
             MoveSystem(control),
+            CameraSystem(control),
             RenderSystem(control),
         ]
 
@@ -18,6 +18,8 @@ class MainScene(Scene):
     
     def enter(self):
         player = Player()
+
+        self.control.entities.set_player(player)
         self.control.entities.add_entity(player)
 
     def update(self):
