@@ -16,6 +16,9 @@ class MoveComponent(Component):
         self.__pos = pg.Vector3(pos)
         self.__velocity = pg.Vector3(velocity)
         self.__on_ground = on_ground
+    
+    def set_on_ground(self, value: bool):
+        self.__on_ground = value
 
     @property
     def pos(self):

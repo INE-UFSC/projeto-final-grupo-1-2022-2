@@ -21,4 +21,6 @@ class MoveSystem(System):
 
             if move.pos.y < 0:
                 move.pos.y = 0
+                move.velocity.y = 0
+                move.set_on_ground(True)
             
