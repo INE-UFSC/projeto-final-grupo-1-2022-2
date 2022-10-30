@@ -7,9 +7,11 @@ from .leaderboard import Leaderboard
 from .library import EventBus, Keyboard, Mouse, Screen
 from .scene import Scene, SceneManager
 from .icontrol import IControl
+from .config import Config
 
 
 class GameControl(IControl):
+    __config: Config
     __event: EventBus
     __keyboard: Keyboard
     __mouse: Mouse
@@ -26,16 +28,14 @@ class GameControl(IControl):
 
     def __init__(self):
         self.__running = False
-        self.__framerate = 60
         self.__deltatime = 0
-        self.__max_deltatime = 0.1
-        self.__screen_size = (1280, 760)
 
+        self.__config = Config()
         self.__event = EventBus()
         self.__entities = EntityManager()
         self.__scene = SceneManager()
         self.__clock = pg.time.Clock()
-        self.__screen = Screen(self.__screen_size)
+        self.__screen = Screen(self.config.screen_size)
 
     def is_running(self):
         return self.__running
@@ -57,9 +57,9 @@ class GameControl(IControl):
             current_scene.emit(event_name, *args, **kwargs)
 
     def tick(self):
-        delta = self.__clock.tick(self.__framerate) / 1000
+        delta = self.__clock.tick(self.__config.framerate) / 1000
 
-        self.__deltatime = min(delta, self.__max_deltatime)
+        self.__deltatime = min(delta, self.__config.max_deltatime)
 
     def update(self):
         self.tick()
@@ -72,6 +72,10 @@ class GameControl(IControl):
 
     def transition(self, to_scene: Union["Scene", str, None]):
         return self.__scene.transition(to_scene)
+
+    @property
+    def config(self):
+        return self.__config
 
     @property
     def event(self):

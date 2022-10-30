@@ -4,6 +4,7 @@ from .moveSystem import MoveSystem
 from .collisionSystem import CollisionSystem
 from .cameraSystem import CameraSystem
 from .moveControlSystem import MoveControlSystem
+from .mapGenerationSystem import MapGenerationSystem
 
 __all__ = [
     "System", 
@@ -12,4 +13,5 @@ __all__ = [
     "CollisionSystem", 
     "CameraSystem",
     "MoveControlSystem",
+    "MapGenerationSystem",
 ]

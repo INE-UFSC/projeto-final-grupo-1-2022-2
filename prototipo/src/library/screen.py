@@ -26,6 +26,10 @@ class Screen:
         y = self.size[1] - (pos[1] + pos[2] - self.__cam.pos[1])
 
         return (round(x), round(y))
+    
+    @property
+    def center(self):
+        return (self.__size[0] // 2, self.__size[1] // 2)
 
     @property
     def size(self):

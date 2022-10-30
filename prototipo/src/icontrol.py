@@ -6,9 +6,11 @@ if TYPE_CHECKING:
     from .leaderboard import Leaderboard
     from .library import EventBus, Keyboard, Mouse, Screen
     from .scene import Scene
+    from .config import Config
 
 
 class IControl(Protocol):
+    config: "Config"
     event: "EventBus"
     keyboard: "Keyboard"
     mouse: "Mouse"

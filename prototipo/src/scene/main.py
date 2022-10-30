@@ -1,6 +1,6 @@
 from .scene import Scene
 from ..icontrol import IControl
-from ..system import RenderSystem, MoveSystem, CameraSystem, MoveControlSystem
+from ..system import RenderSystem, MoveSystem, CameraSystem, MoveControlSystem, MapGenerationSystem
 from ..entity import Player
 
 
@@ -12,6 +12,7 @@ class MainScene(Scene):
             MoveControlSystem(control),
             MoveSystem(control),
             CameraSystem(control),
+            MapGenerationSystem(control),
             RenderSystem(control),
         ]
 

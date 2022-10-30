@@ -36,6 +36,8 @@ class MoveControlSystem(System):
 
     @Listener.on(pg.KEYDOWN)
     def move(self, event: pg.event.Event):
+        
+        
         if event.key not in (pg.K_LEFT, pg.K_RIGHT):
             return
         
