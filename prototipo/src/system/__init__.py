@@ -1,10 +1,11 @@
-from .system import System
-from .renderSystem import RenderSystem
-from .moveSystem import MoveSystem
-from .collisionSystem import CollisionSystem
 from .cameraSystem import CameraSystem
-from .moveControlSystem import MoveControlSystem
+from .collisionSystem import CollisionSystem
+from .entityDestructionSystem import EntityDestructionSystem
 from .mapGenerationSystem import MapGenerationSystem
+from .moveControlSystem import MoveControlSystem
+from .moveSystem import MoveSystem
+from .renderSystem import RenderSystem
+from .system import System
 
 __all__ = [
     "System", 
@@ -14,4 +15,5 @@ __all__ = [
     "CameraSystem",
     "MoveControlSystem",
     "MapGenerationSystem",
+    "EntityDestructionSystem",
 ]

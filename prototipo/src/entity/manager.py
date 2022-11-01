@@ -59,7 +59,7 @@ class EntityManager:
         returned_entities = set()
 
         for entity_set in self.__entities.values():
-            returned_entities.union(entity_set)
+            returned_entities = returned_entities.union(entity_set)
 
         return returned_entities 
 

@@ -8,3 +8,5 @@ class Config:
     
     framerate: int = 60
     max_deltatime: float = 0.1
+
+    destruction_distance: int = 1000
