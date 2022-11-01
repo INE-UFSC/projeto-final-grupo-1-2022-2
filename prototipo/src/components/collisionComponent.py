@@ -8,7 +8,7 @@ from .component import Component
 
 class CollisionComponent(Component):
     def __init__(self, shape):
-        self.__shace = shape
+        self.__shape = shape
     
     @property
     def shape(self):
