@@ -2,7 +2,7 @@ from typing import Union
 
 import pygame as pg
 
-from .entity import EntityManager
+from .entity import EntityManager, Map
 from .leaderboard import Leaderboard
 from .library import EventBus, Keyboard, Mouse, Screen
 from .scene import Scene, SceneManager
@@ -19,6 +19,7 @@ class GameControl(IControl):
 
     __scene: SceneManager
     __entities: EntityManager
+    __map: Map
     __leaderboard: Leaderboard
     __running: bool
 
@@ -30,9 +31,12 @@ class GameControl(IControl):
         self.__running = False
         self.__deltatime = 0
 
-        self.__config = Config()
+        cfg = Config()
+        self.__config = cfg
+
         self.__event = EventBus()
         self.__entities = EntityManager()
+        self.__map = Map(cfg.lane_width, cfg.lane_amount)
         self.__scene = SceneManager()
         self.__clock = pg.time.Clock()
         self.__screen = Screen(self.config.screen_size)
@@ -100,3 +104,7 @@ class GameControl(IControl):
     @property
     def entities(self):
         return self.__entities
+
+    @property
+    def map(self):
+        return self.__map
