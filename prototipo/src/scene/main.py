@@ -20,10 +20,15 @@ class MainScene(Scene):
         super().__init__(control, menu, systems)
     
     def enter(self):
-        player = Player()
+        lane_i = self.control.map.lane_amount // 2
+        mid_lane_x = self.control.map.lanes[lane_i]
+        player = Player(pos=(mid_lane_x, 0, 0))
 
         self.control.entities.set_player(player)
         self.control.entities.add_entity(player)
+
+        for system in self.systems:
+            system.setup()
 
     def update(self):
         for system in self.systems:

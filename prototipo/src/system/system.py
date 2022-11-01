@@ -9,9 +9,12 @@ class System(Listener, ABC):
 
     def __init__(self, control: IControl):
         super().__init__()
-        
+
         self.__control = control
-    
+
+    def setup(self):
+        ...
+
     @abstractmethod
     def update(self):
         ...
