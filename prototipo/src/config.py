@@ -13,4 +13,4 @@ class Config:
 
     slide_duration: float = 0.3
     gravity: float = -1000
-    jump_force: float = 500
+    jump_force: float = 800

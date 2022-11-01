@@ -1,5 +1,6 @@
 from .entity import Entity
-from ..components import RenderComponent, MoveComponent, SlideComponent
+from ..components import RenderComponent, MoveComponent, SlideComponent, CollisionComponent
+from ..library import CubeCollider
 
 class Player(Entity):
     def __init__(self, pos):
@@ -7,4 +8,7 @@ class Player(Entity):
         move = MoveComponent(pos, (0, 0, 200), True)
         slide = SlideComponent()
 
-        super().__init__(render, move, slide)
+        collider = CubeCollider(move.pos, (100, 200, 1))
+        collision = CollisionComponent(collider)
+
+        super().__init__(render, move, collision, slide)

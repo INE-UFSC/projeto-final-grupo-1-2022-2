@@ -1,11 +1,8 @@
 from .system import System
-from ..entity import Entity
-from ..components import MoveComponent, RenderComponent
+from ..entity import Obstacle
 from ..icontrol import IControl
 
 from random import randint
-from typing import Tuple
-import pygame as pg
 
 
 
@@ -40,9 +37,9 @@ class MapGenerationSystem(System):
         lane_i = randint(0, lane_amount - 1)
         x = self.control.map.lanes[lane_i]
 
-        entity = Entity(
-            RenderComponent((lane_width, lane_width), "#ffff00"), 
-            MoveComponent((x, 0, z), (0, 0, 0), True)
+        entity = Obstacle(
+            pos=(x, 0, z),
+            size=(lane_width, lane_width, 5)
         )
 
         self.control.entities.add_entity(entity)
