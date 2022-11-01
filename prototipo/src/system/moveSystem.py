@@ -3,8 +3,6 @@ from ..components import MoveComponent
 
 
 class MoveSystem(System):
-    __gravity = -50
-
     def update(self):
         ctl = self.control
 
@@ -13,7 +11,7 @@ class MoveSystem(System):
         for entity in entities:
             move = entity.get_component(MoveComponent)
 
-            move.velocity.y += self.__gravity * self.control.deltatime
+            move.velocity.y += self.control.config.gravity * ctl.deltatime
 
             new_pos = move.pos + move.velocity * ctl.deltatime
             
