@@ -35,19 +35,19 @@ class CubeCollider(ColliderShape):
 
     @property
     def y_min(self):
-        return self.origin[1] -  self.__size[1] / 2
+        return self.origin[1]
 
     @property
     def y_max(self):
-        return self.origin[1] +  self.__size[1] / 2
+        return self.origin[1] +  self.__size[1]
 
     @property
     def z_min(self):
-        return self.origin[2] -  self.__size[2] / 2
+        return self.origin[2]
 
     @property
     def z_max(self):
-        return self.origin[2] +  self.__size[2] / 2
+        return self.origin[2] +  self.__size[2]
     
     def test(self, cube: "CubeCollider"):
         return (
