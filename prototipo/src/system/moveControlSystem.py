@@ -19,7 +19,8 @@ class MoveControlSystem(System):
         move = player.get_component(MoveComponent)
 
         if not move.on_ground:
-            return
+            ## TODO Se levantar (unCrouch)
+            return 
 
         move.velocity.y = self.control.config.jump_force
         move.set_on_ground(False)
@@ -29,7 +30,14 @@ class MoveControlSystem(System):
         if event.key != pg.K_DOWN:
             return
 
-        # TODO
+        player = self.control.entities.player
+        move = player.get_component(MoveComponent)
+
+        if not move.on_ground:
+            move.velocity.y = - self.control.config.jump_force
+        else:
+            pass ## TODO player crouch      
+
 
     @Listener.on(pg.KEYDOWN)
     def move(self, event: pg.event.Event):
