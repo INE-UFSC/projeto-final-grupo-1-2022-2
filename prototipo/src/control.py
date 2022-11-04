@@ -2,12 +2,12 @@ from typing import Union
 
 import pygame as pg
 
-from .entity import EntityManager, Map
-from .leaderboard import Leaderboard
-from .library import EventBus, Keyboard, Mouse, Screen
-from .scene import Scene, SceneManager
-from .icontrol import IControl
 from .config import Config
+from .entity import EntityManager, Map
+from .icontrol import IControl
+from .leaderboard import Leaderboard
+from .library import Camera, EventBus, Keyboard, Mouse, Screen
+from .scene import Scene, SceneManager
 
 
 class GameControl(IControl):
@@ -39,7 +39,9 @@ class GameControl(IControl):
         self.__map = Map(cfg.lane_width, cfg.lane_amount)
         self.__scene = SceneManager()
         self.__clock = pg.time.Clock()
-        self.__screen = Screen(self.config.screen_size)
+        self.__screen = Screen(
+            self.config.screen_size, Camera(self.config.camera_offset)
+        )
 
     def is_running(self):
         return self.__running
@@ -100,7 +102,7 @@ class GameControl(IControl):
     @property
     def screen(self):
         return self.__screen
-    
+
     @property
     def entities(self):
         return self.__entities
