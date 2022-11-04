@@ -13,7 +13,7 @@ class Screen:
     def __init__(self, size: Tuple[int, int], camera: Union[Camera, None] = None):
         self.__size = size
         self.__display = None
-        self.__cam = Camera()
+        self.__cam = Camera() if camera is None else camera
 
     def start(self):
         self.__display = pg.display.set_mode(self.__size)
@@ -26,7 +26,7 @@ class Screen:
         y = self.size[1] - (pos[1] + pos[2] - self.__cam.pos[1])
 
         return (round(x), round(y))
-    
+
     @property
     def center(self):
         return (self.__size[0] // 2, self.__size[1] // 2)

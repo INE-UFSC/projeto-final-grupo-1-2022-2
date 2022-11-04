@@ -15,4 +15,5 @@ class Config:
     slide_duration: float = 0.25
     gravity: float = -1600
     jump_force: float = 705
-    camera_offset: Tuple[int, int] = (0, -100)
+
+    camera_y_offset: int = -100

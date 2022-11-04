@@ -19,7 +19,7 @@ class Camera:
             offset = pg.Vector2(0, -100)
 
         self.__pos = pos if isinstance(pos, pg.Vector2) else pg.Vector2(pos)
-        self.__offset = offset
+        self.__offset = offset if isinstance(offset, pg.Vector2) else pg.Vector2(offset)
 
     def update(self, pos: Union[pg.Vector2, Tuple[int, int]]):
         pos = pg.Vector2(pos)
@@ -30,3 +30,11 @@ class Camera:
     @property
     def pos(self):
         return self.__pos
+
+    @property
+    def offset(self):
+        return self.__offset
+
+    @offset.setter
+    def offset(self, offset):
+        self.__offset = pg.Vector2(offset)

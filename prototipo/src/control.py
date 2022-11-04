@@ -39,9 +39,7 @@ class GameControl(IControl):
         self.__map = Map(cfg.lane_width, cfg.lane_amount)
         self.__scene = SceneManager()
         self.__clock = pg.time.Clock()
-        self.__screen = Screen(
-            self.config.screen_size, Camera(self.config.camera_offset)
-        )
+        self.__screen = Screen(self.config.screen_size)
 
     def is_running(self):
         return self.__running
