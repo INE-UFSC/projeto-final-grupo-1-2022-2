@@ -2,6 +2,7 @@
 Classe move component
 """
 from typing import Tuple, Union
+
 import pygame as pg
 
 from .component import Component
@@ -10,15 +11,10 @@ from .component import Component
 class MoveComponent(Component):
     pos: pg.Vector3
     velocity: pg.Vector3
-    on_ground: bool
 
-    def __init__(self, pos, velocity, on_ground):
+    def __init__(self, pos, velocity):
         self.__pos = pg.Vector3(pos)
         self.__velocity = pg.Vector3(velocity)
-        self.__on_ground = on_ground
-    
-    def set_on_ground(self, value: bool):
-        self.__on_ground = value
 
     @property
     def pos(self):
@@ -30,4 +26,4 @@ class MoveComponent(Component):
 
     @property
     def on_ground(self):
-        return self.__on_ground
+        return self.velocity.y == 0

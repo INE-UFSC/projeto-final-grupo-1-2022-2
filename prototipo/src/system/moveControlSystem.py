@@ -20,10 +20,9 @@ class MoveControlSystem(System):
 
         if not move.on_ground:
             ## TODO Se levantar (unCrouch)
-            return 
+            return
 
         move.velocity.y = self.control.config.jump_force
-        move.set_on_ground(False)
 
     @Listener.on(pg.KEYDOWN)
     def down(self, event: pg.event.Event):
@@ -34,10 +33,9 @@ class MoveControlSystem(System):
         move = player.get_component(MoveComponent)
 
         if not move.on_ground:
-            move.velocity.y = - self.control.config.jump_force
+            move.velocity.y = -self.control.config.jump_force
         else:
-            pass ## TODO player crouch      
-
+            pass  ## TODO player crouch
 
     @Listener.on(pg.KEYDOWN)
     def move(self, event: pg.event.Event):

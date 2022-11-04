@@ -1,5 +1,5 @@
-from .system import System
 from ..components import MoveComponent
+from .system import System
 
 
 class MoveSystem(System):
@@ -14,11 +14,9 @@ class MoveSystem(System):
             move.velocity.y += self.control.config.gravity * ctl.deltatime
 
             new_pos = move.pos + move.velocity * ctl.deltatime
-            
+
             move.pos.update(new_pos)
 
             if move.pos.y < 0:
                 move.pos.y = 0
                 move.velocity.y = 0
-                move.set_on_ground(True)
-            
