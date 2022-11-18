@@ -1,11 +1,11 @@
 import pygame as pg
 
 from ..components import MoveComponent, SlideComponent
-from ..entity import Player
 from ..library import Listener
 from .system import System
 
-
+#TODO
+# adicionar encadeamento de movimentos.
 class MoveControlSystem(System):
     def setup(self):
         self.__next_move = None
@@ -18,8 +18,8 @@ class MoveControlSystem(System):
         player = self.control.entities.player
         move = player.get_component(MoveComponent)
 
-        if not move.on_ground:
-            ## TODO Se levantar (unCrouch)
+        if move.is_crouched:
+            move.velocity.y = -self.control.config.crouch_force
             return
 
         move.velocity.y = self.control.config.jump_force
@@ -34,8 +34,10 @@ class MoveControlSystem(System):
 
         if not move.on_ground:
             move.velocity.y = -self.control.config.jump_force
-        else:
-            pass  ## TODO player crouch
+        elif not move.is_crouched:
+            move.velocity.y = self.control.config.crouch_force
+            move.is_crouched = True
+            
 
     @Listener.on(pg.KEYDOWN)
     def move(self, event: pg.event.Event):

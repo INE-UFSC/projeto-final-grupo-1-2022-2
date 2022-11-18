@@ -15,6 +15,7 @@ class MoveComponent(Component):
     def __init__(self, pos, velocity):
         self.__pos = pg.Vector3(pos)
         self.__velocity = pg.Vector3(velocity)
+        self.__is_crouched = False
 
     @property
     def pos(self):
@@ -27,3 +28,11 @@ class MoveComponent(Component):
     @property
     def on_ground(self):
         return self.velocity.y == 0
+    
+    @property
+    def is_crouched(self):
+        return self.__is_crouched
+    
+    @is_crouched.setter
+    def is_crouched(self, is_crouched: bool):
+        self.__is_crouched = is_crouched
