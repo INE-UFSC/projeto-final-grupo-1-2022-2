@@ -5,11 +5,12 @@ from .entity import Entity
 
 class Obstacle(Entity):
     def __init__(self, pos, size, velocity=(0, 0, 0), color="#ffff00"):
-        render = RenderComponent((size[0], size[1] + size[2]), color)
         move = MoveComponent(pos, velocity)
 
         collider = CubeCollider(move.pos, size)
         collision = CollisionComponent(collider)
+
+        render = RenderComponent.from_cube(collider, color)
 
         super().__init__(render, move, collision)
 
@@ -67,7 +68,7 @@ class Car(Obstacle):
     """
     Obstacle that represents a car
     """
-    def __init__(self, pos, size=[100, 130, 50], velocity=(0, 0, -100), color="#000000"):
+    def __init__(self, pos, size=[100, 130, 50], velocity=(0, 0, -100), color="#222222"):
         super().__init__(pos, size, velocity, color)
 
 
