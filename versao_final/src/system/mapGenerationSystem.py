@@ -1,5 +1,5 @@
 from .system import System
-from ..entity import Obstacle
+from ..entity import *
 from ..icontrol import IControl
 
 from random import randint
@@ -42,4 +42,19 @@ class MapGenerationSystem(System):
             size=(lane_width, lane_width, 5)
         )
 
+        entity = Handrail(
+            pos=(x, 0, z)
+        )
+
+        car = Car(
+            pos=(x, 0, z)
+        )
+        
+        bike = Bike(
+            pos=(x, 0, z)
+        )
+
         self.control.entities.add_entity(entity)
+        self.control.entities.add_entity(car)
+        self.control.entities.add_entity(bike)
+        

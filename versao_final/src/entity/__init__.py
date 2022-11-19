@@ -1,12 +1,11 @@
 from .entity import Entity
 from .manager import EntityManager
 from .map import Map
-from .obstacle import Bush, Obstacle, Student, Wall
+from .obstacle import *
 from .player import Player
 from .powerup import PowerUp, SpeedPowerUp, SuperJumpPowerUp
 
 __all__ = [
-    "Bush",
     "Entity",
     "EntityManager",
     "Map",
@@ -14,7 +13,13 @@ __all__ = [
     "Player",
     "PowerUp",
     "SpeedPowerUp",
+    "Handrail",
+    "PartyAdsTable",
+    "SmallBush",
+    "BigBush",
+    "Bike",
     "Student",
+    "Car",
+    "Bridge",
     "SuperJumpPowerUp",
-    "Wall",
 ]
