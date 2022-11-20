@@ -10,7 +10,7 @@ from .system import System
 class MoveControlSystem(System):
     def setup(self):
         self.__next_move = None
-        self.__time_on_crouch = 0
+        self.__time_since_last_crouch = 0
 
     @Listener.on(pg.KEYDOWN)
     def jump(self, event: pg.event.Event):
@@ -23,7 +23,7 @@ class MoveControlSystem(System):
         if not move.on_ground:
             return
         elif player.is_crouched:
-            self.__time_on_crouch = 0
+            self.__time_since_last_crouch = 0
             player.uncrouch()
             return
 
@@ -40,7 +40,7 @@ class MoveControlSystem(System):
         if not move.on_ground:
             move.velocity.y = -self.control.config.jump_force
         else:
-            self.__time_on_crouch += self.control.clock.get_time()
+            self.__time_since_last_crouch += self.control.clock.get_time()
             player.crouch()
 
     @Listener.on(pg.KEYDOWN)
@@ -83,9 +83,9 @@ class MoveControlSystem(System):
                 slide.reset()
 
         crouch_duration = self.control.config.crouch_duration
-        if self.__time_on_crouch > crouch_duration:
+        if self.__time_since_last_crouch > crouch_duration:
             player.uncrouch()
-            self.__time_on_crouch = 0
+            self.__time_since_last_crouch = 0
 
         if player.is_crouched:
-            self.__time_on_crouch += self.control.clock.get_time()
+            self.__time_since_last_crouch += self.control.clock.get_time()
