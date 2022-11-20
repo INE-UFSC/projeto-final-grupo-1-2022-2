@@ -14,7 +14,7 @@ class Player(Entity):
         move = MoveComponent(pos, (0, 0, 200))
         slide = SlideComponent()
 
-        collider = CubeCollider(move.pos, (60, 120, 4))
+        collider = CubeCollider(move.pos, (60, 110, 4))
         collision = CollisionComponent(collider)
 
         super().__init__(render, move, collision, slide)
