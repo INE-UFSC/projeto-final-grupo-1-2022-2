@@ -22,13 +22,11 @@ class Player(Entity):
         self.__is_crouched = False
 
     def crouch(self):
-        print("crouch")
         collider = self.get_component(CollisionComponent)
         collider.shape.size.y /= 3
         self.__is_crouched = True
 
     def uncrouch(self):
-        print("uncrouch")
         collider = self.get_component(CollisionComponent)
         collider.shape.size.y *= 3
         self.__is_crouched = False

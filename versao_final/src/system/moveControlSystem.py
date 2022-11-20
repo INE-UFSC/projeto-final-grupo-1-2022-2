@@ -39,7 +39,7 @@ class MoveControlSystem(System):
 
         if not move.on_ground:
             move.velocity.y = -self.control.config.jump_force
-        else:
+        elif not player.is_crouched:
             self.__time_since_last_crouch += self.control.clock.get_time()
             player.crouch()
 
