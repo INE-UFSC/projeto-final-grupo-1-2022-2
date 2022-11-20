@@ -9,8 +9,6 @@ from .text import Text
 
 class Button(MenuComponent):
     __label: str
-    __is_pressed: bool
-    __is_hovered: bool
     __on_click: Callable
     __color: pg.Color
     __color_when_pressed: pg.Color
@@ -26,21 +24,19 @@ class Button(MenuComponent):
         label_color: Union[pg.Color, str] = "#ffffff",
         size: Union[pg.Vector2, Tuple[int, int]] = (100, 100),
         shade_multiplier: float = 0.5,
-        press_duration: int = 300,
     ):
         pos = pg.Vector2(pos)
         size = pg.Vector2(size)
         color = pg.Color(color)
         label_color = pg.Color(label_color)
-
+        self.__on_click = on_click
         surface = pg.Surface(size)
         surface.fill(color)
-
+        self.__label = label
         self.__text = Text(pos, label, color=label_color)
         self.__color = color
         self.__color_when_pressed = color_when_pressed
         self.__shade_multiplier = shade_multiplier
-        self.__press_duration = press_duration
         super().__init__(pos, surface)
 
     @Listener.on(pg.MOUSEMOTION)
@@ -60,7 +56,7 @@ class Button(MenuComponent):
     def press(self, event: pg.event.Event):
         if event.button == pg.BUTTON_LEFT and self.is_inside(event.pos):
             self.__surface.fill(self.__color_when_pressed)
-            self.__action()
+            self.__on_click()
 
     @Listener.on(pg.MOUSEBUTTONUP)
     def release(self, event: pg.event.Event):
