@@ -20,6 +20,7 @@ __all__ = [
     "Bike",
     "Student",
     "Car",
+    "Bus",
     "Bridge",
     "SuperJumpPowerUp",
 ]
