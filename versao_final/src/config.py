@@ -15,6 +15,6 @@ class Config:
     slide_duration: float = 0.25
     gravity: float = -1600
     jump_force: float = 705
-    crouch_force: float = -705
+    crouch_duration: int = 1000  # crouch duration in milliseconds
 
     camera_y_offset: int = -100

@@ -18,3 +18,21 @@ class Player(Entity):
         collision = CollisionComponent(collider)
 
         super().__init__(render, move, collision, slide)
+
+        self.__is_crouched = False
+
+    def crouch(self):
+        print("crouch")
+        collider = self.get_component(CollisionComponent)
+        collider.shape.size.y /= 3
+        self.__is_crouched = True
+
+    def uncrouch(self):
+        print("uncrouch")
+        collider = self.get_component(CollisionComponent)
+        collider.shape.size.y *= 3
+        self.__is_crouched = False
+
+    @property
+    def is_crouched(self):
+        return self.__is_crouched

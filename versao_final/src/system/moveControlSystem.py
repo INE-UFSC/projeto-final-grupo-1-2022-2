@@ -4,11 +4,13 @@ from ..components import MoveComponent, SlideComponent
 from ..library import Listener
 from .system import System
 
-#TODO
+
+# TODO
 # adicionar encadeamento de movimentos.
 class MoveControlSystem(System):
     def setup(self):
         self.__next_move = None
+        self.__time_on_crouch = 0
 
     @Listener.on(pg.KEYDOWN)
     def jump(self, event: pg.event.Event):
@@ -18,8 +20,11 @@ class MoveControlSystem(System):
         player = self.control.entities.player
         move = player.get_component(MoveComponent)
 
-        if move.is_crouched:
-            move.velocity.y = -self.control.config.crouch_force
+        if not move.on_ground:
+            return
+        elif player.is_crouched:
+            self.__time_on_crouch = 0
+            player.uncrouch()
             return
 
         move.velocity.y = self.control.config.jump_force
@@ -34,10 +39,9 @@ class MoveControlSystem(System):
 
         if not move.on_ground:
             move.velocity.y = -self.control.config.jump_force
-        elif not move.is_crouched:
-            move.velocity.y = self.control.config.crouch_force
-            move.is_crouched = True
-            
+        else:
+            self.__time_on_crouch += self.control.clock.get_time()
+            player.crouch()
 
     @Listener.on(pg.KEYDOWN)
     def move(self, event: pg.event.Event):
@@ -77,3 +81,11 @@ class MoveControlSystem(System):
 
             if slide.done:
                 slide.reset()
+
+        crouch_duration = self.control.config.crouch_duration
+        if self.__time_on_crouch > crouch_duration:
+            player.uncrouch()
+            self.__time_on_crouch = 0
+
+        if player.is_crouched:
+            self.__time_on_crouch += self.control.clock.get_time()
