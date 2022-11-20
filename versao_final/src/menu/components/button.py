@@ -58,13 +58,13 @@ class Button(MenuComponent):
 
     @Listener.on(pg.MOUSEBUTTONDOWN)
     def press(self, event: pg.event.Event):
-        if event.button == pg.BUTTON_LEFT:
+        if event.button == pg.BUTTON_LEFT and self.is_inside(event.pos):
             self.__surface.fill(self.__color_when_pressed)
             self.__action()
 
     @Listener.on(pg.MOUSEBUTTONUP)
     def release(self, event: pg.event.Event):
-        if event.button == pg.BUTTON_LEFT:
+        if event.button == pg.BUTTON_LEFT and self.is_pressed:
             self.__surface.fill(self.__color)
 
     def render(self, screen):
@@ -72,8 +72,13 @@ class Button(MenuComponent):
         self.__text.render(screen)
 
     def is_inside(self, coordinate: Union[pg.Vector2, Tuple[int, int]]) -> bool:
-        button_rect = self.surface.get_rect()
-        return button_rect.collidepoint(coordinate)
+        x_min = self.__pos.x
+        x_max = self.__pos.x + self.__surface.get_width()
+        y_min = self.__pos.y
+        y_max = self.__pos.y + self.__surface.get_height()
+        coordinate = pg.Vector2(coordinate)
+
+        return x_min < coordinate.x < x_max and y_min < coordinate.y < y_max
 
     @property
     def current_color(self):
