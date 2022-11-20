@@ -68,7 +68,7 @@ class Car(Obstacle):
     """
     Obstacle that represents a car
     """
-    def __init__(self, pos, size=[100, 110, 50], velocity=(0, 0, -100), color="#222222"):
+    def __init__(self, pos, size=[100, 60, 100], velocity=(0, 0, -100), color="#222222"):
         climb_height = 20
         super().__init__(pos, size, velocity, color, climb_height)
 
@@ -77,7 +77,7 @@ class Bus(Obstacle):
     """
     Obstacle that represents a car
     """
-    def __init__(self, pos, size=[100, 130, 350], velocity=(0, 0, -100), color="#222e50"):
+    def __init__(self, pos, size=[100, 130, 400], velocity=(0, 0, -100), color="#222e50"):
         climb_height = 20
         super().__init__(pos, size, velocity, color, climb_height)
 
