@@ -4,11 +4,11 @@ from .entity import Entity
 
 
 class Obstacle(Entity):
-    def __init__(self, pos, size, velocity=(0, 0, 0), color="#ffff00"):
+    def __init__(self, pos, size, velocity=(0, 0, 0), color="#ffff00", climb_height: float = -1):
         move = MoveComponent(pos, velocity)
 
         collider = CubeCollider(move.pos, size)
-        collision = CollisionComponent(collider)
+        collision = CollisionComponent(collider, climb_height)
 
         render = RenderComponent.from_cube(collider, color)
 
@@ -69,7 +69,8 @@ class Car(Obstacle):
     Obstacle that represents a car
     """
     def __init__(self, pos, size=[100, 130, 50], velocity=(0, 0, -100), color="#222222"):
-        super().__init__(pos, size, velocity, color)
+        climb_height = 20
+        super().__init__(pos, size, velocity, color, climb_height)
 
 
 class Bridge(Obstacle):

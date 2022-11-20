@@ -10,6 +10,7 @@ from ..system import (
     RenderSystem,
 )
 from .scene import Scene
+from ..library import Listener
 
 
 class MainScene(Scene):
@@ -48,3 +49,7 @@ class MainScene(Scene):
     def update(self):
         for system in self.systems:
             system.update()
+    
+    @Listener.on("player_collision")
+    def game_over(self, player, obstacle):
+        self.control.stop_running()

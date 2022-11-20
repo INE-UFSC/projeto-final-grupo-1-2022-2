@@ -58,8 +58,9 @@ class CubeCollider(ColliderShape):
             self.z_min < cube.z_max and
             self.z_max > cube.z_min
         )
-
-
+    
+    def is_above(self, cube: "CubeCollider", max_delta: float = 0):
+        return self.y_min + max_delta >= cube.y_max  
 
     @property
     def bottom_frontleft(self) -> pg.Vector3:
