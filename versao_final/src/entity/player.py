@@ -10,14 +10,14 @@ from .entity import Entity
 
 class Player(Entity):
     def __init__(self, pos):
-        render = RenderComponent((60, 120), "#ff0000")
-        move = MoveComponent(pos, (0, 0, 200))
-        slide = SlideComponent()
+        self.__render = RenderComponent((60, 120), "#ff0000")
+        self.__move = MoveComponent(pos, (0, 0, 200))
+        self.__slide = SlideComponent()
 
-        collider = CubeCollider(move.pos, (60, 110, 4))
-        collision = CollisionComponent(collider)
+        self.__collider = CubeCollider(self.__move.pos, (60, 110, 4))
+        self.__collision = CollisionComponent(self.__collider)
 
-        super().__init__(render, move, collision, slide)
+        super().__init__(self.__render, self.__move, self.__collision, self.__slide)
 
         self.__is_crouched = False
 
