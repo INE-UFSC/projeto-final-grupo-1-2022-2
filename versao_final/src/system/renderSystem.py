@@ -20,7 +20,7 @@ def compare_pos(a: Entity, b: Entity) -> int:
         if B.y_max <= A.y_min:
             return 1
 
-        return B.z_min - A.z_min
+        return B.z_max - A.z_max
 
 
 class RenderSystem(System):
