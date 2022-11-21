@@ -1,5 +1,7 @@
 from os import chdir
 
+import pygame as pg
+
 from .control import GameControl
 from .scene import MainScene, StartScene
 
@@ -8,6 +10,7 @@ class Game:
     control: GameControl
 
     def __init__(self):
+        pg.init()
         control = GameControl()
         self.__control = control
 
