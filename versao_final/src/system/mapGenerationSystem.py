@@ -1,5 +1,4 @@
 from .system import System
-from ..entity import *
 from ..icontrol import IControl
 from typing import Dict, List, Type
 from random import randint
@@ -57,22 +56,22 @@ class MapGenerationSystem(System):
         ...
 
     def update(self):
-        entities = self.control.entities
+        lane_width = self.control.map.lane_width
         screen = self.control.screen
 
         z_pos = screen.cam.pos.y + screen.size[1]
+        z_pos = (z_pos // lane_width) * lane_width
 
         delta_z = z_pos - self.__last_z_pos
-        self.__last_z_pos = z_pos
 
-        self.__wait_distance -= delta_z
+        if delta_z >= self.__wait_distance:
+            length = self.spawn(z_pos)
 
-        if self.__wait_distance < 0:
-            self.spawn(z_pos)
+            self.__wait_distance = length
+            self.__last_z_pos = z_pos
 
     def spawn(self, z: int):
         lane_width = self.control.map.lane_width
-        lane_amount = self.control.map.lane_amount
 
         pattern_i = randint(0, len(self.__patterns) - 1)
         pattern = self.__patterns[pattern_i]
@@ -92,7 +91,7 @@ class MapGenerationSystem(System):
 
                 self.control.entities.add_entity(obstacle)
         
-        self.__wait_distance = len(pattern) * lane_width
+        return len(pattern) * lane_width
 
 
     @property
