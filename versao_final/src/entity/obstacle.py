@@ -5,14 +5,14 @@ from .entity import Entity
 
 class Obstacle(Entity):
     def __init__(self, pos, size, velocity=(0, 0, 0), color="#ffff00", climb_height: float = -1):
-        move = MoveComponent(pos, velocity)
+        self.__move = MoveComponent(pos, velocity)
 
-        collider = CubeCollider(move.pos, size)
-        collision = CollisionComponent(collider, climb_height)
+        self.__collider = CubeCollider(self.__move.pos, size)
+        self.__collision = CollisionComponent(self.__collider, climb_height)
 
-        render = RenderComponent.from_cube(collider, color)
+        self.__render = RenderComponent.from_cube(self.__collider, color)
 
-        super().__init__(render, move, collision)
+        super().__init__(self.__render, self.__move, self.__collision)
 
 
 class Handrail(Obstacle):
@@ -20,8 +20,8 @@ class Handrail(Obstacle):
     Obstacle that represents a handrail
     """
     def __init__(self, pos, size=[10, 50, 100], velocity=(0, 0, 0), color="#F5BB00"):
-        pos_dislocated = (pos[0]+ 40, pos[1], pos[2])
-        super().__init__(pos_dislocated, size, velocity, color)
+        self.__pos_dislocated = (pos[0]+ 40, pos[1], pos[2])
+        super().__init__(self.__pos_dislocated, size, velocity, color)
 
 
 class PartyAdsTable(Obstacle):
@@ -69,8 +69,8 @@ class Car(Obstacle):
     Obstacle that represents a car
     """
     def __init__(self, pos, size=[100, 60, 100], velocity=(0, 0, -100), color="#222222"):
-        climb_height = 20
-        super().__init__(pos, size, velocity, color, climb_height)
+        self.__climb_height = 20
+        super().__init__(pos, size, velocity, color, self.__climb_height)
 
 
 class Bus(Obstacle):
@@ -78,8 +78,8 @@ class Bus(Obstacle):
     Obstacle that represents a car
     """
     def __init__(self, pos, size=[100, 130, 400], velocity=(0, 0, -100), color="#222e50"):
-        climb_height = 20
-        super().__init__(pos, size, velocity, color, climb_height)
+        self.__climb_height = 20
+        super().__init__(pos, size, velocity, color, self.__climb_height)
 
 
 class Bridge(Obstacle):
