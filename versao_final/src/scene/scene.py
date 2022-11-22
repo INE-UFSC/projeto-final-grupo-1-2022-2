@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Dict, List
 
-
 from ..icontrol import IControl
 from ..library import Listener
 from ..menu import Menu
@@ -20,6 +19,9 @@ class Scene(Listener, ABC):
 
         for system in self.__systems:
             self.subscribe(system)
+
+        if menu is not None:
+            self.subscribe(menu)
 
     @property
     def control(self):
