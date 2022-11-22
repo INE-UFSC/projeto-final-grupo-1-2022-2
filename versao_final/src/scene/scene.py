@@ -35,6 +35,10 @@ class Scene(Listener, ABC):
     def systems(self):
         return self.__systems
 
+    @menu.setter
+    def menu(self, menu: Menu):
+        self.__menu = menu
+
     def enter(self):
         ...
 
