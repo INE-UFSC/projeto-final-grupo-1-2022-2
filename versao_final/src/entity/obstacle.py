@@ -1,5 +1,6 @@
 from ..components import CollisionComponent, MoveComponent, RenderComponent
-from ..library import CubeCollider
+from ..library import CubeCollider, class_name
+from ..dao import TextureDAO
 from .entity import Entity
 
 
@@ -7,12 +8,15 @@ class Obstacle(Entity):
     def __init__(self, pos, size, velocity=(0, 0, 0), color="#ffff00", climb_height: float = -1):
         self.__move = MoveComponent(pos, velocity)
 
-        self.__collider = CubeCollider(self.__move.pos, size)
-        self.__collision = CollisionComponent(self.__collider, climb_height)
+        collider = CubeCollider(self.__move.pos, size)
+        self.__collision = CollisionComponent(collider, climb_height)
 
-        self.__render = RenderComponent.from_cube(self.__collider, color)
+        texture_path = f"{class_name(self)}.png"
+        surface = TextureDAO().load(texture_path, lambda: collider.get_surface(color))
 
-        super().__init__(self.__render, self.__move, self.__collision)
+        render = RenderComponent(surface)
+
+        super().__init__(render, self.__move, self.__collision)
 
 
 class Handrail(Obstacle):

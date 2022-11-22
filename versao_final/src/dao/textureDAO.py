@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Callable, Dict, Tuple, Union
 
 import pygame as pg
@@ -7,7 +8,7 @@ from .resourceDAO import ResourceDAO
 
 class TextureDAO(ResourceDAO):
     _cache: Dict[str, pg.Surface]
-    _dir: str = "resources/textures"
+    _dir: str = "textures"
 
     def load(
         self,
@@ -19,7 +20,7 @@ class TextureDAO(ResourceDAO):
         if path not in self._cache:
             try:
                 surface = pg.image.load(path)
-            except FileNotFoundError:
+            except (FileNotFoundError, pg.error):
                 # default is a supplier (lazy evaluation)
                 if isinstance(default, Callable):
                     default = default()
@@ -35,6 +36,8 @@ class TextureDAO(ResourceDAO):
 
     def save(self, relative_path: Union[str, Tuple[str]], surface: pg.Surface):
         path = self.get_path(relative_path)
+        
+        Path(path).parent.mkdir(parents=True, exist_ok=True)
 
         pg.image.save(surface, path)
 

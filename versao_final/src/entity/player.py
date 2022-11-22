@@ -4,13 +4,15 @@ from ..components import (
     RenderComponent,
     SlideComponent,
 )
-from ..library import CubeCollider
+from ..library import CubeCollider, class_name
+from ..dao import TextureDAO
 from .entity import Entity
 
 
 class Player(Entity):
     def __init__(self, pos):
-        self.__render = RenderComponent((60, 120), "#ff0000")
+        color = "#ff0000"
+
         self.__move = MoveComponent(pos, (0, 0, 200))
         self.__slide = SlideComponent()
 
@@ -21,6 +23,11 @@ class Player(Entity):
             "crouched": CollisionComponent(collider_crouched),
             "uncrouched": CollisionComponent(collider_uncrouched),
         }
+
+        texture_path = f"{class_name(self)}.png"
+        surface = TextureDAO().load(texture_path, lambda: collider_uncrouched.get_surface(color))
+
+        self.__render = RenderComponent(surface)
 
         super().__init__(
             self.__render, self.__move, self.__collision["uncrouched"], self.__slide

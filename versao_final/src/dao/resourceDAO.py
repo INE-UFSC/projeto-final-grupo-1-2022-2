@@ -8,7 +8,7 @@ from ..library import Singleton
 
 class ResourceDAO(metaclass=Singleton):
     _cache: Dict[Any, Any]
-    _dir: str = "resources"
+    _dir: str = ""
     
     def __init__(self):
         dir = Path(self._dir)
