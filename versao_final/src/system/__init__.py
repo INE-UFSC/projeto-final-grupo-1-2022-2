@@ -5,15 +5,17 @@ from .mapGenerationSystem import MapGenerationSystem
 from .moveControlSystem import MoveControlSystem
 from .moveSystem import MoveSystem
 from .renderSystem import RenderSystem
+from .scoreSystem import ScoreSystem
 from .system import System
 
 __all__ = [
-    "System", 
-    "RenderSystem", 
-    "MoveSystem", 
-    "CollisionSystem", 
+    "System",
+    "RenderSystem",
+    "MoveSystem",
+    "CollisionSystem",
     "CameraSystem",
     "MoveControlSystem",
     "MapGenerationSystem",
     "EntityDestructionSystem",
+    "ScoreSystem",
 ]

@@ -1,5 +1,6 @@
 from ..entity import Player
 from ..icontrol import IControl
+from ..library import Listener
 from ..system import (
     CameraSystem,
     CollisionSystem,
@@ -8,9 +9,9 @@ from ..system import (
     MoveControlSystem,
     MoveSystem,
     RenderSystem,
+    ScoreSystem,
 )
 from .scene import Scene
-from ..library import Listener
 
 
 class MainScene(Scene):
@@ -24,6 +25,7 @@ class MainScene(Scene):
             CollisionSystem(control),
             EntityDestructionSystem(control),
             RenderSystem(control),
+            ScoreSystem(control),
         ]
 
         super().__init__(control, menu, systems)
@@ -49,7 +51,7 @@ class MainScene(Scene):
     def update(self):
         for system in self.systems:
             system.update()
-    
+
     @Listener.on("player_collision")
     def game_over(self, player, obstacle):
         self.control.stop_running()
