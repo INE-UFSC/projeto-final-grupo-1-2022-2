@@ -26,15 +26,18 @@ class Button(MenuComponent):
         pos: Union[pg.Vector2, Tuple[int, int]] = None,
         key: str = None,
     ):
+        color = pg.Color(color)
+        color_when_pressed = pg.Color(color_when_pressed)
         size = pg.Vector2(size)
+
         surface = pg.Surface(size)
         surface.fill(color)
         super().__init__(pos, size, surface)
 
         self.__label = label
         self.__key = key
-        self.__color = pg.Color(color)
-        self.__color_when_pressed = pg.Color(color_when_pressed)
+        self.__color = color
+        self.__color_when_pressed = color_when_pressed
         self.__shade_multiplier = shade_multiplier
 
         self.__is_hovered = False

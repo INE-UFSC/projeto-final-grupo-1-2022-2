@@ -33,7 +33,7 @@ class RenderSystem(System):
         entities = ctl.entities.get_all_with(RenderComponent, MoveComponent)
         entities = sorted(entities, key=cmp_to_key(compare_pos))
 
-        screen.display.fill("#0bf502")
+        screen.display.fill(pg.Color("#0bf502"))
 
         for entity in entities:
             render = entity.get_component(RenderComponent)
@@ -45,4 +45,4 @@ class RenderSystem(System):
             screen.display.blit(render.surface, dest_pos)
 
             if self.__show_origin:  # DEBUG
-                pg.draw.circle(screen.display, "#ffffff", origin, 3)
+                pg.draw.circle(screen.display, pg.Color("#ffffff"), origin, 3)
