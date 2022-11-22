@@ -1,26 +1,68 @@
 from abc import ABC, abstractmethod
-from typing import List, Tuple
+from typing import List, Tuple, Union
 
-from pygame import Surface, Vector2
+import pygame as pg
 
 from ...library import Listener
 
 
-class MenuComponent(ABC, Listener):
-    __pos: Vector2
-    __surface: Surface
+class MenuComponent(Listener, ABC):
+    __pos: Union[pg.Vector2, None]
+    __surface: pg.Surface
+    __size: pg.Vector2
+    __event: Listener
 
-    def __init__(self, pos: Vector2, surface: Surface):
-        self.__pos = pos
+    def __init__(
+        self,
+        pos: pg.Vector2,
+        size: pg.Vector2,
+        surface: pg.Surface,
+        event_emitter: Listener = None,
+    ):
+        super().__init__()
         self.__surface = surface
+        self.__pos = pg.Vector2(pos) if pos is not None else None
+        self.__size = pg.Vector2(size)
+        self.__event = event_emitter
 
-    def render(self, screen: Surface):
-        screen.blit(self.__surface, self.__pos)
+    def render(self, screen: pg.Surface):
+        if self.__pos is not None:
+            screen.blit(self.__surface, self.__pos)
+
+    def is_inside(self, coordinate: Union[pg.Vector2, Tuple[int, int]]) -> bool:
+        coordinate = pg.Vector2(coordinate)
+
+        x_min = self.pos.x
+        x_max = self.pos.x + self.surface.get_width()
+        y_min = self.pos.y
+        y_max = self.pos.y + self.surface.get_height()
+
+        return x_min < coordinate.x < x_max and y_min < coordinate.y < y_max
+
+    @property
+    def surface(self):
+        return self.__surface
+
+    @property
+    def size(self):
+        return self.__size
+
+    @property
+    def event(self):
+        return self.__event
 
     @property
     def pos(self):
         return self.__pos
 
-    @property
-    def surface(self):
-        return self.__surface
+    @pos.setter
+    def pos(self, pos: pg.Vector2):
+        self.__pos = pg.Vector2(pos)
+
+    @surface.setter
+    def surface(self, surface: pg.Surface):
+        self.__surface = surface
+
+    @event.setter
+    def event(self, event: Listener):
+        self.__event = event

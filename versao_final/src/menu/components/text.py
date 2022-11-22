@@ -7,18 +7,33 @@ from .component import MenuComponent
 
 class Text(MenuComponent):
     __message: str
+    __color: pg.Color
+    __font: pg.font.Font
 
     def __init__(
         self,
-        pos: Union[pg.Vector2, Tuple[int, int]],
         message: str,
-        size: int = 24,
-        color: Union[pg.Color, str] = "#ffffff",
+        font_size: int = 24,
+        font_color: Union[pg.Color, str] = "#ffffff",
+        font_name: Union[str, None] = "Helvetica",
+        pos: Union[pg.Vector2, Tuple[int, int]] = None,
     ):
-        pos = pos if isinstance(pos, pg.Vector2) else pg.Vector2(pos)
-        color = color if isinstance(color, pg.Color) else pg.Color(color)
+        self.__color = pg.Color(font_color)
+        self.__message = message
 
-        font = pg.font.SysFont(None, size)
-        surface = font.render(message, True, color)
+        self.__font = pg.font.SysFont(font_name, font_size)
+        surface = self.__font.render(self.__message, True, self.__color)
 
-        super().__init__(pos, surface)
+        super().__init__(pos, surface.get_size(), surface)
+
+    @property
+    def message(self):
+        return self.__message
+
+    @property
+    def color(self):
+        return self.__color
+
+    def set_message(self, message: str):
+        self.surface = self.__font.render(message, True, self.__color)
+        self.__message = message

@@ -9,83 +9,123 @@ from .text import Text
 
 class Button(MenuComponent):
     __label: str
-    __on_click: Callable
     __color: pg.Color
     __color_when_pressed: pg.Color
-    __shade_multiplier: float
+    __is_pressed: bool
+    __is_hovered: bool
+    __key: Union[str, None]
 
     def __init__(
         self,
-        pos: Union[pg.Vector2, Tuple[int, int]],
-        on_click: Callable,
         label: str,
         color: Union[pg.Color, str] = "#6780BF",
         color_when_pressed: Union[pg.Color, str] = "#FFA500",
         label_color: Union[pg.Color, str] = "#ffffff",
-        size: Union[pg.Vector2, Tuple[int, int]] = (100, 100),
+        size: Union[pg.Vector2, Tuple[int, int]] = (250, 50),
         shade_multiplier: float = 0.5,
+        pos: Union[pg.Vector2, Tuple[int, int]] = None,
+        key: str = None,
     ):
-        pos = pg.Vector2(pos)
         size = pg.Vector2(size)
-        color = pg.Color(color)
-        label_color = pg.Color(label_color)
-        self.__on_click = on_click
         surface = pg.Surface(size)
         surface.fill(color)
+        super().__init__(pos, size, surface)
+
         self.__label = label
-        self.__text = Text(pos, label, color=label_color)
-        self.__color = color
-        self.__color_when_pressed = color_when_pressed
+        self.__key = key
+        self.__color = pg.Color(color)
+        self.__color_when_pressed = pg.Color(color_when_pressed)
         self.__shade_multiplier = shade_multiplier
-        super().__init__(pos, surface)
+
+        self.__is_hovered = False
+        self.__is_pressed = False
+
+        self.__text = Text(label, font_color=label_color, pos=pos)
+        if pos is not None:
+            self.__center_text()
 
     @Listener.on(pg.MOUSEMOTION)
     def hover(self, event: pg.event.Event):
         if not self.is_pressed and self.is_inside(event.pos):
-            color = self.__color
-            color_shaded = color * self.__shade_multiplier
-            self.__surface.fill(color_shaded)
+            self.surface.fill(self.color_shaded)
+            self.__is_hovered = True
 
     @Listener.on(pg.MOUSEMOTION)
     def unhover(self, event: pg.event.Event):
         if self.is_hovered:
             if not self.is_inside(event.pos):
-                self.__surface.fill(self.__color)
+                self.surface.fill(self.__color)
+                self.__is_hovered = False
 
     @Listener.on(pg.MOUSEBUTTONDOWN)
     def press(self, event: pg.event.Event):
         if event.button == pg.BUTTON_LEFT and self.is_inside(event.pos):
-            self.__surface.fill(self.__color_when_pressed)
-            self.__on_click()
+            self.surface.fill(self.__color_when_pressed)
+            self.__is_hovered = False
+            self.__is_pressed = True
+
+            self.event.emit(self.key)
 
     @Listener.on(pg.MOUSEBUTTONUP)
     def release(self, event: pg.event.Event):
         if event.button == pg.BUTTON_LEFT and self.is_pressed:
-            self.__surface.fill(self.__color)
+            self.surface.fill(self.__color)
+            self.__is_pressed = False
 
     def render(self, screen):
-        screen.blit(self.__surface, self.__pos)
-        self.__text.render(screen)
+        if self.pos is not None:
+            screen.blit(self.surface, self.pos)
+            if self.__text is not None:
+                self.__text.render(screen)
 
-    def is_inside(self, coordinate: Union[pg.Vector2, Tuple[int, int]]) -> bool:
-        x_min = self.__pos.x
-        x_max = self.__pos.x + self.__surface.get_width()
-        y_min = self.__pos.y
-        y_max = self.__pos.y + self.__surface.get_height()
-        coordinate = pg.Vector2(coordinate)
+    def __center_text(self):
+        """
+        move o atributo `__text` para o centro do botão
+        """
+        button_center = pg.Vector2(
+            self.pos.x + self.size.x // 2, self.pos.y + self.size.y // 2
+        )
+        print(button_center, self.pos)
+        text_size = self.__text.size
 
-        return x_min < coordinate.x < x_max and y_min < coordinate.y < y_max
+        new_pos = (
+            button_center.x - text_size.x // 2,
+            button_center.y - text_size.y // 2,
+        )
+        self.__text.pos = new_pos
 
     @property
-    def current_color(self):
-        button_pos = self.__surface.get_rect().center()
-        color = self.__surface.get_at(button_pos)
-        return color
-
-    @property
-    def is_hovered(self):
-        return self.current_color == self.__color * self.__shade_multiplier
+    def color_shaded(self) -> pg.Color:
+        color_tuple = (self.__color.r, self.__color.g, self.__color.b, self.__color.a)
+        color_shaded = [value * self.__shade_multiplier for value in color_tuple]
+        return pg.Color(color_shaded)
 
     @property
     def is_pressed(self):
-        return self.current_color == self.__color_when_pressed
+        return self.__is_pressed
+
+    @property
+    def is_hovered(self):
+        return self.__is_hovered
+
+    @property
+    def key(self):
+        if self.__key is None:
+            return self.__text.message
+        else:
+            return self.__key
+
+    @property
+    def label(self):
+        return self.__label
+
+    @property
+    def pos(self):
+        return self.__pos
+
+    @pos.setter
+    def pos(self, pos):
+        self.__pos = pg.Vector2(pos)
+        self.__text.pos = pg.Vector2(pos)
+
+        self.__center_text()
