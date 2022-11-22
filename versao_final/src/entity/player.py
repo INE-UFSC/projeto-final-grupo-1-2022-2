@@ -14,21 +14,27 @@ class Player(Entity):
         self.__move = MoveComponent(pos, (0, 0, 200))
         self.__slide = SlideComponent()
 
-        self.__collider = CubeCollider(self.__move.pos, (60, 110, 4))
-        self.__collision = CollisionComponent(self.__collider)
+        collider_uncrouched = CubeCollider(self.__move.pos, (60, 110, 4))
+        collider_crouched = CubeCollider(self.__move.pos, (60, 55, 4))
 
-        super().__init__(self.__render, self.__move, self.__collision, self.__slide)
+        self.__collision = {
+            "crouched": CollisionComponent(collider_crouched),
+            "uncrouched": CollisionComponent(collider_uncrouched),
+        }
+
+        super().__init__(
+            self.__render, self.__move, self.__collision["uncrouched"], self.__slide
+        )
 
         self.__is_crouched = False
 
     def crouch(self):
-        collider = self.get_component(CollisionComponent)
-        collider.shape.size.y /= 3
+
+        self.set_component(CollisionComponent, self.__collision["crouched"])
         self.__is_crouched = True
 
     def uncrouch(self):
-        collider = self.get_component(CollisionComponent)
-        collider.shape.size.y *= 3
+        self.set_component(CollisionComponent, self.__collision["uncrouched"])
         self.__is_crouched = False
 
     @property

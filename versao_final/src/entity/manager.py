@@ -1,4 +1,5 @@
-from typing import Dict, List, Type, Union, Set
+from typing import Dict, List, Set, Type, Union
+
 from ..components import Component
 from .entity import Entity
 from .player import Player
@@ -14,14 +15,14 @@ class EntityManager:
         self.__entities = dict()
         self.add_entity(*entities)
         self.__player = None
-    
+
     def set_player(self, player: Player):
         if isinstance(player, Player):
             self.__player = player
 
     def add_entity(self, *entities: Entity):
         for entity in entities:
-            for component in entity.components.values():
+            for component in entity.get_all_components():
                 if type(component) not in self.__entities.keys():
                     self.__entities[type(component)] = set([entity])
                     continue
@@ -50,7 +51,7 @@ class EntityManager:
             if not returned_entities:
                 returned_entities = new_entities
                 continue
-                
+
             returned_entities = returned_entities.intersection(new_entities)
 
         return returned_entities
@@ -61,7 +62,7 @@ class EntityManager:
         for entity_set in self.__entities.values():
             returned_entities = returned_entities.union(entity_set)
 
-        return returned_entities 
+        return returned_entities
 
     def clear(self):
         """
