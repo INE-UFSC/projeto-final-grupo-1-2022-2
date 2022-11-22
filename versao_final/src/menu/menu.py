@@ -10,6 +10,11 @@ from .components import MenuComponent
 
 # TODO
 # função para instanciar o menu no centro da tela
+# Menu de opções
+# Menu exibido durante a gameplay
+# menu de créditos
+# menu de pausa
+# menu final
 class Menu(ABC, Listener):
 
     __components: List[
