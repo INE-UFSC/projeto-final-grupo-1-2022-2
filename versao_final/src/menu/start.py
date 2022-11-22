@@ -15,6 +15,4 @@ class StartMenu(Menu):
             [Button("Credits")],
             [Button("Quit")],
         ]
-        super().__init__(components, control)
-
-        self.components = super().create_grid_layout(self.components)
+        super().__init__(components, control, True)

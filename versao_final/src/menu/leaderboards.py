@@ -21,4 +21,3 @@ class LeaderBoardMenu(Menu):
 
         components.append([Button("Retornar")])
         super().__init__(components, control)
-        self.components = self.create_grid_layout(self.components)
