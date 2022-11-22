@@ -26,13 +26,15 @@ class Button(MenuComponent):
         pos: Union[pg.Vector2, Tuple[int, int]] = None,
         key: str = None,
     ):
+        key = label if key is None else key
+
         color = pg.Color(color)
         color_when_pressed = pg.Color(color_when_pressed)
         size = pg.Vector2(size)
 
         surface = pg.Surface(size)
         surface.fill(color)
-        super().__init__(pos, size, surface)
+        super().__init__(pos, size, surface, key)
 
         self.__label = label
         self.__key = key
@@ -112,13 +114,6 @@ class Button(MenuComponent):
         return self.__is_hovered
 
     @property
-    def key(self):
-        if self.__key is None:
-            return self.__text.message
-        else:
-            return self.__key
-
-    @property
     def label(self):
         return self.__label
 
@@ -132,3 +127,11 @@ class Button(MenuComponent):
         self.__text.pos = pg.Vector2(pos)
 
         self.__center_text()
+
+    @label.setter
+    def label(self, label: str):
+        self.__text.message = label
+        if self.key == self.__label:
+            self.key = label
+
+        self.__label = label

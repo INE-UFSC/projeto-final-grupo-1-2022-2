@@ -11,19 +11,22 @@ class MenuComponent(Listener, ABC):
     __surface: pg.Surface
     __size: pg.Vector2
     __event: Listener
+    __key: str
 
     def __init__(
         self,
         pos: pg.Vector2,
         size: pg.Vector2,
         surface: pg.Surface,
+        key: str,
         event_emitter: Listener = None,
     ):
         super().__init__()
         self.__surface = surface
-        self.__pos = pg.Vector2(pos) if pos is not None else None
+        self.__pos = pg.Vector2(pos) if pos is not None else pos
         self.__size = pg.Vector2(size)
         self.__event = event_emitter
+        self.__key = key
 
     def render(self, screen: pg.Surface):
         if self.__pos is not None:
@@ -55,9 +58,17 @@ class MenuComponent(Listener, ABC):
     def pos(self):
         return self.__pos
 
+    @property
+    def key(self):
+        return self.__key
+
     @pos.setter
     def pos(self, pos: pg.Vector2):
         self.__pos = pg.Vector2(pos)
+
+    @key.setter
+    def key(self, key: str):
+        self.__key = key
 
     @surface.setter
     def surface(self, surface: pg.Surface):
