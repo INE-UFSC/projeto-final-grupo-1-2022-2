@@ -25,7 +25,6 @@ class MoveControlSystem(System):
         elif player.is_crouched:
             self.__time_since_last_crouch = 0
             player.uncrouch()
-            return
 
         move.velocity.y = self.control.config.jump_force
 
