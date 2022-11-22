@@ -7,9 +7,7 @@ from .resourceDAO import ResourceDAO
 
 class TextureDAO(ResourceDAO):
     _cache: Dict[str, pg.Surface]
-
-    def __init__(self):
-        super().__init__("textures")
+    _dir: str = "resources/textures"
 
     def load(
         self,

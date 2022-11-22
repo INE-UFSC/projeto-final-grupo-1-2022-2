@@ -5,6 +5,7 @@ from .keyboard import Keyboard
 from .listener import Listener
 from .mouse import Mouse
 from .screen import Screen
+from .singleton import Singleton
 
 __all__ = [
     "EventBus",
@@ -15,4 +16,5 @@ __all__ = [
     "ColliderShape",
     "CubeCollider",
     "Camera",
+    "Singleton",
 ]

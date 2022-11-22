@@ -3,16 +3,15 @@ from functools import cached_property
 from pathlib import Path
 from typing import Any, Dict, Tuple, Union
 
+from ..library import Singleton
 
-class ResourceDAO:
+
+class ResourceDAO(metaclass=Singleton):
     _cache: Dict[Any, Any]
+    _dir: str = "resources"
     
-    def __init__(self, dir: Union[str, Tuple[str], Path] = ""):
-        if not isinstance(dir, tuple):
-            dir = (dir,)
-
-        dir = Path(*dir)
-
+    def __init__(self):
+        dir = Path(self._dir)
         self.__directory = dir if dir.is_absolute() else self.resources_dir / dir
 
         self._cache = {}
