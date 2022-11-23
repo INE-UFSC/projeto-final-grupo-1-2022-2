@@ -69,13 +69,12 @@ class Button(MenuComponent):
             self.__is_hovered = False
             self.__is_pressed = True
 
-            self.event.emit(self.key)
-
     @Listener.on(pg.MOUSEBUTTONUP)
     def release(self, event: pg.event.Event):
         if event.button == pg.BUTTON_LEFT and self.is_pressed:
             self.surface.fill(self.__color)
             self.__is_pressed = False
+            self.event.emit(self.key)
 
     def render(self, screen):
         if self.pos is not None:

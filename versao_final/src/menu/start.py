@@ -2,6 +2,7 @@ import pygame as pg
 
 from ..icontrol import IControl
 from .components import Button, Text
+from .layout import GridLayout
 from .menu import Menu
 
 
@@ -15,4 +16,7 @@ class StartMenu(Menu):
             [Button("Credits")],
             [Button("Quit")],
         ]
-        super().__init__(components, control, True)
+
+        layout = GridLayout(components, pg.Vector2(control.screen.size))
+
+        super().__init__(control, layout)
