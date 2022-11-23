@@ -1,6 +1,7 @@
 from ..entity import Player
 from ..icontrol import IControl
 from ..library import Listener
+from ..menu import GameplayMenu
 from ..system import (
     CameraSystem,
     CollisionSystem,
@@ -16,7 +17,7 @@ from .scene import Scene
 
 class MainScene(Scene):
     def __init__(self, control: IControl):
-        menu = None
+        menu = GameplayMenu(control)
         systems = [
             MoveControlSystem(control),
             MoveSystem(control),
@@ -51,6 +52,9 @@ class MainScene(Scene):
     def update(self):
         for system in self.systems:
             system.update()
+
+    def render(self):
+        self.menu.render()
 
     @Listener.on("player_collision")
     def game_over(self, player, obstacle):
