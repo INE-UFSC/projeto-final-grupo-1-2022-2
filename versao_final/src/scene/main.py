@@ -1,3 +1,5 @@
+from typing import Dict
+
 import pygame as pg
 
 from ..entity import Player
@@ -58,13 +60,20 @@ class MainScene(Scene):
             for system in self.systems:
                 system.update()
 
+        if self.next_scene is not None:
+            self.control.transition(self.next_scene)
+            self.next_scene = None
+
     def render(self):
         if self.current_menu is not None:
             self.current_menu.render()
 
+    def leave(self):
+        self.control.entities.clear()
+
     @Listener.on("player_collision")
     def __game_over(self, player, obstacle):
-        self.control.stop_running()
+        self.next_scene = self.control.scene.scenes["end"]
 
     @Listener.on(pg.KEYDOWN)
     def __toggle_pause(self, event: pg.event.Event):

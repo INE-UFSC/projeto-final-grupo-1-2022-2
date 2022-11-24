@@ -20,6 +20,7 @@ class Scene(Listener, ABC):
         self.__menus = menus
         self.__current_menu = None
         self.__systems = [] if systems is None else systems
+        self.__next_scene = None
 
         for system in self.__systems:
             self.subscribe(system)
@@ -43,9 +44,17 @@ class Scene(Listener, ABC):
     def menus(self):
         return self.__menus
 
+    @property
+    def next_scene(self):
+        return self.__next_scene
+
     @current_menu.setter
     def current_menu(self, menu: Menu):
         self.__current_menu = menu
+
+    @next_scene.setter
+    def next_scene(self, scene: "Scene"):
+        self.__next_scene = scene
 
     def enter(self):
         ...
@@ -58,4 +67,4 @@ class Scene(Listener, ABC):
         ...
 
     def render(self):
-        ...
+        self.__current_menu.render()

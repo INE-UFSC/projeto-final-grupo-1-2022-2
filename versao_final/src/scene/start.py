@@ -5,29 +5,29 @@ from .scene import Scene
 
 
 class StartScene(Scene):
-    def __init__(self, control: IControl, play_scene: str):
+    def __init__(self, control: IControl):
         menus = {
             "start": StartMenu(control),
         }
 
         super().__init__(control, menus, [])
 
-        self.__play_scene = play_scene
-
     def enter(self):
         self.current_menu = self.menus["start"]
-        ...
+        self.control.screen.display.fill((0, 0, 0))
 
     def update(self):
-        ...
+        if self.next_scene is not None:
+            self.control.transition(self.next_scene)
+            self.next_scene = None
 
     def render(self):
         if self.current_menu is not None:
             self.current_menu.render()
 
     @Listener.on("Play")
-    def leave(self):
-        self.control.transition(self.__play_scene)
+    def __to_main_scene(self):
+        self.next_scene = self.control.scene.scenes["main"]
 
     @Listener.on("Quit")
     def __stop_running(self):
