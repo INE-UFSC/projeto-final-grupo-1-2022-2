@@ -17,6 +17,8 @@ class StartMenu(Menu):
             [Button("Quit")],
         ]
 
-        layout = GridLayout(components, pg.Vector2(control.screen.size))
+        layout = GridLayout(
+            components, pg.Vector2(control.screen.size), center_x=True, center_y=True
+        )
 
         super().__init__(control, layout)
