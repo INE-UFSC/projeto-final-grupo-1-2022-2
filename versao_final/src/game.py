@@ -3,7 +3,7 @@ from os import chdir
 import pygame as pg
 
 from .control import GameControl
-from .scene import MainScene, StartScene
+from .scene import EndScene, MainScene, StartScene
 
 
 class Game:
@@ -15,8 +15,9 @@ class Game:
         self.__control = control
 
         control.scene.add(
-            start=StartScene(control, play_scene="main"),
+            start=StartScene(control),
             main=MainScene(control),
+            end=EndScene(control),
         )
         control.scene.transition("start")
 

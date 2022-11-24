@@ -1,3 +1,4 @@
+from .end import EndMenu
 from .layout import GridLayout, Layout
 from .leaderboards import Leaderboard
 from .main import GameplayMenu
@@ -13,4 +14,5 @@ __all__ = [
     "Layout",
     "GridLayout",
     "PauseMenu",
+    "EndMenu",
 ]
