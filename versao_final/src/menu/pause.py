@@ -29,16 +29,4 @@ class PauseMenu(Menu):
             spacing=pg.Vector2(50, 75),
         )
 
-        super().__init__(control, layout)
-
-        self.__background = pg.Surface(self.size)
-        self.__transparent_layer = pg.Surface(self.control.screen.size, pg.SRCALPHA)
-
-    def render(self):
-        self.__transparent_layer.fill(self.__transparent_color)
-        self.__background.fill(self.__background_color)
-        self.__transparent_layer.blit(self.__background, self.pos)
-        for component in self.layout.get_all_components():
-            component.render(self.__transparent_layer)
-
-        self.control.screen.display.blit(self.__transparent_layer, (0, 0))
+        super().__init__(control, layout, (0, 0, 0), (40, 40, 40, 10))

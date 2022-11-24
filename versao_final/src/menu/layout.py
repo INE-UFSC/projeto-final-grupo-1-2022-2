@@ -6,6 +6,9 @@ import pygame as pg
 
 from .components import MenuComponent
 
+# TODO
+# arrumar os cálculos do GridLayout
+
 
 class Layout(ABC):
     def __init__(
@@ -130,7 +133,7 @@ class GridLayout(Layout):
         line_y_sizes = [line.size.y for line in self.__lines]
         y_size = reduce(lambda x, y: x + y, line_y_sizes) - self.__spacing.y // 2
 
-        top_boundary = self.__surface_size.y // 2  # - y_size // 2
+        top_boundary = self.__surface_size.y // 2 - y_size // 2
         prev_y_pos = 0
         for i, line in enumerate(self.__lines):
             line_y_pos = 0
@@ -166,6 +169,7 @@ class GridLayout(Layout):
             size.y += line.size.y
 
         size += self.__padding
+        size.y += self.__padding.y // 2
         return size
 
     def get_pos(self):
