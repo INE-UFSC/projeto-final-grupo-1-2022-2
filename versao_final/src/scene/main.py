@@ -71,6 +71,9 @@ class MainScene(Scene):
     def leave(self):
         self.control.entities.clear()
 
+        for system in self.systems:
+            system.reset()
+
     @Listener.on("player_collision")
     def __game_over(self, player, obstacle):
         self.next_scene = self.control.scene.scenes["end"]

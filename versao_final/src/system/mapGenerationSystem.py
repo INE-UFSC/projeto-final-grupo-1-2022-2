@@ -1,10 +1,22 @@
-from .system import System
-from ..icontrol import IControl
-from typing import Dict, List, Type
 from random import randint
-from ..entity import Bus, Car, Student, Bridge, Handrail, PartyAdsTable, SmallBush, BigBush, Bike, Obstacle, Water
+from typing import Dict, List, Type
 
 from ..dao import MapDAO
+from ..entity import (
+    BigBush,
+    Bike,
+    Bridge,
+    Bus,
+    Car,
+    Handrail,
+    Obstacle,
+    PartyAdsTable,
+    SmallBush,
+    Student,
+    Water,
+)
+from ..icontrol import IControl
+from .system import System
 
 
 class MapGenerationSystem(System):
@@ -12,7 +24,7 @@ class MapGenerationSystem(System):
     __last_z_pos: int
     __patterns: List[List[str]]
     __obstacle_map: Dict[str, Type[Obstacle]]
-    
+
     def __init__(self, control: IControl):
         super().__init__(control)
 
@@ -20,20 +32,18 @@ class MapGenerationSystem(System):
         self.__last_z_pos = 0
 
         self.__obstacle_map = {
-            "B" : Bridge,
-            "W" : Water,
-            "C" : Car,
-            "H" : Handrail,
-            "P" : PartyAdsTable,
-            "S" : Student,
-            
-            "E" : SmallBush,
-            "F" : BigBush,
-            "G" : Bike,
-            "O" : Bus,
-
-            "X" : None,
-            " " : None,
+            "B": Bridge,
+            "W": Water,
+            "C": Car,
+            "H": Handrail,
+            "P": PartyAdsTable,
+            "S": Student,
+            "E": SmallBush,
+            "F": BigBush,
+            "G": Bike,
+            "O": Bus,
+            "X": None,
+            " ": None,
         }
 
         path = "easy.json"
@@ -42,7 +52,7 @@ class MapGenerationSystem(System):
         map = dao.load(path)
 
         self.__patterns = map["patterns"]
-    
+
     def add_pattern(self, pattern):
         ...
 
@@ -81,14 +91,17 @@ class MapGenerationSystem(System):
                 obstacle = obstacle_class(pos=(x, 0, line_z))
 
                 self.control.entities.add_entity(obstacle)
-        
+
         return len(pattern) * lane_width
 
+    def reset(self):
+        self.__wait_distance = 200
+        self.__last_z_pos = 0
 
     @property
     def obstacle_map(self):
         return self.__obstacle_map
+
     @property
     def patterns(self):
         return self.__patterns
-        

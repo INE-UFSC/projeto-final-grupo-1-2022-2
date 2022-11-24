@@ -15,6 +15,9 @@ class System(Listener, ABC):
     def setup(self):
         ...
 
+    def reset(self):
+        ...
+
     @abstractmethod
     def update(self):
         ...
