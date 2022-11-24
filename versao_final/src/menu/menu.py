@@ -1,18 +1,13 @@
 from abc import ABC
-from typing import Dict, List
-
-import pygame as pg
 
 from ..icontrol import IControl
 from ..library import Listener
 from .layout import Layout
 
 # TODO
-# Menu de opções
-# Menu exibido durante a gameplay
-# menu de créditos
-# menu de pausa
-# menu final
+# substituir o control por outros parâmetros
+# adicionar opção de mudar a cor de fundo do menu
+# renderizar o menu só quando necessário
 
 
 class Menu(ABC, Listener):
@@ -44,6 +39,14 @@ class Menu(ABC, Listener):
         # renderiza todos os componentes do menu
         for component in self.__layout.get_all_components():
             component.render(self.control.screen.display)
+
+    @property
+    def pos(self):
+        return self.__layout.get_pos()
+
+    @property
+    def size(self):
+        return self.__layout.get_size()
 
     @property
     def control(self):

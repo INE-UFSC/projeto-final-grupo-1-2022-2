@@ -9,18 +9,22 @@ from ..system import System
 
 class Scene(Listener, ABC):
     def __init__(
-        self, control: IControl, menu: Menu = None, systems: List[System] = None
+        self,
+        control: IControl,
+        menus: Dict[str, Menu] = None,
+        systems: List[System] = None,
     ):
         super().__init__()
 
         self.__control = control
-        self.__menu = menu
+        self.__menus = menus
+        self.__current_menu = None
         self.__systems = [] if systems is None else systems
 
         for system in self.__systems:
             self.subscribe(system)
 
-        if menu is not None:
+        for menu in self.__menus.values():
             self.subscribe(menu)
 
     @property
@@ -28,16 +32,20 @@ class Scene(Listener, ABC):
         return self.__control
 
     @property
-    def menu(self):
-        return self.__menu
+    def current_menu(self):
+        return self.__current_menu
 
     @property
     def systems(self):
         return self.__systems
 
-    @menu.setter
-    def menu(self, menu: Menu):
-        self.__menu = menu
+    @property
+    def menus(self):
+        return self.__menus
+
+    @current_menu.setter
+    def current_menu(self, menu: Menu):
+        self.__current_menu = menu
 
     def enter(self):
         ...

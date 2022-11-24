@@ -22,7 +22,7 @@ class Layout(ABC):
 
         parâmetros:
         - `components`: Matriz com os componentes que serão utilizados no menu. Cada linha da matriz corresponde à uma linha do menu;
-        - `surface_size: tamanho da surface na qual o menu será renderizado. Na prática, sempre será a tela do jogo;
+        - `surface_size`: tamanho da surface na qual o menu será renderizado. Na prática, sempre será a tela do jogo;
         - `spacing`: espaçamento entre os componentes;
         - `padding`: distancia entre os componentes e a borda da tela;
         - `center_x`: centralizar o eixo x do menu na tela;
@@ -48,12 +48,20 @@ class Layout(ABC):
     def get_component(self, key: str) -> MenuComponent:
         ...
 
+    @abstractmethod
+    def get_size(self) -> pg.Vector2:
+        ...
+
+    @abstractmethod
+    def get_pos(self) -> pg.Vector2:
+        ...
+
 
 class GridLayout(Layout):
     __padding: pg.Vector2
     __spacing: pg.Vector2
     __surface_size: pg.Vector2
-    __lines: List[Dict[str, MenuComponent]]
+    __lines: List["GridLine"]
 
     def __init__(
         self,
@@ -69,7 +77,7 @@ class GridLayout(Layout):
 
         parâmetros:
         - `components`: Matriz com os componentes que serão utilizados no menu. Cada linha da matriz corresponde à uma linha do menu;
-        - `surface_size: tamanho da surface na qual o menu será renderizado. Na prática, sempre será a tela do jogo;
+        - `surface_size`: tamanho da surface na qual o menu será renderizado.
         - `spacing`: espaçamento entre os componentes;
         - `padding`: distancia entre os componentes e a borda da tela;
         - `center_x`: centralizar o eixo x do menu na tela;
@@ -122,7 +130,7 @@ class GridLayout(Layout):
         line_y_sizes = [line.size.y for line in self.__lines]
         y_size = reduce(lambda x, y: x + y, line_y_sizes) - self.__spacing.y // 2
 
-        top_boundary = self.__surface_size.y // 2 - y_size // 2
+        top_boundary = self.__surface_size.y // 2  # - y_size // 2
         prev_y_pos = 0
         for i, line in enumerate(self.__lines):
             line_y_pos = 0
@@ -150,6 +158,19 @@ class GridLayout(Layout):
             if key in line:
                 return line.get(key)
 
+    def get_size(self):
+        size = pg.Vector2(0, 0)
+
+        for line in self.__lines:
+            size.x = max(line.size.x, size.x)
+            size.y += line.size.y
+
+        size += self.__padding
+        return size
+
+    def get_pos(self):
+        return self.__lines[0].pos - self.__padding
+
 
 class GridLine:
     __components: Dict[str, MenuComponent]
@@ -167,6 +188,11 @@ class GridLine:
             x_size += component.size.x + self.__spacing.x
 
         return pg.Vector2(x_size, self.__spacing.y)
+
+    @property
+    def pos(self):
+        top_left = min(self.__components.values(), key=lambda a: a.pos.x)
+        return top_left.pos
 
     @property
     def size(self):

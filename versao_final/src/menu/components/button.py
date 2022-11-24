@@ -89,7 +89,6 @@ class Button(MenuComponent):
         button_center = pg.Vector2(
             self.pos.x + self.size.x // 2, self.pos.y + self.size.y // 2
         )
-        print(button_center, self.pos)
         text_size = self.__text.size
 
         new_pos = (

@@ -6,23 +6,24 @@ from .scene import Scene
 
 class StartScene(Scene):
     def __init__(self, control: IControl, play_scene: str):
-        self.__menus = {
+        menus = {
             "start": StartMenu(control),
         }
 
-        super().__init__(control, self.__menus["start"], [])
+        super().__init__(control, menus, [])
 
         self.__play_scene = play_scene
 
     def enter(self):
-        # self.control.transition(self.__play_scene)
+        self.current_menu = self.menus["start"]
         ...
 
     def update(self):
         ...
 
     def render(self):
-        self.menu.render()
+        if self.current_menu is not None:
+            self.current_menu.render()
 
     @Listener.on("Play")
     def leave(self):

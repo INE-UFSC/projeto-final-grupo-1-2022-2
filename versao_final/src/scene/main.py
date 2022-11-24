@@ -1,7 +1,9 @@
+import pygame as pg
+
 from ..entity import Player
 from ..icontrol import IControl
 from ..library import Listener
-from ..menu import GameplayMenu
+from ..menu import GameplayMenu, PauseMenu
 from ..system import (
     CameraSystem,
     CollisionSystem,
@@ -17,7 +19,8 @@ from .scene import Scene
 
 class MainScene(Scene):
     def __init__(self, control: IControl):
-        menu = GameplayMenu(control)
+        menus = {"gameplay": GameplayMenu(control), "pause": PauseMenu(control)}
+        self.__paused = False
         systems = [
             MoveControlSystem(control),
             MoveSystem(control),
@@ -29,9 +32,10 @@ class MainScene(Scene):
             ScoreSystem(control),
         ]
 
-        super().__init__(control, menu, systems)
+        super().__init__(control, menus, systems)
 
     def enter(self):
+        self.current_menu = self.menus["gameplay"]
         lane_i = self.control.map.lane_amount // 2
         mid_lane_x = self.control.map.lanes[lane_i]
         player = Player(pos=(mid_lane_x, 0, 0))
@@ -50,12 +54,32 @@ class MainScene(Scene):
             system.setup()
 
     def update(self):
-        for system in self.systems:
-            system.update()
+        if not self.__paused:
+            for system in self.systems:
+                system.update()
 
     def render(self):
-        self.menu.render()
+        if self.current_menu is not None:
+            self.current_menu.render()
 
     @Listener.on("player_collision")
-    def game_over(self, player, obstacle):
+    def __game_over(self, player, obstacle):
+        self.control.stop_running()
+
+    @Listener.on(pg.KEYDOWN)
+    def __toggle_pause(self, event: pg.event.Event):
+        if event.key == pg.K_ESCAPE:
+            if self.__paused:
+                self.__resume()
+            else:
+                self.current_menu = self.menus["pause"]
+                self.__paused = True
+
+    @Listener.on("Resume")
+    def __resume(self):
+        self.__paused = False
+        self.current_menu = self.menus["gameplay"]
+
+    @Listener.on("Quit")
+    def __stop_running(self):
         self.control.stop_running()
