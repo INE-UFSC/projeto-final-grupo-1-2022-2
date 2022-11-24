@@ -4,6 +4,8 @@ from typing import Dict, List, Type
 from random import randint
 from ..entity import Bus, Car, Student, Bridge, Handrail, PartyAdsTable, SmallBush, BigBush, Bike, Obstacle
 
+from ..dao import MapDAO
+
 
 class MapGenerationSystem(System):
     __wait_distance: float
@@ -33,24 +35,12 @@ class MapGenerationSystem(System):
             " " : None,
         }
 
-        self.__patterns = [
-            # [
-            #     "  CC",
-            #     "    ",
-            #     "CC  ",
-            # ],
-            [
-                "C   "
-            ]
-            # [
-            #     " O  ",
-            #     " O  ",
-            #     " O  ",
-            #     " X  ",
-            #     " X  ",
-            #     " O  ",
-            # ],
-        ]
+        path = "easy.json"
+        dao = MapDAO()
+
+        map = dao.load(path)
+
+        self.__patterns = map["patterns"]
     
     def add_pattern(self, pattern):
         ...
