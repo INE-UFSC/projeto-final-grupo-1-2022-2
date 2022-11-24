@@ -2,7 +2,7 @@ from .system import System
 from ..icontrol import IControl
 from typing import Dict, List, Type
 from random import randint
-from ..entity import Bus, Car, Student, Bridge, Handrail, PartyAdsTable, SmallBush, BigBush, Bike, Obstacle
+from ..entity import Bus, Car, Student, Bridge, Handrail, PartyAdsTable, SmallBush, BigBush, Bike, Obstacle, Water
 
 from ..dao import MapDAO
 
@@ -21,6 +21,7 @@ class MapGenerationSystem(System):
 
         self.__obstacle_map = {
             "B" : Bridge,
+            "W" : Water,
             "C" : Car,
             "H" : Handrail,
             "P" : PartyAdsTable,
