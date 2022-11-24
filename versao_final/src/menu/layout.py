@@ -93,7 +93,7 @@ class GridLayout(Layout):
 
         self.__spacing = spacing
         self.__padding = padding
-        self.__surface_size = surface_size
+        self.__surface_size = pg.Vector2(surface_size)
 
         self.__create_grid_layout()
         if center_x:
@@ -173,7 +173,12 @@ class GridLayout(Layout):
         return size
 
     def get_pos(self):
-        return self.__lines[0].pos - self.__padding
+        leftmost_line = min(self.__lines, key=lambda x: x.pos.x)
+        heighest_line = min(self.__lines, key=lambda x: x.pos.y)
+
+        pos = pg.Vector2(leftmost_line.pos.x, heighest_line.pos.y)
+
+        return pos - self.__padding
 
 
 class GridLine:
