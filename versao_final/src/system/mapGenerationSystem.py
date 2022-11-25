@@ -2,6 +2,7 @@ from random import randint
 from typing import Dict, List, Type
 
 from ..dao import MapDAO
+from ..dao import LeaderboardDAO
 from ..entity import (
     BigBush,
     Bike,

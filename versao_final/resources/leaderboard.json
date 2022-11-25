@@ -1,14 +1,1 @@
-{
-    "players": {
-        "name": {
-            "easy": {
-                "timestamp": 1669381870,
-                "highscore": 112
-            },
-            "medium": {
-                "timestamp": 1669381870,
-                "highscore": 112
-            }
-        }
-    }
-}
+{"players": {" nomequalquer": {"easy": {"highscore": 115, "timestamp": 1669388745.3298934}}, " benedek": {"easy": {"highscore": 13, "timestamp": 1669388936.9637742}}}}

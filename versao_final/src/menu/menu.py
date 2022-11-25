@@ -12,7 +12,7 @@ from .render import (
     Render,
     TransparencyBackgroundRender,
 )
-
+from .components import MenuComponent
 # TODO
 # substituir o control por outros parâmetros
 # adicionar opção de mudar a cor de fundo do menu
@@ -80,6 +80,9 @@ class Menu(ABC, Listener):
     def render(self):
         # renderiza todos os componentes do menu
         self.__render.render()
+
+    def get_component(self, key: str) -> Union[MenuComponent, None]:
+        return self.__layout.get_component(key)
 
     @property
     def pos(self):

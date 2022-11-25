@@ -9,7 +9,7 @@ from .menu import Menu
 
 class GameplayMenu(Menu):
     def __init__(self, control: IControl):
-        components = [[Text("Score: 0", 36)], [Text("Speed: 0 km/h", 36)]]
+        components = [[Text("Score: 0", 36, key="score")], [Text("Speed: 0 km/h", 36)]]
 
         layout = GridLayout(components, pg.Vector2(control.screen.size))
 

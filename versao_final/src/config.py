@@ -1,9 +1,16 @@
 from typing import Tuple
 
+from .library import Singleton
 
-class Config:
+
+class Config(metaclass=Singleton):
+    
+    
     screen_size: Tuple[int, int] = (1280, 760)
 
+    __difficulty: str = "easy"
+    __player_name: str = "Graduando Desconhecido"
+    
     lane_amount: int = 3
     lane_width: int = 120
 
@@ -18,3 +25,21 @@ class Config:
     crouch_duration: int = 1000  # crouch duration in milliseconds
 
     camera_y_offset: int = -100
+
+    @property
+    def difficulty(self):
+        return self.__difficulty
+
+    @difficulty.setter
+    def difficulty(self, value):
+        self.__difficulty = value
+
+
+    @property
+    def player_name(self):
+        return self.__player_name
+
+    @player_name.setter
+    def player_name(self, value):
+        self.__player_name = value
+    

@@ -1,7 +1,7 @@
 import pygame as pg
 
 from ..icontrol import IControl
-from .components import Button, Text
+from .components import Button, Text, InputText
 from .layout import GridLayout
 from .menu import Menu
 
@@ -15,6 +15,7 @@ class StartMenu(Menu):
             [Button("Settings")],
             [Button("Credits")],
             [Button("Quit")],
+            [InputText(" ", key="set player_name")]
         ]
 
         layout = GridLayout(

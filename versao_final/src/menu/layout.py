@@ -158,8 +158,8 @@ class GridLayout(Layout):
 
     def get_component(self, key: str):
         for line in self.__lines:
-            if key in line:
-                return line.get(key)
+            if key in line.components.keys():
+                return line.components.get(key)
 
     def get_size(self):
         size = pg.Vector2(0, 0)

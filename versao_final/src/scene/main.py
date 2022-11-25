@@ -17,6 +17,7 @@ from ..system import (
     ScoreSystem,
 )
 from .scene import Scene
+from ..dao import LeaderboardDAO
 
 
 class MainScene(Scene):
@@ -59,10 +60,17 @@ class MainScene(Scene):
         if not self.__paused:
             for system in self.systems:
                 system.update()
+            
+            #score_text = self.current_menu.get_component("score")
+            #new_score = LeaderboardDAO()
+            #score_text.set_message()
+            
 
         if self.next_scene is not None:
             self.control.transition(self.next_scene)
             self.next_scene = None
+
+        
 
     def render(self):
         if self.current_menu is not None:
@@ -73,6 +81,8 @@ class MainScene(Scene):
 
         for system in self.systems:
             system.reset()
+
+        LeaderboardDAO().save()
 
     @Listener.on("player_collision")
     def __game_over(self, player, obstacle):

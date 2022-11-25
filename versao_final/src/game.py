@@ -5,7 +5,6 @@ import pygame as pg
 from .config import Config
 from .entity import EntityManager, Map
 from .icontrol import IControl
-from .leaderboard import Leaderboard
 from .library import Camera, EventBus, Keyboard, Mouse, Screen
 from .scene import Scene, SceneManager, EndScene, MainScene, StartScene
 
@@ -20,7 +19,6 @@ class GameControl(IControl):
     __scene: SceneManager
     __entities: EntityManager
     __map: Map
-    __leaderboard: Leaderboard
     __running: bool
 
     __framerate: int

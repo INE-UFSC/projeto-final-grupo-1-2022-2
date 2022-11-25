@@ -2,7 +2,7 @@ from ..icontrol import IControl
 from ..library import Listener
 from ..menu import StartMenu
 from .scene import Scene
-
+from ..dao import LeaderboardDAO
 
 class StartScene(Scene):
     def __init__(self, control: IControl):
@@ -32,3 +32,7 @@ class StartScene(Scene):
     @Listener.on("Quit")
     def __stop_running(self):
         self.control.stop_running()
+
+    @Listener.on("set player_name")
+    def __set_player_name(self, player_name: str):
+        self.control.config.player_name = player_name
