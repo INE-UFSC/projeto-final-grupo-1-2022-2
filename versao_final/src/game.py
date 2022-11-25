@@ -28,6 +28,8 @@ class GameControl(IControl):
     __max_deltatime: int
 
     def __init__(self):
+        pg.init()
+        
         self.__running = False
         self.__deltatime = 0
 
