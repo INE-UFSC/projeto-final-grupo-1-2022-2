@@ -7,7 +7,7 @@ from .entity import EntityManager, Map
 from .icontrol import IControl
 from .leaderboard import Leaderboard
 from .library import Camera, EventBus, Keyboard, Mouse, Screen
-from .scene import Scene, SceneManager
+from .scene import Scene, SceneManager, EndScene, MainScene, StartScene
 
 
 class GameControl(IControl):
@@ -41,6 +41,16 @@ class GameControl(IControl):
         self.__clock = pg.time.Clock()
         self.__screen = Screen(self.config.screen_size)
 
+        self.scene.add(
+            start=StartScene(self),
+            main=MainScene(self),
+            end=EndScene(self),
+        )
+        self.scene.transition("start")
+
+        self.__event.subscribe(pg.QUIT, lambda _: self.stop_running())
+        self.__event.subscribe("*", self.__forward_event_to_scene)
+        
     def is_running(self):
         return self.__running
 
@@ -49,10 +59,14 @@ class GameControl(IControl):
 
     def start(self):
         self.__running = True
-        self.__event.subscribe(pg.QUIT, lambda _: self.stop_running())
-        self.__event.subscribe("*", self.__forward_event_to_scene)
 
         self.__screen.start()
+
+        self.__loop()
+
+    def __loop(self):
+        while self.is_running():
+            self.update()
 
     def __forward_event_to_scene(self, event_name: str, *args, **kwargs):
         current_scene = self.__scene.current_scene
