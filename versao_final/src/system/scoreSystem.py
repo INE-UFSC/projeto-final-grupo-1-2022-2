@@ -7,4 +7,4 @@ class ScoreSystem(System):
         player = self.control.entities.player
         player_pos = player.get_component(MoveComponent).pos
 
-        print(int((player_pos.z) / 100))
+        #print(int((player_pos.z) / 100))

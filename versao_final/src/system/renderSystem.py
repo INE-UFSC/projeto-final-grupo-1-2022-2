@@ -24,7 +24,7 @@ def compare_pos(a: Entity, b: Entity) -> int:
 
 
 class RenderSystem(System):
-    __show_origin: bool = True
+    __show_origin: bool = False
 
     def update(self):
         ctl = self.control

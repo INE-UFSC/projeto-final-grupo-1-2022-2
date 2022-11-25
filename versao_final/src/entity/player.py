@@ -13,7 +13,7 @@ class Player(Entity):
     def __init__(self, pos):
         color = "#ff0000"
 
-        self.__move = MoveComponent(pos, (0, 0, 200))
+        self.__move = MoveComponent(pos, (0, 0, 350))
         self.__slide = SlideComponent()
 
         collider_uncrouched = CubeCollider(self.__move.pos, (60, 110, 4))
