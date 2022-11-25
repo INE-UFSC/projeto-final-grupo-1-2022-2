@@ -31,10 +31,7 @@ class LeaderboardDAO(ResourceDAO):
 
         return self._cache.get(path)
 
-    def save(self, name, difficulty, score):
-        path = Path(self.get_path(self._path))
-        path.parent.mkdir(parents=True, exist_ok=True)
-
+    def update(self, name, difficulty, score):
         players = self._cache.setdefault("players", {})
         player = players.setdefault(name, {})
         difficulty_obj = player.setdefault(difficulty, {})
@@ -42,6 +39,10 @@ class LeaderboardDAO(ResourceDAO):
         difficulty_obj["highscore"] = score
         difficulty_obj["timestamp"] = time.time()
         
+    def save(self):
+        path = Path(self.get_path(self._path))
+        path.parent.mkdir(parents=True, exist_ok=True)
+
         txt = json.dumps(self._cache)
 
         path.write_text(txt, encoding="utf-8")
