@@ -16,7 +16,9 @@ class Screen:
         self.__cam = Camera() if camera is None else camera
 
     def start(self):
-        self.__display = pg.display.set_mode(self.__size)
+        self.__display = pg.display.set_mode(
+            self.__size, pg.HWSURFACE | pg.DOUBLEBUF | pg.SCALED, vsync=1
+        )
 
     def update(self):
         pg.display.update()
