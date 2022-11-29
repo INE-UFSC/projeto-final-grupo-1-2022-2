@@ -3,6 +3,7 @@ from typing import Union
 import pygame as pg
 
 from .config import Config
+from .dao import TextureDAO
 from .entity import EntityManager, Map
 from .icontrol import IControl
 from .library import Camera, EventBus, Keyboard, Mouse, Screen
@@ -63,6 +64,9 @@ class GameControl(IControl):
         self.__screen.start()
 
         self.__loop()
+
+        if self.config.args.save_textures:
+            TextureDAO().save_all()
 
     def __loop(self):
         while self.is_running():

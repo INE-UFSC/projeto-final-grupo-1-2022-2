@@ -1,4 +1,5 @@
 from typing import Tuple
+from argparse import ArgumentParser
 
 from .library import Singleton
 
@@ -26,6 +27,13 @@ class Config(metaclass=Singleton):
 
     camera_y_offset: int = -100
 
+    def __init__(self): self.__parse_args()
+    def __parse_args(self):
+        parser = ArgumentParser()
+        parser.add_argument("--save-textures", default=False, action="store_true", help="Save loaded and generated textures.")
+        self.__args = parser.parse_args()
+    @property
+    def args(self): return self.__args
     @property
     def difficulty(self):
         return self.__difficulty
@@ -42,4 +50,4 @@ class Config(metaclass=Singleton):
     @player_name.setter
     def player_name(self, value):
         self.__player_name = value
-    
+
