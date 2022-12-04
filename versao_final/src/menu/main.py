@@ -7,13 +7,14 @@ from .components import Text
 from .layout import GridLayout
 from .menu import Menu
 from .render import DefaultRender
+from ..library import Listener
 
 
 class GameplayMenu(Menu):
     def __init__(self, control: IControl):
         components = [
             [Text("Score: 0", font_size=36, key="score")],
-            [Text("Speed: 0 km/h", font_size=36)],
+            [Text("Speed: 0 km/h", key="speed",font_size=36)],
         ]
 
         layout = GridLayout(
@@ -35,3 +36,8 @@ class GameplayMenu(Menu):
 
     def render(self):
         self.fresh_render()
+
+    @Listener.on("change player_velocity")
+    def __change_speed(self, player_speed: int):
+        speed = self.get_component("speed")
+        speed.set_message(f"Speed: {player_speed / 50} km/h")

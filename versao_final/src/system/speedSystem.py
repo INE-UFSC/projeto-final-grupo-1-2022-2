@@ -14,3 +14,4 @@ class SpeedSystem(System):
         if self.__time_since_last_increase > self.__time_between_increase:
             self.__time_since_last_increase = 0
             move.velocity.z += 100
+            self.control.event.emit("change player_velocity", move.velocity.z)
