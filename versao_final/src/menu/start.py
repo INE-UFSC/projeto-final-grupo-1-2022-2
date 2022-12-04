@@ -1,5 +1,6 @@
 import pygame as pg
 
+from ..dao import LeaderboardDAO
 from ..icontrol import IControl
 from .components import Button, InputText, Text
 from .layout import GridLayout
@@ -9,12 +10,16 @@ from .render import BackgroundRender
 
 class StartMenu(Menu):
     def __init__(self, control: IControl):
+        player_name = LeaderboardDAO().get_player_name()
+        if player_name is None:
+            player_name = control.config.default_player_name
+        
         components = [
             [Text("Corre Pro RU", font_size=64)],
             [
                 Text("Current name: "),
                 InputText(
-                    control.config.player_name,
+                    player_name,
                     key="player_name",
                     color="#2A344F",
                     size=(300, 25),

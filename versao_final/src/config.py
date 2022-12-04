@@ -10,7 +10,7 @@ class Config(metaclass=Singleton):
     screen_size: Tuple[int, int] = (1280, 760)
 
     __difficulty: str = "easy"
-    __player_name: str = "Graduando Desconhecido"
+    __default_player_name: str = "Graduando Desconhecido"
     
     lane_amount: int = 3
     lane_width: int = 120
@@ -44,10 +44,8 @@ class Config(metaclass=Singleton):
 
 
     @property
-    def player_name(self):
-        return self.__player_name
+    def default_player_name(self):
+        return self.__default_player_name
 
-    @player_name.setter
-    def player_name(self, value):
-        self.__player_name = value
+    
 

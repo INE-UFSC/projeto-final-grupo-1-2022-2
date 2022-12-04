@@ -25,7 +25,7 @@ class GameplayMenu(Menu):
         super().__init__(control, layout, render)
 
     def update(self):
-        player_name = self.control.config.player_name
+        player_name = LeaderboardDAO().get_player_name()
         difficulty = self.control.config.difficulty
 
         score = LeaderboardDAO()._cache["players"][player_name][difficulty]["highscore"]

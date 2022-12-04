@@ -64,3 +64,24 @@ class LeaderboardDAO(ResourceDAO):
             players_score.append(Score(name, points))
 
         return sorted(players_score, key=lambda p: p.value, reverse=True)
+
+    
+    
+    def get_player_highscore(self,name: str, difficulty: str):
+        players = self._cache.get("players", {})
+        player = players.get(name, {})
+        diff = player.get(difficulty, {})
+        score = diff.get("highscore", -1)
+        return score
+
+    def get_player_score(self):
+        return self._cache.get("player_score", 0)
+
+    def set_player_score(self, score: int):
+        self._cache["player_score"] = score
+
+    def get_player_name(self):
+        return self._cache.get("player_name", None)
+
+    def set_player_name(self, name: str):
+        self._cache["player_name"] = name    

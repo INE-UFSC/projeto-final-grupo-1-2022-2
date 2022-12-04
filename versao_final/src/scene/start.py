@@ -1,3 +1,4 @@
+from ..dao import LeaderboardDAO
 from ..icontrol import IControl
 from ..library import Listener
 from ..menu import LeaderBoardMenu, StartMenu
@@ -60,4 +61,6 @@ class StartScene(Scene):
 
     @Listener.on("player_name")
     def __set_player_name(self, name: str):
-        self.control.config.player_name = name
+        if name.strip() == "":
+            name = self.control.config.default_player_name
+        LeaderboardDAO().set_player_name(name)
