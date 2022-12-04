@@ -28,7 +28,7 @@ class GameplayMenu(Menu):
         player_name = LeaderboardDAO().get_player_name()
         difficulty = self.control.config.difficulty
 
-        score = LeaderboardDAO()._cache["players"][player_name][difficulty]["highscore"]
+        score = LeaderboardDAO().get_player_score()
 
         text = self.get_component("score")
         text.set_message(f"Score: {str(score)}")
