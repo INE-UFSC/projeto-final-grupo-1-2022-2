@@ -7,16 +7,9 @@ from ..entity import Player
 from ..icontrol import IControl
 from ..library import Listener
 from ..menu import GameplayMenu, PauseMenu
-from ..system import (
-    CameraSystem,
-    CollisionSystem,
-    EntityDestructionSystem,
-    MapGenerationSystem,
-    MoveControlSystem,
-    MoveSystem,
-    RenderSystem,
-    ScoreSystem,
-)
+from ..system import (CameraSystem, CollisionSystem, EntityDestructionSystem,
+                      MapGenerationSystem, MoveControlSystem, MoveSystem,
+                      RenderSystem, ScoreSystem, SpeedSystem)
 from .scene import Scene
 
 
@@ -37,6 +30,7 @@ class MainScene(Scene):
             EntityDestructionSystem(control),
             RenderSystem(control),
             ScoreSystem(control),
+            SpeedSystem(control),
         ]
 
         super().__init__(control, menus, systems)

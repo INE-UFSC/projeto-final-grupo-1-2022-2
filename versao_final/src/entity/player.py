@@ -1,11 +1,7 @@
-from ..components import (
-    CollisionComponent,
-    MoveComponent,
-    RenderComponent,
-    SlideComponent,
-)
-from ..library import CubeCollider, class_name
+from ..components import (CollisionComponent, MoveComponent, RenderComponent,
+                          SlideComponent)
 from ..dao import TextureDAO
+from ..library import CubeCollider, class_name
 from .entity import Entity
 
 

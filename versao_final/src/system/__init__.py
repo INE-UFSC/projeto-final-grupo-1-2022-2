@@ -6,6 +6,7 @@ from .moveControlSystem import MoveControlSystem
 from .moveSystem import MoveSystem
 from .renderSystem import RenderSystem
 from .scoreSystem import ScoreSystem
+from .speedSystem import SpeedSystem
 from .system import System
 
 __all__ = [
@@ -18,4 +19,5 @@ __all__ = [
     "MapGenerationSystem",
     "EntityDestructionSystem",
     "ScoreSystem",
+    "SpeedSystem"
 ]
