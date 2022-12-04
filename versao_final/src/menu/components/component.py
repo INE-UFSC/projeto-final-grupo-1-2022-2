@@ -12,6 +12,7 @@ class MenuComponent(Listener, ABC):
     __size: pg.Vector2
     __event: Listener
     __key: str
+    __dirty: bool = False
 
     def __init__(
         self,
@@ -29,8 +30,12 @@ class MenuComponent(Listener, ABC):
         self.__key = key
 
     def render(self, screen: pg.Surface):
-        if self.__pos is not None:
+        if self.__pos is not None and self.__dirty:
             screen.blit(self.__surface, self.__pos)
+            self.__dirty = False
+    def fresh_render(self, screen: pg.Surface):
+        self.__dirty = True
+        self.render(screen)
 
     def is_inside(self, coordinate: Union[pg.Vector2, Tuple[int, int]]) -> bool:
         coordinate = pg.Vector2(coordinate)
@@ -41,6 +46,12 @@ class MenuComponent(Listener, ABC):
         y_max = self.pos.y + self.surface.get_height()
 
         return x_min < coordinate.x < x_max and y_min < coordinate.y < y_max
+
+    def emit_event(self):
+        """
+        emite um evento nomeado pelo atributo `key` do componente
+        """
+        self.event.emit(self.key)
 
     @property
     def surface(self):
@@ -61,10 +72,18 @@ class MenuComponent(Listener, ABC):
     @property
     def key(self):
         return self.__key
+    @property
+    def dirty(self):
+        return self.__dirty
+    
 
     @pos.setter
     def pos(self, pos: pg.Vector2):
         self.__pos = pg.Vector2(pos)
+        self.dirty = True
+    @dirty.setter
+    def dirty(self, dirty: bool):
+        self.__dirty = dirty
 
     @key.setter
     def key(self, key: str):

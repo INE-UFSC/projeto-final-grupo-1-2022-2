@@ -13,6 +13,7 @@ class Text(MenuComponent):
     def __init__(
         self,
         message: str,
+        size: Tuple[int, int] = None,
         font_size: int = 24,
         font_color: Union[pg.Color, str] = "#ffffff",
         font_name: Union[str, None] = "Helvetica",
@@ -25,9 +26,14 @@ class Text(MenuComponent):
         self.__message = message
 
         self.__font = pg.font.SysFont(font_name, font_size)
-        surface = self.__font.render(self.__message, True, self.__color)
+        text_surf = self.__font.render(self.__message, True, self.__color)
 
-        super().__init__(pos, surface.get_size(), surface, key)
+        size = text_surf.get_size() if size is None else size
+        transparent_layer = pg.Surface(size, pg.SRCALPHA)
+        transparent_layer.blit(text_surf, (0, 0))
+
+        super().__init__(pos, size, transparent_layer, key)
+
 
     @property
     def message(self):
@@ -43,3 +49,4 @@ class Text(MenuComponent):
 
         self.surface = self.__font.render(message, True, self.__color)
         self.__message = message
+        self.dirty = True

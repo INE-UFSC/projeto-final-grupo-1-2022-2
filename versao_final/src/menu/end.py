@@ -4,13 +4,13 @@ from ..icontrol import IControl
 from .components import Button, Image, Text
 from .layout import GridLayout
 from .menu import Menu
-
+from .render import TransparencyBackgroundRender
 
 class EndMenu(Menu):
     def __init__(self, control: IControl):
 
         components = [
-            [Text("Game Over", 48)],
+            [Text("Game Over", font_size=48)],
             [Button("Play again", key="Play", size=(550, 50))],
             [Button("Return to start menu", key="Start"), Button("Quit")],
         ]
@@ -18,9 +18,10 @@ class EndMenu(Menu):
         layout = GridLayout(
             components,
             control.screen.size,
-            pg.Vector2(50, 75),
             center_x=True,
             center_y=True,
         )
 
-        super().__init__(control, layout, (0, 0, 0), (40, 40, 40, 10))
+        render = TransparencyBackgroundRender(control.screen, components, "black", layout.get_pos(), layout.get_size(), (40,40,40,10), True)
+
+        super().__init__(control, layout, render)

@@ -70,7 +70,7 @@ class GridLayout(Layout):
         self,
         components: List[List[MenuComponent]],
         surface_size: pg.Vector2,
-        spacing: pg.Vector2 = pg.Vector2(50, 100),
+        spacing: pg.Vector2 = pg.Vector2(50, 25),
         padding: pg.Vector2 = pg.Vector2(50, 50),
         center_x: bool = False,
         center_y: bool = False,
@@ -87,13 +87,13 @@ class GridLayout(Layout):
         - `center_y`: centralizar o eixo y do menu na tela
         """
 
+        self.__spacing = pg.Vector2(spacing)
+        self.__padding = pg.Vector2(padding)
+        self.__surface_size = pg.Vector2(surface_size)
+
         self.__lines = []
         for line in components:
-            self.__lines.append(GridLine(line, spacing))
-
-        self.__spacing = spacing
-        self.__padding = padding
-        self.__surface_size = pg.Vector2(surface_size)
+            self.__lines.append(GridLine(line, self.__spacing))
 
         self.__create_grid_layout()
         if center_x:
@@ -119,19 +119,22 @@ class GridLayout(Layout):
         for line in self.__lines:
             prev_x_pos = 0
             left_boundary = self.__surface_size.x // 2 - line.size.x // 2
-            for component in line.components.values():
-                component.pos = (
-                    left_boundary + self.__spacing.x + prev_x_pos,
-                    component.pos.y,
-                )
+            for j, component in enumerate(line.components.values()):
+                if j == 0:
+                    component.pos = left_boundary
+                else:
+                    component.pos = (
+                        left_boundary + self.__spacing.x + prev_x_pos,
+                        component.pos.y,
+                    )
                 prev_x_pos = component.pos.x + component.size.x - left_boundary
 
     def center_y(self):
         """
         centraliza os componentes no eixo y
         """
-        line_y_sizes = [line.size.y for line in self.__lines]
-        y_size = reduce(lambda x, y: x + y, line_y_sizes) - self.__spacing.y // 2
+        line_y_sizes = [line.size.y + self.__spacing.y for line in self.__lines]
+        y_size = reduce(lambda x, y: x + y, line_y_sizes) - self.__spacing.y
 
         top_boundary = self.__surface_size.y // 2 - y_size // 2
         prev_y_pos = 0
@@ -144,8 +147,10 @@ class GridLayout(Layout):
                         top_boundary + self.__spacing.y + prev_y_pos,
                     )
                 else:
-                    component.pos = (component.pos.x, top_boundary + prev_y_pos)
-                line_y_pos = component.pos.y - top_boundary
+                    component.pos = (component.pos.x, top_boundary)
+                line_y_pos = max(
+                    component.pos.y + component.size.y - top_boundary, line_y_pos
+                )
 
             prev_y_pos = line_y_pos
 
@@ -166,10 +171,10 @@ class GridLayout(Layout):
 
         for line in self.__lines:
             size.x = max(line.size.x, size.x)
-            size.y += line.size.y
+            size.y += line.size.y + self.__spacing.y
 
-        size += self.__padding
-        size.y += self.__padding.y // 2
+        size += self.__padding + self.__padding
+        size.y -= self.__spacing.y
         return size
 
     def get_pos(self):
@@ -193,10 +198,13 @@ class GridLine:
 
     def __calculate_size(self):
         x_size = 0
+        y_size = 0
         for component in self.__components.values():
             x_size += component.size.x + self.__spacing.x
+            y_size = max(y_size, component.size.y)
 
-        return pg.Vector2(x_size, self.__spacing.y)
+        x_size -= self.__spacing.x
+        return pg.Vector2(x_size, y_size)
 
     @property
     def pos(self):

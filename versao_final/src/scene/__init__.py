@@ -4,4 +4,10 @@ from .manager import SceneManager
 from .scene import Scene
 from .start import StartScene
 
-__all__ = ["Scene", "SceneManager", "StartScene", "MainScene", "EndScene"]
+__all__ = [
+    "Scene",
+    "SceneManager",
+    "StartScene",
+    "MainScene",
+    "EndScene",
+]

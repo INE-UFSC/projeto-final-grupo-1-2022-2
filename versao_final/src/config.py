@@ -1,5 +1,5 @@
-from typing import Tuple
 from argparse import ArgumentParser
+from typing import Tuple
 
 from .library import Singleton
 

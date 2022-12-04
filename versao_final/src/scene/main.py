@@ -2,6 +2,7 @@ from typing import Dict
 
 import pygame as pg
 
+from ..dao import LeaderboardDAO
 from ..entity import Player
 from ..icontrol import IControl
 from ..library import Listener
@@ -17,10 +18,13 @@ from ..system import (
     ScoreSystem,
 )
 from .scene import Scene
-from ..dao import LeaderboardDAO
 
 
 class MainScene(Scene):
+    __paused: bool
+    __entered: bool = False
+    __render_system: RenderSystem
+    
     def __init__(self, control: IControl):
         menus = {"gameplay": GameplayMenu(control), "pause": PauseMenu(control)}
         self.__paused = False
@@ -37,40 +41,41 @@ class MainScene(Scene):
 
         super().__init__(control, menus, systems)
 
+        self.__render_system = list(filter(lambda x: type(x) == RenderSystem, systems))[0]
+
     def enter(self):
-        self.current_menu = self.menus["gameplay"]
-        lane_i = self.control.map.lane_amount // 2
-        mid_lane_x = self.control.map.lanes[lane_i]
-        player = Player(pos=(mid_lane_x, 0, 0))
+        if not self.__entered:
+            self.current_menu = self.menus["gameplay"]
+            lane_i = self.control.map.lane_amount // 2
+            mid_lane_x = self.control.map.lanes[lane_i]
+            player = Player(pos=(mid_lane_x, 0, 0))
 
-        self.control.entities.set_player(player)
-        self.control.entities.add_entity(player)
+            self.control.entities.set_player(player)
+            self.control.entities.add_entity(player)
 
-        camera = self.control.screen.cam
-        offset = (
-            mid_lane_x - self.control.screen.size[0] // 2,
-            self.control.config.camera_y_offset,
-        )
-        camera.offset = offset
+            camera = self.control.screen.cam
+            offset = (
+                mid_lane_x - self.control.screen.size[0] // 2,
+                self.control.config.camera_y_offset,
+            )
+            camera.offset = offset
 
-        for system in self.systems:
-            system.setup()
+            for system in self.systems:
+                system.setup()
+            
+            super().enter()
 
     def update(self):
+
         if not self.__paused:
             for system in self.systems:
                 system.update()
-            
-            #score_text = self.current_menu.get_component("score")
-            #new_score = LeaderboardDAO()
-            #score_text.set_message()
-            
 
         if self.next_scene is not None:
             self.control.transition(self.next_scene)
             self.next_scene = None
 
-        
+        self.current_menu.update()
 
     def render(self):
         if self.current_menu is not None:
@@ -83,6 +88,18 @@ class MainScene(Scene):
             system.reset()
 
         LeaderboardDAO().save()
+        super().leave()
+        self.__entered = False
+
+    def render_as_background(self):
+        if not self.__entered:
+            self.enter()
+            self.__entered = True
+            for system in self.systems:
+                if type(system) != ScoreSystem:
+                    system.update()
+        else:
+            self.__render_system.update()
 
     @Listener.on("player_collision")
     def __game_over(self, player, obstacle):

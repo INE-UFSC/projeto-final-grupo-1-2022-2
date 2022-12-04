@@ -14,6 +14,7 @@ class Button(MenuComponent):
     __is_pressed: bool
     __is_hovered: bool
     __key: Union[str, None]
+    __on_click: Union[Callable, None]
 
     def __init__(
         self,
@@ -25,6 +26,7 @@ class Button(MenuComponent):
         shade_multiplier: float = 0.5,
         pos: Union[pg.Vector2, Tuple[int, int]] = None,
         key: str = None,
+        on_click: Callable = None,
     ):
         key = label if key is None else key
 
@@ -41,7 +43,7 @@ class Button(MenuComponent):
         self.__color = color
         self.__color_when_pressed = color_when_pressed
         self.__shade_multiplier = shade_multiplier
-
+        self.__on_click = on_click
         self.__is_hovered = False
         self.__is_pressed = False
 
@@ -54,6 +56,7 @@ class Button(MenuComponent):
         if not self.is_pressed and self.is_inside(event.pos):
             self.surface.fill(self.color_shaded)
             self.__is_hovered = True
+            self.dirty = True
 
     @Listener.on(pg.MOUSEMOTION)
     def unhover(self, event: pg.event.Event):
@@ -61,6 +64,7 @@ class Button(MenuComponent):
             if not self.is_inside(event.pos):
                 self.surface.fill(self.__color)
                 self.__is_hovered = False
+                self.dirty = True
 
     @Listener.on(pg.MOUSEBUTTONDOWN)
     def press(self, event: pg.event.Event):
@@ -68,19 +72,28 @@ class Button(MenuComponent):
             self.surface.fill(self.__color_when_pressed)
             self.__is_hovered = False
             self.__is_pressed = True
+            self.dirty = True
 
     @Listener.on(pg.MOUSEBUTTONUP)
     def release(self, event: pg.event.Event):
         if event.button == pg.BUTTON_LEFT and self.is_pressed:
             self.surface.fill(self.__color)
             self.__is_pressed = False
-            self.event.emit(self.key)
+
+            if self.__on_click is None:
+                self.emit_event()
+            else:
+                self.__on_click()
+
+            self.dirty = True
 
     def render(self, screen):
-        if self.pos is not None:
+        if self.pos is not None and self.dirty:
             screen.blit(self.surface, self.pos)
             if self.__text is not None:
-                self.__text.render(screen)
+                self.__text.fresh_render(screen)
+
+            self.dirty = False
 
     def __center_text(self):
         """
@@ -96,6 +109,7 @@ class Button(MenuComponent):
             button_center.y - text_size.y // 2,
         )
         self.__text.pos = new_pos
+        self.dirty = True
 
     @property
     def color_shaded(self) -> pg.Color:
@@ -119,12 +133,17 @@ class Button(MenuComponent):
     def pos(self):
         return self.__pos
 
+    @property
+    def on_click(self):
+        return self.__on_click
+
     @pos.setter
     def pos(self, pos):
         self.__pos = pg.Vector2(pos)
         self.__text.pos = pg.Vector2(pos)
 
         self.__center_text()
+        self.dirty = True
 
     @label.setter
     def label(self, label: str):
@@ -133,3 +152,8 @@ class Button(MenuComponent):
             self.key = label
 
         self.__label = label
+        self.dirty = True
+
+    @on_click.setter
+    def on_click(self, on_click: Callable):
+        self.__on_click = on_click

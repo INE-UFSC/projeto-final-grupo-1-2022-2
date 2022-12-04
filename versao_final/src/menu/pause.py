@@ -4,7 +4,7 @@ from ..icontrol import IControl
 from .components import Button, Text
 from .layout import GridLayout
 from .menu import Menu
-
+from .render import TransparencyBackgroundRender
 
 class PauseMenu(Menu):
     __background_color = "black"
@@ -26,7 +26,8 @@ class PauseMenu(Menu):
             pg.Vector2(control.screen.size),
             center_x=True,
             center_y=True,
-            spacing=pg.Vector2(50, 75),
         )
 
-        super().__init__(control, layout, (0, 0, 0), (40, 40, 40, 10))
+        render = TransparencyBackgroundRender(control.screen, components, (0,0,0), layout.get_pos(), layout.get_size(), (40,40,40,10), True)
+
+        super().__init__(control, layout, render)

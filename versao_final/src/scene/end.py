@@ -16,6 +16,7 @@ class EndScene(Scene):
 
     def enter(self):
         self.current_menu = self.menus["end"]
+        super().enter()
 
     def update(self):
         if self.next_scene is not None:
