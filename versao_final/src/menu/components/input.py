@@ -19,13 +19,15 @@ class InputText(MenuComponent):
         shade_multiplier: float = 0.5,
         pos: Union[pg.Vector2, Tuple[int, int]] = None,
         key: str = None,
+        spacing: Tuple[int,int] = None
     ):
 
         size = pg.Vector2(size)
         key = label if key is None else key
         surface = pg.Surface(size)
         surface.fill(color)
-        super().__init__(pos, size, surface, key)
+        spacing = pg.Vector2(spacing) if spacing is not None else spacing
+        super().__init__(pos, size, surface, key,spacing=spacing)
 
         color = pg.Color(color)
         color_tuple = (color.r, color.g, color.b, color.a)

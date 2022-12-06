@@ -19,6 +19,7 @@ class Text(MenuComponent):
         font_name: Union[str, None] = "Helvetica",
         pos: Union[pg.Vector2, Tuple[int, int]] = None,
         key: str = None,
+        spacing: Tuple[int,int] = None
     ):
         key = message if key is None else key
 
@@ -31,8 +32,9 @@ class Text(MenuComponent):
         size = text_surf.get_size() if size is None else size
         transparent_layer = pg.Surface(size, pg.SRCALPHA)
         transparent_layer.blit(text_surf, (0, 0))
+        spacing = pg.Vector2(spacing) if spacing is not None else spacing
 
-        super().__init__(pos, size, transparent_layer, key)
+        super().__init__(pos, size, transparent_layer, key,spacing=spacing)
 
 
     @property

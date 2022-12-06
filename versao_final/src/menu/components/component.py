@@ -13,6 +13,7 @@ class MenuComponent(Listener, ABC):
     __event: Listener
     __key: str
     __dirty: bool = False
+    __spacing: pg.Vector2
 
     def __init__(
         self,
@@ -21,6 +22,7 @@ class MenuComponent(Listener, ABC):
         surface: pg.Surface,
         key: str,
         event_emitter: Listener = None,
+        spacing: pg.Vector2 = None
     ):
         super().__init__()
         self.__surface = surface
@@ -28,6 +30,7 @@ class MenuComponent(Listener, ABC):
         self.__size = pg.Vector2(size)
         self.__event = event_emitter
         self.__key = key
+        self.__spacing = pg.Vector2(0,0) if spacing is None else pg.Vector2(spacing)
 
     def render(self, screen: pg.Surface):
         if self.__pos is not None and self.__dirty:
@@ -75,6 +78,9 @@ class MenuComponent(Listener, ABC):
     @property
     def dirty(self):
         return self.__dirty
+    @property
+    def spacing(self):
+        return self.__spacing
     
 
     @pos.setter

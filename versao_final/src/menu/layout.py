@@ -89,8 +89,8 @@ class GridLayout(Layout):
                     left_boundary + prev_x_pos, top_boundary + prev_y_pos
                 )
 
-                prev_x_pos = component.pos.x + self.__spacing.x + component.size.x - left_boundary
-                line_y_pos = max(component.pos.y + self.__spacing.y + component.size.y - top_boundary, line_y_pos)
+                prev_x_pos = component.pos.x + self.__spacing.x + component.size.x + component.spacing.x - left_boundary
+                line_y_pos = max(component.pos.y + self.__spacing.y + component.size.y + component.spacing.y - top_boundary, line_y_pos)
             
             prev_y_pos = line_y_pos
 
@@ -141,8 +141,8 @@ class GridLine:
         x_size = 0
         y_size = 0
         for component in self.__components.values():
-            x_size += component.size.x + self.__spacing.x
-            y_size = max(y_size, component.size.y)
+            x_size += component.size.x + self.__spacing.x + component.spacing.x
+            y_size = max(y_size, component.size.y + component.spacing.y)
 
         x_size -= self.__spacing.x
         return pg.Vector2(x_size, y_size)

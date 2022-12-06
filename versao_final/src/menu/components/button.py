@@ -27,6 +27,7 @@ class Button(MenuComponent):
         pos: Union[pg.Vector2, Tuple[int, int]] = None,
         key: str = None,
         on_click: Callable = None,
+        spacing: Tuple[int,int] = None
     ):
         key = label if key is None else key
 
@@ -36,7 +37,8 @@ class Button(MenuComponent):
 
         surface = pg.Surface(size)
         surface.fill(color)
-        super().__init__(pos, size, surface, key)
+        spacing = pg.Vector2(spacing) if spacing is not None else None
+        super().__init__(pos, size, surface, key, spacing=spacing)
 
         self.__label = label
         self.__key = key
