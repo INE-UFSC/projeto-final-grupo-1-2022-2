@@ -11,8 +11,11 @@ class RenderComponent(Component):
         self,
         surface: pg.Surface,
         origin: pg.Vector2 = None,
+        alpha: bool = False,
     ):
         size = surface.get_size()
+        
+        surface = surface.convert_alpha() if alpha else surface.convert()
 
         if origin is None:
             origin = (size[0] // 2, size[1])
