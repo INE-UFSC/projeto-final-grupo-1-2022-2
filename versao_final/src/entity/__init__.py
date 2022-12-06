@@ -1,3 +1,4 @@
+from .background import Background
 from .entity import Entity
 from .manager import EntityManager
 from .map import Map
@@ -23,4 +24,5 @@ __all__ = [
     "Bus",
     "Bridge",
     "SuperJumpPowerUp",
+    "Background",
 ]

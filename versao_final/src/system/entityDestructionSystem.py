@@ -13,11 +13,10 @@ class EntityDestructionSystem(System):
         destruction_distance = self.control.config.destruction_distance
 
         entities = self.control.entities.get_all_with(MoveComponent, RenderComponent)
-        
+
         for entity in entities:
             pos = entity.get_component(MoveComponent).pos
             size = entity.get_component(RenderComponent).size
 
             if pos.z + size.y < camera.pos.y - destruction_distance:
                 self.control.entities.remove_entity(entity)
-        

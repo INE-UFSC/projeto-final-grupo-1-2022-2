@@ -22,6 +22,11 @@ def compare_pos(a: Entity, b: Entity) -> int:
 
         return B.z_max - A.z_max
 
+    move_a = a.get_component(MoveComponent)
+    move_b = b.get_component(MoveComponent)
+
+    return move_b.pos.y - move_a.pos.y
+
 
 class RenderSystem(System):
     __show_origin: bool = False
@@ -32,7 +37,6 @@ class RenderSystem(System):
 
         entities = ctl.entities.get_all_with(RenderComponent, MoveComponent)
         entities = sorted(entities, key=cmp_to_key(compare_pos))
-
         screen.display.fill(pg.Color("#0bf502"))
 
         for entity in entities:

@@ -3,13 +3,21 @@ from typing import Dict
 import pygame as pg
 
 from ..dao import LeaderboardDAO
-from ..entity import Player
+from ..entity import Background, Player
 from ..icontrol import IControl
 from ..library import Listener
 from ..menu import GameplayMenu, PauseMenu
-from ..system import (CameraSystem, CollisionSystem, EntityDestructionSystem,
-                      MapGenerationSystem, MoveControlSystem, MoveSystem,
-                      RenderSystem, ScoreSystem, SpeedSystem)
+from ..system import (
+    CameraSystem,
+    CollisionSystem,
+    EntityDestructionSystem,
+    MapGenerationSystem,
+    MoveControlSystem,
+    MoveSystem,
+    RenderSystem,
+    ScoreSystem,
+    SpeedSystem,
+)
 from .scene import Scene
 
 
@@ -17,10 +25,11 @@ class MainScene(Scene):
     __paused: bool
     __entered: bool = False
     __render_system: RenderSystem
-    
+
     def __init__(self, control: IControl):
         menus = {"gameplay": GameplayMenu(control), "pause": PauseMenu(control)}
         self.__paused = False
+
         systems = [
             MoveControlSystem(control),
             MoveSystem(control),
@@ -28,14 +37,14 @@ class MainScene(Scene):
             MapGenerationSystem(control),
             CollisionSystem(control),
             EntityDestructionSystem(control),
-            RenderSystem(control),
             ScoreSystem(control),
             SpeedSystem(control),
+            render_system := RenderSystem(control),
         ]
 
         super().__init__(control, menus, systems)
 
-        self.__render_system = list(filter(lambda x: type(x) == RenderSystem, systems))[0]
+        self.__render_system = render_system
 
     def enter(self):
         if not self.__entered:
@@ -47,6 +56,10 @@ class MainScene(Scene):
             self.control.entities.set_player(player)
             self.control.entities.add_entity(player)
 
+            center_x = self.control.map.center
+            background = Background(pos=(center_x, -100, -65))
+            self.control.entities.add_entity(background)
+
             camera = self.control.screen.cam
             offset = (
                 mid_lane_x - self.control.screen.size[0] // 2,
@@ -56,7 +69,7 @@ class MainScene(Scene):
 
             for system in self.systems:
                 system.setup()
-            
+
             super().enter()
 
     def update(self):

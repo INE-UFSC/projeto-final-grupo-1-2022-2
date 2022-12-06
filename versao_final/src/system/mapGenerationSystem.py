@@ -1,8 +1,7 @@
 from random import randint
 from typing import Dict, List, Type
 
-from ..dao import MapDAO
-from ..dao import LeaderboardDAO
+from ..dao import LeaderboardDAO, MapDAO
 from ..entity import (
     BigBush,
     Bike,
@@ -30,6 +29,7 @@ class MapGenerationSystem(System):
         super().__init__(control)
 
         self.__wait_distance = 200
+        self.__background_wait = 0
         self.__last_z_pos = 0
 
         self.__obstacle_map = {
@@ -71,6 +71,13 @@ class MapGenerationSystem(System):
 
             self.__wait_distance = length
             self.__last_z_pos = z_pos
+        
+        # if delta_z >= self.__background_wait:
+        #     length = self.spawn(z_pos)
+
+        #     self.__wait_distance = length
+        #     self.__last_z_pos = z_pos
+
 
     def spawn(self, z: int):
         lane_width = self.control.map.lane_width
