@@ -1,7 +1,8 @@
+from math import ceil
 from random import randint
 from typing import Dict, List, Type
 
-from ..dao import LeaderboardDAO, MapDAO
+from ..dao import MapDAO
 from ..entity import (
     BigBush,
     Bike,
@@ -20,17 +21,14 @@ from .system import System
 
 
 class MapGenerationSystem(System):
-    __wait_distance: float
-    __last_z_pos: int
+    __last_obstacle_z_pos: int
     __patterns: List[List[str]]
     __obstacle_map: Dict[str, Type[Obstacle]]
 
     def __init__(self, control: IControl):
         super().__init__(control)
 
-        self.__wait_distance = 200
-        self.__background_wait = 0
-        self.__last_z_pos = 0
+        self.__last_obstacle_z_pos = 0
 
         self.__obstacle_map = {
             "B": Bridge,
@@ -53,33 +51,31 @@ class MapGenerationSystem(System):
         map = dao.load(path)
 
         self.__patterns = map["patterns"]
+    
+    def setup(self):
+        self.__last_obstacle_z_pos = 0
 
     def add_pattern(self, pattern):
         ...
 
-    def update(self):
+    @property
+    def z_pos(self):
         lane_width = self.control.map.lane_width
         screen = self.control.screen
 
-        z_pos = screen.cam.pos.y + screen.size[1]
-        z_pos = (z_pos // lane_width) * lane_width
+        z_pos = screen.cam.pos.y + screen.size[1] + 0
 
-        delta_z = z_pos - self.__last_z_pos
+        return ceil(z_pos / lane_width) * lane_width
 
-        if delta_z >= self.__wait_distance:
-            length = self.spawn(z_pos)
-
-            self.__wait_distance = length
-            self.__last_z_pos = z_pos
+    def update(self):
+        while self.z_pos > self.__last_obstacle_z_pos:
+            self.spawn_obstacles()
         
-        # if delta_z >= self.__background_wait:
-        #     length = self.spawn(z_pos)
+    def skip_tiles(self, amount: int):
+        self.__last_obstacle_z_pos += self.control.config.lane_width * amount
 
-        #     self.__wait_distance = length
-        #     self.__last_z_pos = z_pos
-
-
-    def spawn(self, z: int):
+    def spawn_obstacles(self):
+        z = self.__last_obstacle_z_pos
         lane_width = self.control.map.lane_width
 
         pattern_i = randint(0, len(self.__patterns) - 1)
@@ -100,11 +96,7 @@ class MapGenerationSystem(System):
 
                 self.control.entities.add_entity(obstacle)
 
-        return len(pattern) * lane_width
-
-    def reset(self):
-        self.__wait_distance = 200
-        self.__last_z_pos = 0
+        self.__last_obstacle_z_pos += len(pattern) * lane_width
 
     @property
     def obstacle_map(self):

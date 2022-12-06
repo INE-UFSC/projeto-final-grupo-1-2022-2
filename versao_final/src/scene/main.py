@@ -34,7 +34,7 @@ class MainScene(Scene):
             MoveControlSystem(control),
             MoveSystem(control),
             CameraSystem(control),
-            MapGenerationSystem(control),
+            map_system := MapGenerationSystem(control),
             CollisionSystem(control),
             EntityDestructionSystem(control),
             ScoreSystem(control),
@@ -45,6 +45,7 @@ class MainScene(Scene):
         super().__init__(control, menus, systems)
 
         self.__render_system = render_system
+        self.__map_system = map_system
 
     def enter(self):
         if not self.__entered:
@@ -72,6 +73,8 @@ class MainScene(Scene):
 
             for system in self.systems:
                 system.setup()
+
+            self.__map_system.skip_tiles(3)
 
             super().enter()
 
