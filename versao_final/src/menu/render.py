@@ -43,7 +43,7 @@ class DefaultRender(Render):
 
     __screen: Screen
 
-    def __init__(self, screen: Screen, components: List[MenuComponent]) -> None:
+    def __init__(self, screen: Screen, components: List[List[MenuComponent]]) -> None:
         super().__init__(components)
         self.__screen = screen
 
@@ -72,7 +72,7 @@ class BackgroundRender(Render):
     def __init__(
         self,
         screen: Screen,
-        components: List[MenuComponent],
+        components: List[List[MenuComponent]],
         background_color: Union[pg.Color, str],
         menu_pos: pg.Vector2,
         menu_size: pg.Vector2,
@@ -135,7 +135,7 @@ class TransparencyBackgroundRender(Render):
     def __init__(
         self,
         screen: Screen,
-        components: List[MenuComponent],
+        components: List[List[MenuComponent]],
         background_color: Union[pg.Color, str],
         menu_pos: pg.Vector2,
         menu_size: pg.Vector2,

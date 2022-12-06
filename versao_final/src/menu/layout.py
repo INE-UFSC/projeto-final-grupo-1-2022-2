@@ -11,38 +11,6 @@ from .components import MenuComponent
 
 
 class Layout(ABC):
-    def __init__(
-        self,
-        components: List[List[MenuComponent]],
-        surface_size: pg.Vector2,
-        spacing: pg.Vector2 = pg.Vector2(50, 100),
-        padding: pg.Vector2 = pg.Vector2(50, 50),
-        center_x: bool = False,
-        center_y: bool = False,
-    ) -> None:
-        """
-        Layout utilizado para posicionar os componentes na tela
-
-        parâmetros:
-        - `components`: Matriz com os componentes que serão utilizados no menu. Cada linha da matriz corresponde à uma linha do menu;
-        - `surface_size`: tamanho da surface na qual o menu será renderizado. Na prática, sempre será a tela do jogo;
-        - `spacing`: espaçamento entre os componentes;
-        - `padding`: distancia entre os componentes e a borda da tela;
-        - `center_x`: centralizar o eixo x do menu na tela;
-        - `center_y`: centralizar o eixo y do menu na tela
-        """
-        ...
-
-    @abstractmethod
-    def center_x(self):
-        """centraliza os componentes do layout no eixo x"""
-        ...
-
-    @abstractmethod
-    def center_y(self):
-        """centraliza os componentes do layout no eixo y"""
-        ...
-
     @abstractmethod
     def get_all_components(self) -> List[MenuComponent]:
         ...
@@ -95,64 +63,37 @@ class GridLayout(Layout):
         for line in components:
             self.__lines.append(GridLine(line, self.__spacing))
 
-        self.__create_grid_layout()
-        if center_x:
-            self.center_x()
-        if center_y:
-            self.center_y()
+        x_boundary = surface_size[0] // 2 if center_x else padding[0]
+        y_boundary = surface_size[1] // 2 - (self.get_size().y - self.__padding.y*2) // 2 if center_y else padding[1]
 
-    def __create_grid_layout(self) -> None:
+        self.__create_grid_layout(x_boundary, y_boundary, center_x, center_y)
+
+    def __create_grid_layout(self, x_boundary: float, y_boundary: float, center_x: bool, center_y: bool) -> None:
         """
         cria um grid com os `components` por meio da
         alteração da posição destes
         """
-        for i, line in enumerate(self.__lines):
-            y_pos = self.__padding.y + i * self.__spacing.y
-            for j, component in enumerate(line.components.values()):
-                x_pos = self.__padding.x + j * self.__spacing.x
-                component.pos = (x_pos, y_pos)
-
-    def center_x(self):
-        """
-        centraliza os componentes no eixo x
-        """
-        for line in self.__lines:
-            prev_x_pos = 0
-            left_boundary = self.__surface_size.x // 2 - line.size.x // 2
-            for j, component in enumerate(line.components.values()):
-                if j == 0:
-                    component.pos = left_boundary
-                else:
-                    component.pos = (
-                        left_boundary + self.__spacing.x + prev_x_pos,
-                        component.pos.y,
-                    )
-                prev_x_pos = component.pos.x + component.size.x - left_boundary
-
-    def center_y(self):
-        """
-        centraliza os componentes no eixo y
-        """
-        line_y_sizes = [line.size.y + self.__spacing.y for line in self.__lines]
-        y_size = reduce(lambda x, y: x + y, line_y_sizes) - self.__spacing.y
-
-        top_boundary = self.__surface_size.y // 2 - y_size // 2
+        
         prev_y_pos = 0
-        for i, line in enumerate(self.__lines):
-            line_y_pos = 0
+        top_boundary = y_boundary
+        for line in self.__lines:
+            line_y_pos = 0 # posição do ponto mais baixpo do maior elemento da linha anterior + espaçamento
+            prev_x_pos = 0  # posição do ponto mais a direita do elemento anterior da linha + espaçamento
+
+            left_boundary = x_boundary
+            if center_x:
+                left_boundary = x_boundary - line.size.x // 2
+
             for component in line.components.values():
-                if i > 0:
-                    component.pos = (
-                        component.pos.x,
-                        top_boundary + self.__spacing.y + prev_y_pos,
-                    )
-                else:
-                    component.pos = (component.pos.x, top_boundary)
-                line_y_pos = max(
-                    component.pos.y + component.size.y - top_boundary, line_y_pos
+                component.pos = (
+                    left_boundary + prev_x_pos, top_boundary + prev_y_pos
                 )
 
+                prev_x_pos = component.pos.x + self.__spacing.x + component.size.x - left_boundary
+                line_y_pos = max(component.pos.y + self.__spacing.y + component.size.y - top_boundary, line_y_pos)
+            
             prev_y_pos = line_y_pos
+
 
     def get_all_components(self) -> List[MenuComponent]:
         components = []
