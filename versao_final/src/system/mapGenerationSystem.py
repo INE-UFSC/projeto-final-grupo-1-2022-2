@@ -4,6 +4,7 @@ from typing import Dict, List, Type
 
 from ..dao import MapDAO
 from ..entity import (
+    Background,
     BigBush,
     Bike,
     Bridge,
@@ -16,12 +17,14 @@ from ..entity import (
     Student,
     Water,
 )
+from ..components import RenderComponent
 from ..icontrol import IControl
 from .system import System
 
 
 class MapGenerationSystem(System):
     __last_obstacle_z_pos: int
+    __last_background_z_pos: int
     __patterns: List[List[str]]
     __obstacle_map: Dict[str, Type[Obstacle]]
 
@@ -29,6 +32,7 @@ class MapGenerationSystem(System):
         super().__init__(control)
 
         self.__last_obstacle_z_pos = 0
+        self.__last_background_z_pos = 0
 
         self.__obstacle_map = {
             "B": Bridge,
@@ -54,6 +58,7 @@ class MapGenerationSystem(System):
     
     def setup(self):
         self.__last_obstacle_z_pos = 0
+        self.__last_background_z_pos = 0
 
     def add_pattern(self, pattern):
         ...
@@ -68,8 +73,13 @@ class MapGenerationSystem(System):
         return ceil(z_pos / lane_width) * lane_width
 
     def update(self):
-        while self.z_pos > self.__last_obstacle_z_pos:
+        z_pos = self.z_pos
+
+        while z_pos > self.__last_obstacle_z_pos:
             self.spawn_obstacles()
+
+        while z_pos > self.__last_background_z_pos:
+            self.spawn_background()
         
     def skip_tiles(self, amount: int):
         self.__last_obstacle_z_pos += self.control.config.lane_width * amount
@@ -97,6 +107,19 @@ class MapGenerationSystem(System):
                 self.control.entities.add_entity(obstacle)
 
         self.__last_obstacle_z_pos += len(pattern) * lane_width
+
+    def spawn_background(self):
+        z = self.__last_background_z_pos
+        x = self.control.map.center
+
+        background = Background(pos=(x, -1, z))
+
+        render = background.get_component(RenderComponent)
+        background_height = render.size[1]
+
+        self.control.entities.add_entity(background)
+
+        self.__last_background_z_pos += background_height
 
     @property
     def obstacle_map(self):
