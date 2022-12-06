@@ -28,7 +28,6 @@ class StartMenu(Menu):
             ],
             [Button("Play")],
             [Button("Leaderboards")],
-            [Button("Settings")],
             [Button("Credits")],
             [Button("Quit")],
         ]

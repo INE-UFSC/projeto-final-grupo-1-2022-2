@@ -7,18 +7,13 @@ from .menu import Menu
 from .render import TransparencyBackgroundRender
 
 class PauseMenu(Menu):
-    __background_color = "black"
-    __background: pg.Surface
-
-    __transparent_layer: pg.Surface
-    __transparent_color = (40, 40, 40, 10)
 
     def __init__(self, control: IControl):
         components = [
             [
                 Button("Resume", size=(550, 50)),
             ],
-            [Button("Settings"), Button("Quit")],
+            [Button("Quit")],
         ]
 
         layout = GridLayout(
