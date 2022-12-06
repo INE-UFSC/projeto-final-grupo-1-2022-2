@@ -57,13 +57,6 @@ class MainScene(Scene):
             self.control.entities.set_player(player)
             self.control.entities.add_entity(player)
 
-            center_x = self.control.map.center
-            # soma a velocidade doplayer para compensar pelo movimento da câmera
-            player_z_velocity  = player.get_component(MoveComponent).velocity.z
-            z_pos = 1 + self.control.config.camera_y_offset + player_z_velocity * self.control.deltatime
-            background = Background(pos=(center_x, -1, z_pos))
-            self.control.entities.add_entity(background)
-
             camera = self.control.screen.cam
             offset = (
                 mid_lane_x - self.control.screen.size[0] // 2,

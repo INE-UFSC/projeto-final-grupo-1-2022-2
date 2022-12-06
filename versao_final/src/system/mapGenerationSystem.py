@@ -58,7 +58,7 @@ class MapGenerationSystem(System):
     
     def setup(self):
         self.__last_obstacle_z_pos = 0
-        self.__last_background_z_pos = 0
+        self.__last_background_z_pos = -self.control.screen.size[1]
 
     def add_pattern(self, pattern):
         ...
