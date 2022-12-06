@@ -1,3 +1,7 @@
+from ..config import Config
+
+import pygame as pg
+
 class Map:
     def __init__(self, lane_width: float, lane_amount: int, center_x: float = None):
         self.__lane_width = lane_width
@@ -45,3 +49,24 @@ class Map:
         min, max = self.total_boundary
 
         return min <= x <= max
+    
+    def get_default_surface(self):
+        size = Config().screen_size
+        surface = pg.Surface(size)
+
+        grass_color = pg.Color("#96fa2a")
+        lane_color = pg.Color("#f2cf4e")
+        line_color = pg.Color("#dbb939")
+
+        start_x = size[0] // 2 - self.total_width // 2
+
+        surface.fill(grass_color)
+
+        pg.draw.rect(surface, lane_color, (start_x, 0, self.total_width, size[1]))
+
+        pg.draw.line(surface, line_color, (start_x, 0), (start_x, size[1]), 3)
+        for _, right_x in self.lane_boundaries:
+            x = start_x + right_x
+            pg.draw.line(surface, line_color, (x, 0), (x, size[1]), 3)
+
+        return surface

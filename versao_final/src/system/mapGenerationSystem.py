@@ -112,7 +112,7 @@ class MapGenerationSystem(System):
         z = self.__last_background_z_pos
         x = self.control.map.center
 
-        background = Background(pos=(x, -1, z))
+        background = Background(pos=(x, -1, z), default_surface=self.control.map.get_default_surface)
 
         render = background.get_component(RenderComponent)
         background_height = render.size[1]
