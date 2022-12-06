@@ -1,4 +1,4 @@
-from ..components import (CollisionComponent, MoveComponent, RenderComponent,
+from ..components import (CollisionComponent, PosComponent, MoveComponent, RenderComponent,
                           SlideComponent)
 from ..dao import TextureDAO
 from ..library import CubeCollider, class_name
@@ -9,11 +9,12 @@ class Player(Entity):
     def __init__(self, pos):
         color = "#ff0000"
 
-        self.__move = MoveComponent(pos, (0, 0, 350))
+        pos_comp = PosComponent(pos)
+        self.__move = MoveComponent((0, 0, 350))
         self.__slide = SlideComponent()
 
-        collider_uncrouched = CubeCollider(self.__move.pos, (60, 110, 4))
-        collider_crouched = CubeCollider(self.__move.pos, (60, 55, 4))
+        collider_uncrouched = CubeCollider(pos_comp.value, (60, 110, 4))
+        collider_crouched = CubeCollider(pos_comp.value, (60, 55, 4))
 
         self.__collision = {
             "crouched": CollisionComponent(collider_crouched),
@@ -26,7 +27,7 @@ class Player(Entity):
         self.__render = RenderComponent(surface)
 
         super().__init__(
-            self.__render, self.__move, self.__collision["uncrouched"], self.__slide
+            self.__render, pos_comp, self.__move, self.__collision["uncrouched"], self.__slide
         )
 
         self.__is_crouched = False

@@ -1,5 +1,5 @@
 from ..dao import LeaderboardDAO
-from .moveSystem import MoveComponent
+from .moveSystem import PosComponent
 from .system import System
 
 
@@ -8,7 +8,7 @@ class ScoreSystem(System):
 
     def update(self):
         player = self.control.entities.player
-        player_pos = player.get_component(MoveComponent).pos
+        player_pos = player.get_component(PosComponent).value
 
         score = int((player_pos.z) / 100)
         player_name = LeaderboardDAO().get_player_name()

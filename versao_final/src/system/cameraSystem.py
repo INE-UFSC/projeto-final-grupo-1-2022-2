@@ -1,4 +1,4 @@
-from ..components import MoveComponent
+from ..components import PosComponent
 from .system import System
 
 
@@ -7,6 +7,6 @@ class CameraSystem(System):
         player = self.control.entities.player
         camera = self.control.screen.cam
 
-        z_pos = player.get_component(MoveComponent).pos.z
+        z_pos = player.get_component(PosComponent).value.z
 
         camera.update((0, z_pos))

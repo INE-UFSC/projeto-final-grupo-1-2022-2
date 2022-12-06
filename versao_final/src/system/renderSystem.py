@@ -2,9 +2,10 @@ from functools import cmp_to_key
 
 import pygame as pg
 
-from ..components import CollisionComponent, MoveComponent, RenderComponent
+from ..components import CollisionComponent, PosComponent, RenderComponent
 from ..entity import Entity
 from .system import System
+from ..library import class_name
 
 
 def compare_pos(a: Entity, b: Entity) -> int:
@@ -22,10 +23,10 @@ def compare_pos(a: Entity, b: Entity) -> int:
 
         return B.z_max - A.z_max
 
-    move_a = a.get_component(MoveComponent)
-    move_b = b.get_component(MoveComponent)
+    pos_a = a.get_component(PosComponent)
+    pos_b = b.get_component(PosComponent)
 
-    return move_b.pos.y - move_a.pos.y
+    return pos_a.value.y - pos_b.value.y
 
 
 class RenderSystem(System):
@@ -35,15 +36,16 @@ class RenderSystem(System):
         ctl = self.control
         screen = ctl.screen
 
-        entities = ctl.entities.get_all_with(RenderComponent, MoveComponent)
+        entities = ctl.entities.get_all_with(RenderComponent, PosComponent)
         entities = sorted(entities, key=cmp_to_key(compare_pos))
+
         screen.display.fill(pg.Color("#0bf502"))
 
         for entity in entities:
             render = entity.get_component(RenderComponent)
-            move = entity.get_component(MoveComponent)
+            pos = entity.get_component(PosComponent)
 
-            origin = screen.get_pos(move.pos)
+            origin = screen.get_pos(pos.value)
             dest_pos = (origin[0] - render.origin[0], origin[1] - render.origin[1])
 
             screen.display.blit(render.surface, dest_pos)

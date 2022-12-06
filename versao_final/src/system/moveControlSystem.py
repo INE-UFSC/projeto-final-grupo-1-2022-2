@@ -1,6 +1,6 @@
 import pygame as pg
 
-from ..components import MoveComponent, SlideComponent
+from ..components import PosComponent, MoveComponent, SlideComponent
 from ..library import Listener
 from .system import System
 
@@ -60,12 +60,12 @@ class MoveControlSystem(System):
         player = self.control.entities.player
 
         slide = player.get_component(SlideComponent)
-        move = player.get_component(MoveComponent)
+        pos = player.get_component(PosComponent)
 
         if self.__next_move and not slide.active:
             delta_x, duration = self.__next_move
 
-            start_x = move.pos.x
+            start_x = pos.value.x
             end_x = start_x + delta_x
 
             if self.control.map.is_inside(end_x):
@@ -76,7 +76,7 @@ class MoveControlSystem(System):
         if slide.active:
             slide.add_progress(self.control.deltatime)
 
-            move.pos.x = slide.get_interpolated_x()
+            pos.value.x = slide.get_interpolated_x()
 
             if slide.done:
                 slide.reset()
