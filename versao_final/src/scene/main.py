@@ -19,7 +19,7 @@ from ..system import (
     SpeedSystem,
 )
 from .scene import Scene
-
+from ..components import MoveComponent
 
 class MainScene(Scene):
     __paused: bool
@@ -57,7 +57,10 @@ class MainScene(Scene):
             self.control.entities.add_entity(player)
 
             center_x = self.control.map.center
-            background = Background(pos=(center_x, -100, -65))
+            # soma a velocidade doplayer para compensar pelo movimento da câmera
+            player_z_velocity  = player.get_component(MoveComponent).velocity.z
+            z_pos = 1 + self.control.config.camera_y_offset + player_z_velocity * self.control.deltatime
+            background = Background(pos=(center_x, -1, z_pos))
             self.control.entities.add_entity(background)
 
             camera = self.control.screen.cam
