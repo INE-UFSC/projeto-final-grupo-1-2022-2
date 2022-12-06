@@ -12,12 +12,11 @@ class ScoreSystem(System):
 
         score = int((player_pos.z) / 100)
         player_name = LeaderboardDAO().get_player_name()
+        if player_name is None:
+            player_name = self.control.config.default_player_name
         difficulty = self.control.config.difficulty
 
         LeaderboardDAO().set_player_score(score)
 
         if score > LeaderboardDAO().get_player_highscore(player_name, difficulty):
-            self.__leaderboard.update(player_name,difficulty,score)
-    
-
-
+            self.__leaderboard.update(player_name, difficulty, score)

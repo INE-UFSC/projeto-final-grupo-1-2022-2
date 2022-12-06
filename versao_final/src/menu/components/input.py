@@ -60,7 +60,7 @@ class InputText(MenuComponent):
             elif self.is_pressed and not self.is_inside(event.pos):
                 self.__is_pressed = False
                 self.surface.fill(self.__color)
-            
+
             self.dirty = True
 
     @Listener.on(pg.KEYDOWN)
@@ -90,7 +90,7 @@ class InputText(MenuComponent):
             screen.blit(self.surface, self.pos)
             if self.__text is not None:
                 self.__text.fresh_render(screen)
-            
+
             self.dirty = False
 
     def __left_align_text(self):
@@ -103,7 +103,7 @@ class InputText(MenuComponent):
         text_size = self.__text.size
 
         new_pos = (
-            center_left.x - text_size.x // 2,
+            self.pos.x + 10,
             center_left.y - text_size.y // 2,
         )
         self.__text.pos = new_pos
