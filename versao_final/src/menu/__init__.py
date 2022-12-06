@@ -5,6 +5,7 @@ from .main import GameplayMenu
 from .menu import Menu
 from .pause import PauseMenu
 from .start import StartMenu
+from .credits import CreditsMenu
 
 __all__ = [
     "Menu",
@@ -16,4 +17,5 @@ __all__ = [
     "PauseMenu",
     "EndMenu",
     "LeaderBoardMenu",
+    "CreditsMenu",
 ]
