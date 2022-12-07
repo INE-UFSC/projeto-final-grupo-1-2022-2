@@ -72,16 +72,11 @@ class MainScene(Scene):
             super().enter()
 
     def update(self):
-
         if not self.__paused:
             for system in self.systems:
                 system.update()
 
-        if self.next_scene is not None:
-            self.control.transition(self.next_scene)
-            self.next_scene = None
-
-        self.current_menu.update()
+        super().update()
 
     def render(self):
         if self.current_menu is not None:
@@ -117,13 +112,13 @@ class MainScene(Scene):
             if self.__paused:
                 self.__resume()
             else:
-                self.current_menu = self.menus["pause"]
+                self.next_menu = self.menus["pause"]
                 self.__paused = True
 
     @Listener.on("Resume")
     def __resume(self):
         self.__paused = False
-        self.current_menu = self.menus["gameplay"]
+        self.next_menu = self.menus["gameplay"]
 
     @Listener.on("Quit")
     def __stop_running(self):

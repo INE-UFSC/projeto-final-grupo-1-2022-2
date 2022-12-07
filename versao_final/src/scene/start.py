@@ -21,20 +21,10 @@ class StartScene(Scene):
         super().enter()
 
     def update(self):
-        self.current_menu.update()
-        if self.next_scene is not None:
-            self.control.transition(self.next_scene)
-            self.next_scene = None
+        if self.current_menu and self.next_menu:
+            self.__render_background() # renderiza o background quando o menu atual é mudado
 
-        if self.next_menu is not None:
-            self.current_menu.leave()
-            self.__render_background()
-
-            self.current_menu = self.next_menu
-            self.next_menu = None
-
-            self.current_menu.enter()
-            self.current_menu.fresh_render()
+        super().update()
 
     def render(self):
         if self.current_menu is not None:

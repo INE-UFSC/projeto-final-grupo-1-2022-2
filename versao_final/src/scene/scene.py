@@ -76,9 +76,22 @@ class Scene(Listener, ABC):
         if self.current_menu is not None:
             self.current_menu.leave()
 
-    @abstractmethod
     def update(self):
-        ...
+        if self.current_menu:
+            self.current_menu.update()
+        
+        if self.next_scene is not None:
+            self.control.transition(self.next_scene)
+            self.next_scene = None
+        
+        if self.next_menu and self.current_menu:
+            self.current_menu.leave()
+
+            self.current_menu = self.next_menu
+            self.next_menu = None
+
+            self.current_menu.enter()
+            self.current_menu.fresh_render()
 
     def render(self):
         self.__current_menu.render()

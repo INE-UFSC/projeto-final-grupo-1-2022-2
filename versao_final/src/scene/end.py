@@ -18,10 +18,6 @@ class EndScene(Scene):
         self.current_menu = self.menus["end"]
         super().enter()
 
-    def update(self):
-        if self.next_scene is not None:
-            self.control.transition(self.next_scene)
-            self.next_scene = None
 
     @Listener.on("Play")
     def __play_again(self):
