@@ -1,12 +1,16 @@
+from random import choice
+from typing import Callable, List
 import pygame as pg
 
 from ..components import CollisionComponent, PosComponent, MoveComponent, RenderComponent
-from ..library import CubeCollider, class_name
+from ..library import CubeCollider, class_name, snake_case
 from ..dao import TextureDAO
 from .entity import Entity
 
 
 class Obstacle(Entity):
+    _textures = None
+
     def __init__(
         self,
         pos,
@@ -24,12 +28,26 @@ class Obstacle(Entity):
         collision = CollisionComponent(collider, climb_height)
 
         if surface is None:
-            texture_path = f"{class_name(self)}.png"
-            surface = TextureDAO().load(texture_path, lambda: collider.get_surface(color))
+            surface = self.get_texture(lambda: collider.get_surface(color))
 
         render = RenderComponent(surface, alpha=alpha)
 
         super().__init__(pos_comp, move, collision, render)
+    
+    @classmethod
+    def get_texture(cls, default: Callable[..., pg.Surface]):
+        name = snake_case(cls.__name__)
+
+        if cls._textures is None:
+            cls._textures = TextureDAO().load_many(name)
+
+        surface = choice(cls._textures) if cls._textures else None
+
+        if surface is None:
+            texture_path = f"{name}.png"
+            surface = TextureDAO().load(texture_path, default)
+        
+        return surface
 
 
 class Handrail(Obstacle):

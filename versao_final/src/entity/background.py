@@ -1,5 +1,5 @@
 from typing import Callable, Tuple, List, Union
-from random import randint
+from random import choice
 import pygame as pg
 
 from ..components import (
@@ -21,8 +21,7 @@ class Background(Entity):
         pos = PosComponent(pos)
 
         if self.__textures:
-            i = randint(0, len(self.__textures) - 1)
-            surface = self.__textures[i]
+            surface = choice(self.__textures)
         else:
             surface = TextureDAO().load("background/default.png", default_surface)
 
