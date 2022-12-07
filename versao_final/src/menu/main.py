@@ -53,3 +53,4 @@ class GameplayMenu(Menu):
         speed = self.get_component("speed")
         speed.set_message("Speed: 10 km/h")
         self.__current_speed = 10
+        super().leave()

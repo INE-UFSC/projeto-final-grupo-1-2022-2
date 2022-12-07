@@ -32,3 +32,4 @@ class EndMenu(Menu):
         player_score = LeaderboardDAO().get_player_score()
         score = self.get_component("score")
         score.set_message(f"Score: {player_score}")
+        super().enter()

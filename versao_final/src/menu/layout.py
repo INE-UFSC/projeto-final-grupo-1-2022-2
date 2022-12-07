@@ -1,13 +1,11 @@
 from abc import ABC, abstractmethod
+from typing import Tuple, List,Dict
 from functools import reduce
-from typing import Dict, List
 
 import pygame as pg
 
 from .components import MenuComponent
 
-# TODO
-# arrumar os cálculos do GridLayout
 
 
 class Layout(ABC):
@@ -42,6 +40,7 @@ class GridLayout(Layout):
         padding: pg.Vector2 = pg.Vector2(50, 50),
         center_x: bool = False,
         center_y: bool = False,
+        pos: Tuple[int,int] = None
     ) -> None:
         """
         Layout grid utilizado para posicionar os componentes na tela
@@ -53,6 +52,7 @@ class GridLayout(Layout):
         - `padding`: distancia entre os componentes e a borda da tela;
         - `center_x`: centralizar o eixo x do menu na tela;
         - `center_y`: centralizar o eixo y do menu na tela
+        - `pos`: posição do ponto mais alto e à esquerda do menu
         """
 
         self.__spacing = pg.Vector2(spacing)
@@ -63,8 +63,13 @@ class GridLayout(Layout):
         for line in components:
             self.__lines.append(GridLine(line, self.__spacing))
 
-        x_boundary = surface_size[0] // 2 if center_x else padding[0]
-        y_boundary = surface_size[1] // 2 - (self.get_size().y - self.__padding.y*2) // 2 if center_y else padding[1]
+        if pos is None:
+            x_boundary = surface_size[0] // 2 if center_x else padding[0]
+            y_boundary = surface_size[1] // 2 - (self.get_size().y - self.__padding.y*2) // 2 if center_y else padding[1]
+        else:
+            size = self.get_size()
+            x_boundary = pos[0] + size.x // 2 if center_x else pos[0]
+            y_boundary = pos[1] + padding[1]
 
         self.__create_grid_layout(x_boundary, y_boundary, center_x, center_y)
 

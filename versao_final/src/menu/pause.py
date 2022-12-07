@@ -10,9 +10,8 @@ class PauseMenu(Menu):
 
     def __init__(self, control: IControl):
         components = [
-            [
-                Button("Resume", size=(550, 50)),
-            ],
+            [Text("Paused",font_size=48)],
+            [Button("Resume")],
             [Button("Quit")],
         ]
 
@@ -23,6 +22,6 @@ class PauseMenu(Menu):
             center_y=True,
         )
 
-        render = TransparencyBackgroundRender(control.screen, components, (0,0,0), layout.get_pos(), layout.get_size(), (40,40,40,10), True)
+        render = TransparencyBackgroundRender(control.screen, components, (0,0,0), layout.get_pos(), layout.get_size(), (40,40,40,10),True)
 
         super().__init__(control, layout, render)

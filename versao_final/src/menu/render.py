@@ -5,6 +5,7 @@ import pygame as pg
 
 from ..library import Screen
 from .components import MenuComponent
+from time import time
 
 class Render(ABC):
     """
@@ -66,8 +67,10 @@ class BackgroundRender(Render):
     __bg_color: pg.Color
     __pos: pg.Vector2
     __size: pg.Vector2
-    __fade_in: bool
+    __fade: bool
     __rendered: bool = False
+    __fade_duration: float
+    __fade_start: float
 
     def __init__(
         self,
@@ -76,7 +79,8 @@ class BackgroundRender(Render):
         background_color: Union[pg.Color, str],
         menu_pos: pg.Vector2,
         menu_size: pg.Vector2,
-        fade_in: bool = False
+        fade: bool = False,
+        fade_duration: float = 0.5
     ) -> None:
         super().__init__(components)
         self.__screen = screen
@@ -84,27 +88,27 @@ class BackgroundRender(Render):
         self.__bg_color = pg.Color(background_color)
         self.__pos = menu_pos
         self.__size = menu_size
-        self.__fade_in = fade_in
+        self.__fade = fade
+        self.__fade_duration = fade_duration
+        self.__fade_start = 0
 
 
     def render(self):
         screen = self.__screen.display
         bg = self.__bg
-        
-        if not self.__fade_in and not self.__rendered:
-            bg.fill(self.__bg_color)
-            screen.blit(bg, self.__pos)
 
-        if self.__fade_in:
+        render_with_fade = self.__fade and time() - self.__fade_start < self.__fade_duration
+        render_once_without_fade = not self.__fade and not self.__rendered
+
+        if render_with_fade or render_once_without_fade:
             bg.fill(self.__bg_color)
             screen.blit(bg, self.__pos)
-        
 
         for component in self._components:
-            if self.__rendered and not self.__fade_in:
-                component.render(screen)
-            else:
+            if render_with_fade or render_once_without_fade:
                 component.fresh_render(screen)
+            else:
+                component.render(screen)
 
         self.__rendered = True
 
@@ -114,6 +118,10 @@ class BackgroundRender(Render):
 
     def reset(self):
         self.__rendered = False
+        self.__fade_start = 0
+
+    def setup(self):
+        self.__fade_start = time()
 
 
 
@@ -127,10 +135,12 @@ class TransparencyBackgroundRender(Render):
     __bg_color: pg.Color
     __transparent_layer: pg.Surface
     __transparent_color: pg.Color
-    __transparent_layer_fade_in: bool
+    __transparent_layer_fade: bool
     __pos: pg.Vector2
     __size: pg.Vector2
     __rendered: bool = False
+    __fade_duration: float
+    __fade_start: float
 
     def __init__(
         self,
@@ -140,7 +150,8 @@ class TransparencyBackgroundRender(Render):
         menu_pos: pg.Vector2,
         menu_size: pg.Vector2,
         transparency_color: Union[pg.Color, Tuple[int, int, int, int]],
-        transparency_layer_fade_in: bool = False
+        transparency_layer_fade: bool = False,
+        fade_duration: int = 0.6
     ) -> None:
         super().__init__(components)
         self.__screen = screen
@@ -148,27 +159,31 @@ class TransparencyBackgroundRender(Render):
         self.__bg_color = pg.Color(background_color)
         self.__transparent_layer = pg.Surface(screen.size, pg.SRCALPHA)
         self.__transparent_color = pg.Color(transparency_color)
-        self.__transparent_layer_fade_in = transparency_layer_fade_in
+        self.__transparent_layer_fade = transparency_layer_fade
         self.__pos = menu_pos
         self.__size = menu_size
+        self.__fade_duration = fade_duration
+        self.__fade_start = 0
+        
 
     def render(self):
-        if self.__transparent_layer_fade_in:
-            self.__transparent_layer.fill(self.__transparent_color)
-            self.__bg.fill(self.__bg_color)
-            self.__transparent_layer.blit(self.__bg, self.__pos)
+        render_with_fade = self.__transparent_layer_fade and time() - self.__fade_start < self.__fade_duration
+        render_once_without_fade = not self.__transparent_layer_fade and not self.__rendered
         
-        elif not self.__transparent_layer_fade_in and not self.__rendered:
+        if render_with_fade or render_once_without_fade:   
+            # renderiza apenas uma vez caso não haja fade ou várias se houver
             self.__transparent_layer.fill(self.__transparent_color)
             self.__bg.fill(self.__bg_color)
             self.__transparent_layer.blit(self.__bg, self.__pos)
+            self.__screen.display.blit(self.__transparent_layer, (0, 0))
+
 
         for component in self._components:
-            if self.__rendered and not self.__transparent_layer_fade_in:
-                component.render(self.__transparent_layer)
+            if render_with_fade or render_once_without_fade:
+                component.fresh_render(self.__screen.display)
             else:
-                component.fresh_render(self.__transparent_layer)
-        self.__screen.display.blit(self.__transparent_layer, (0, 0))
+                component.render(self.__screen.display)
+        
         self.__rendered = True
 
     def fresh_render(self):
@@ -177,3 +192,7 @@ class TransparencyBackgroundRender(Render):
 
     def reset(self):
         self.__rendered = False
+        self.__fade_start = 0
+
+    def setup(self):
+        self.__fade_start = time()
