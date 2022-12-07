@@ -34,6 +34,37 @@ class TextureDAO(ResourceDAO):
 
         return self._cache.get(path)
 
+    def load_many(self, directory_path: Union[str, Tuple[str]]):
+        dir_path = self.get_path(directory_path)
+
+        loaded = []
+
+        for path in Path(dir_path).glob("*.png"):
+            texture = self.load(path)
+
+            if texture:
+                loaded.append(texture)
+        
+        return loaded
+    
+    def load_sequence(
+        self,
+        directory_path: Union[str, Tuple[str]],
+        amount: int,
+        default: Union[pg.Surface, Callable[..., pg.Surface]] = None,
+    ):
+        path = Path(self.get_path(directory_path))
+
+        sequence = []
+
+        for i in range(amount):
+            texture = self.load(path / f"{i}.png", default)
+
+            sequence.append(texture)
+        
+        return sequence
+
+
     def save(self, relative_path: Union[str, Tuple[str]], surface: pg.Surface):
         path = self.get_path(relative_path)
         

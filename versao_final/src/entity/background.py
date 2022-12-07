@@ -1,4 +1,5 @@
-from typing import Callable, Tuple, Union
+from typing import Callable, Tuple, List, Union
+from random import randint
 import pygame as pg
 
 from ..components import (
@@ -10,6 +11,8 @@ from .entity import Entity
 
 
 class Background(Entity):
+    __textures: List[pg.Surface] = TextureDAO().load_many("background")
+
     def __init__(
         self,
         pos: Tuple[int, int, int] = (0, -1, 0),
@@ -17,10 +20,12 @@ class Background(Entity):
     ):
         pos = PosComponent(pos)
 
-        # size = surface.get_size()
-        # origin = (size[0] // 2.78, size[1] // 1.093)
+        if self.__textures:
+            i = randint(0, len(self.__textures) - 1)
+            surface = self.__textures[i]
+        else:
+            surface = TextureDAO().load("background/default.png", default_surface)
 
-        surface = TextureDAO().load("background/default.png", default_surface)
         render = RenderComponent(surface)
 
         super().__init__(pos, render)
