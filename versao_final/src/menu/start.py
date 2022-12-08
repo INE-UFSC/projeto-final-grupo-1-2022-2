@@ -39,7 +39,8 @@ class StartMenu(Menu):
             center_x=True,
             center_y=True,
             spacing=(50, 50),
-            pos=(50,None)
+            pos=(50,None),
+            padding=(25,25)
         )
 
         render = BackgroundRender(control.screen, components, (0,0,0,175), layout.get_pos(), layout.get_size())
