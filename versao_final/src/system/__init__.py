@@ -7,9 +7,11 @@ from .moveSystem import MoveSystem
 from .renderSystem import RenderSystem
 from .scoreSystem import ScoreSystem
 from .speedSystem import SpeedSystem
+from .animationSystem import AnimationSystem
 from .system import System
 
 __all__ = [
+    "AnimationSystem",
     "System",
     "RenderSystem",
     "MoveSystem",

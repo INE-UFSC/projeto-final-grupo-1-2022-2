@@ -17,6 +17,7 @@ from ..system import (
     RenderSystem,
     ScoreSystem,
     SpeedSystem,
+    AnimationSystem,
 )
 from .scene import Scene
 from ..components import MoveComponent
@@ -39,6 +40,7 @@ class MainScene(Scene):
             EntityDestructionSystem(control),
             ScoreSystem(control),
             SpeedSystem(control),
+            AnimationSystem(control),
             render_system := RenderSystem(control),
         ]
 

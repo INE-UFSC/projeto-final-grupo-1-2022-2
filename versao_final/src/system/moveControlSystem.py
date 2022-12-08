@@ -27,6 +27,7 @@ class MoveControlSystem(System):
             player.uncrouch()
 
         move.velocity.y = self.control.config.jump_force
+        self.control.event.emit("player_jump", player)
 
     @Listener.on(pg.KEYDOWN)
     def down(self, event: pg.event.Event):

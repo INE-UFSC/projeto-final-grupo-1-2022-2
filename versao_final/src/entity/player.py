@@ -1,7 +1,7 @@
 from ..components import (CollisionComponent, PosComponent, MoveComponent, RenderComponent,
                           SlideComponent)
 from ..dao import TextureDAO
-from ..library import CubeCollider, class_name
+from ..library import CubeCollider
 from .entity import Entity
 
 
@@ -21,13 +21,16 @@ class Player(Entity):
             "uncrouched": CollisionComponent(collider_uncrouched),
         }
 
-        texture_path = f"{class_name(self)}.png"
-        surface = TextureDAO().load(texture_path, lambda: collider_uncrouched.get_surface(color))
-
-        self.__render = RenderComponent(surface)
+        txt_dao = TextureDAO()
+        render = RenderComponent(
+            alpha=True,
+            default=txt_dao.load("player/standing.png", collider_uncrouched.get_surface(color)),
+            running=txt_dao.load_sequence("player/running", 4),
+            jumping=txt_dao.load("player/jumping.png")
+        )
 
         super().__init__(
-            self.__render, pos_comp, self.__move, self.__collision["uncrouched"], self.__slide
+            render, pos_comp, self.__move, self.__collision["uncrouched"], self.__slide
         )
 
         self.__is_crouched = False

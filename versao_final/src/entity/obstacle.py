@@ -30,7 +30,7 @@ class Obstacle(Entity):
         if surface is None:
             surface = self.get_texture(lambda: collider.get_surface(color))
 
-        render = RenderComponent(surface, alpha=alpha)
+        render = RenderComponent(alpha, default=surface)
 
         super().__init__(pos_comp, move, collision, render)
     

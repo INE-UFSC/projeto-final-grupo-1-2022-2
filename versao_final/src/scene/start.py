@@ -2,6 +2,7 @@ from ..dao import LeaderboardDAO
 from ..icontrol import IControl
 from ..library import Listener
 from ..menu import LeaderBoardMenu, StartMenu, CreditsMenu
+from ..components import RenderComponent
 from .scene import Scene
 
 
@@ -18,6 +19,7 @@ class StartScene(Scene):
     def enter(self):
         self.current_menu = self.menus["start"]
         self.__render_background()
+        self.control.entities.player.get_component(RenderComponent).set_frame("default")
         super().enter()
 
     def update(self):

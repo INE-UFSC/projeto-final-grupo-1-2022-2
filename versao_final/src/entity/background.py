@@ -25,6 +25,6 @@ class Background(Entity):
         else:
             surface = TextureDAO().load("background/default.png", default_surface)
 
-        render = RenderComponent(surface)
+        render = RenderComponent(default=surface)
 
         super().__init__(pos, render)

@@ -62,7 +62,7 @@ class TextureDAO(ResourceDAO):
 
             sequence.append(texture)
         
-        return sequence
+        return tuple(sequence)
 
 
     def save(self, relative_path: Union[str, Tuple[str]], surface: pg.Surface):
