@@ -1,7 +1,7 @@
 from ..dao import LeaderboardDAO
 from ..icontrol import IControl
 from ..library import Listener
-from ..menu import LeaderBoardMenu, StartMenu, CreditsMenu
+from ..menu import LeaderBoardMenu, StartMenu, CreditsMenu, TutorialMenu
 from ..components import RenderComponent
 from .scene import Scene
 
@@ -12,6 +12,7 @@ class StartScene(Scene):
             "start": StartMenu(control),
             "leaderboards": LeaderBoardMenu(control),
             "credits": CreditsMenu(control),
+            "tutorial": TutorialMenu(control),
         }
 
         super().__init__(control, menus, [])
@@ -51,6 +52,10 @@ class StartScene(Scene):
     @Listener.on("Credits")
     def __to_credits(self):
         self.next_menu = self.menus["credits"]
+
+    @Listener.on("Tutorial")
+    def __to_tutorial(self):
+        self.next_menu = self.menus["tutorial"]
 
     @Listener.on("Quit")
     def __stop_running(self):

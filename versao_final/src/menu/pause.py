@@ -10,7 +10,7 @@ class PauseMenu(Menu):
 
     def __init__(self, control: IControl):
         components = [
-            [Text("Paused",font_size=48)],
+            [Text("Paused",font_size=36)],
             [Button("Resume")],
             [Button("Quit")],
         ]
@@ -20,6 +20,8 @@ class PauseMenu(Menu):
             pg.Vector2(control.screen.size),
             center_x=True,
             center_y=True,
+            padding=(100,50),
+            pos=(50,None)
         )
 
         render = TransparencyBackgroundRender(control.screen, components, (0,0,0), layout.get_pos(), layout.get_size(), (40,40,40,10),True)

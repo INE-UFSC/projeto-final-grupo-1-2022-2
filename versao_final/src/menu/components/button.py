@@ -131,17 +131,14 @@ class Button(MenuComponent):
     def label(self):
         return self.__label
 
-    @property
-    def pos(self):
-        return self.__pos
 
     @property
     def on_click(self):
         return self.__on_click
 
-    @pos.setter
+    @MenuComponent.pos.setter
     def pos(self, pos):
-        self.__pos = pg.Vector2(pos)
+        self._pos = pg.Vector2(pos)
         self.__text.pos = pg.Vector2(pos)
 
         self.__center_text()

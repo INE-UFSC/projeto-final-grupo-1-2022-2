@@ -22,14 +22,15 @@ class StartMenu(Menu):
                     player_name,
                     key="player_name",
                     color="#2A344F",
-                    size=(300, 25),
+                    size=(250, 25),
                     word_limit=23,
                 ),
             ],
-            [Button("Play")],
-            [Button("Leaderboards")],
-            [Button("Credits")],
-            [Button("Quit")],
+            [Button("Play",size=(200,50))],
+            [Button("Leaderboards",size=(200,50))],
+            [Button("Tutorial",size=(200,50))],
+            [Button("Credits",size=(200,50))],
+            [Button("Quit",size=(200,50))],
         ]
 
         layout = GridLayout(
@@ -38,6 +39,7 @@ class StartMenu(Menu):
             center_x=True,
             center_y=True,
             spacing=(50, 50),
+            pos=(50,None)
         )
 
         render = BackgroundRender(control.screen, components, (0,0,0,175), layout.get_pos(), layout.get_size())

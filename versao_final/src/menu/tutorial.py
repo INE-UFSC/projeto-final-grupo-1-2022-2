@@ -1,23 +1,22 @@
 import pygame as pg
 
 from ..icontrol import IControl
-from .components import Button, InputText, Text
+from .components import Button, InputText, Text, Image
 from .layout import GridLayout
 from .menu import Menu
 from .render import BackgroundRender
 
 
-class CreditsMenu(Menu):
+class TutorialMenu(Menu):
     def __init__(self, control: IControl):
         
         components = [
-            [Text("Corre Pro RU Credits", font_size=64,spacing=(0,10))],
-            [Text("Benedek Uzoma Kovács", font_size=24)],
-            [Text("Enzo da Rosa Brum", font_size=24)],
-            [Text("Joāo Pedro Schmidt Cordeiro", font_size=24)],
-            [Text("William Kraus", font_size=24)],
-            [Button("Return to start menu")],
-            
+            [Text("How to PLAY:", font_size=64,spacing=(0,10))],
+            [Text("Use the arrow keys to control your player:", font_size=24), Image("menu/arrowk.png")],
+            [Text("Dodge or jump the obstacles in the 3 lanes! ", font_size=24)],
+            [Text("Press ESC to pause the game", font_size=24)],
+            [Text("Have fun!", font_size=24)],
+            [Button("Return to start menu")], 
         ]
 
         layout = GridLayout(

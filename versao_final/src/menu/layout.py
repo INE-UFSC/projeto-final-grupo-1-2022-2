@@ -68,8 +68,8 @@ class GridLayout(Layout):
             y_boundary = surface_size[1] // 2 - (self.get_size().y - self.__padding.y*2) // 2 if center_y else padding[1]
         else:
             size = self.get_size()
-            x_boundary = pos[0] + size.x // 2 if center_x else pos[0]
-            y_boundary = pos[1] + padding[1]
+            x_boundary = pos[0] + size.x // 2 if center_x else pos[0] + padding[0]
+            y_boundary = surface_size[1] // 2 - (size.y - padding[1]*2) // 2 if center_y and pos[1] == None else  pos[1] + padding[1]
 
         self.__create_grid_layout(x_boundary, y_boundary, center_x, center_y)
 
@@ -90,9 +90,10 @@ class GridLayout(Layout):
                 left_boundary = x_boundary - line.size.x // 2
 
             for component in line.components.values():
-                component.pos = (
-                    left_boundary + prev_x_pos, top_boundary + prev_y_pos
-                )
+                if component.pos is None:
+                    component.pos = (
+                        left_boundary + prev_x_pos, top_boundary + prev_y_pos
+                    )
 
                 prev_x_pos = component.pos.x + self.__spacing.x + component.size.x + component.spacing.x - left_boundary
                 line_y_pos = max(component.pos.y + self.__spacing.y + component.size.y + component.spacing.y - top_boundary, line_y_pos)

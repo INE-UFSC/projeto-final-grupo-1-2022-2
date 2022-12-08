@@ -6,6 +6,7 @@ from .menu import Menu
 from .pause import PauseMenu
 from .start import StartMenu
 from .credits import CreditsMenu
+from.tutorial import TutorialMenu
 
 __all__ = [
     "Menu",
@@ -18,4 +19,5 @@ __all__ = [
     "EndMenu",
     "LeaderBoardMenu",
     "CreditsMenu",
+    "TutorialMenu",
 ]

@@ -7,7 +7,7 @@ from ...library import Listener
 
 
 class MenuComponent(Listener, ABC):
-    __pos: Union[pg.Vector2, None]
+    _pos: Union[pg.Vector2, None]
     __surface: pg.Surface
     __size: pg.Vector2
     __event: Listener
@@ -26,15 +26,15 @@ class MenuComponent(Listener, ABC):
     ):
         super().__init__()
         self.__surface = surface
-        self.__pos = pg.Vector2(pos) if pos is not None else pos
+        self._pos = pg.Vector2(pos) if pos is not None else pos
         self.__size = pg.Vector2(size)
         self.__event = event_emitter
         self.__key = key
         self.__spacing = pg.Vector2(0,0) if spacing is None else pg.Vector2(spacing)
 
     def render(self, screen: pg.Surface):
-        if self.__pos is not None and self.__dirty:
-            screen.blit(self.__surface, self.__pos)
+        if self._pos is not None and self.__dirty:
+            screen.blit(self.__surface, self._pos)
             self.__dirty = False
     def fresh_render(self, screen: pg.Surface):
         self.__dirty = True
@@ -70,7 +70,7 @@ class MenuComponent(Listener, ABC):
 
     @property
     def pos(self):
-        return self.__pos
+        return self._pos
 
     @property
     def key(self):
@@ -85,7 +85,7 @@ class MenuComponent(Listener, ABC):
 
     @pos.setter
     def pos(self, pos: pg.Vector2):
-        self.__pos = pg.Vector2(pos)
+        self._pos = pg.Vector2(pos)
         self.dirty = True
     @dirty.setter
     def dirty(self, dirty: bool):
