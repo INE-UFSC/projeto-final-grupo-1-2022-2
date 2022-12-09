@@ -49,7 +49,7 @@ class EntityManager:
             new_entities = self.__entities.get(component, set())
 
             if not returned_entities:
-                returned_entities = new_entities
+                returned_entities = new_entities.copy()
                 continue
 
             returned_entities = returned_entities.intersection(new_entities)
