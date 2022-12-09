@@ -14,6 +14,5 @@ class CollisionSystem(System):
 
             result = player_shape.test(entity_shape)
             if result:
-                print(result)
                 self.control.stop_running()
                 

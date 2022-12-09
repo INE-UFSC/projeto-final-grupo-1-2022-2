@@ -14,11 +14,6 @@ from .render import (
     TransparencyBackgroundRender,
 )
 
-# TODO
-# substituir o control por outros parâmetros
-# adicionar opção de mudar a cor de fundo do menu
-# renderizar o menu só quando necessário
-
 
 class Menu(ABC, Listener):
     __control: IControl

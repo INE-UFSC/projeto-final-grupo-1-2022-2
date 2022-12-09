@@ -26,7 +26,6 @@ class LeaderboardDAO(ResourceDAO):
         if path not in self._cache:
             try:
                 leaderboard = json.load(open(path, "rt", encoding="utf-8"))
-                print(leaderboard)
             except FileNotFoundError:
                 return
             except json.decoder.JSONDecodeError:
