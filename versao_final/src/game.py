@@ -29,7 +29,7 @@ class GameControl(IControl):
     def __init__(self):
         pg.init()
         pg.display.set_caption("Corre pro RU")
-        
+
         self.__running = False
         self.__deltatime = 0
 
@@ -52,7 +52,7 @@ class GameControl(IControl):
 
         self.__event.subscribe(pg.QUIT, lambda _: self.stop_running())
         self.__event.subscribe("*", self.__forward_event_to_scene)
-        
+
     def is_running(self):
         return self.__running
 

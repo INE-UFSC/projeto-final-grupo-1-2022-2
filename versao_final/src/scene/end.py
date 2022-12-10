@@ -18,7 +18,6 @@ class EndScene(Scene):
         self.current_menu = self.menus["end"]
         super().enter()
 
-
     @Listener.on("Play")
     def __play_again(self):
         self.next_scene = self.control.scene.scenes["main"]

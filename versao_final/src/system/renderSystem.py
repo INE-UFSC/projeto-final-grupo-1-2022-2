@@ -46,7 +46,7 @@ class RenderSystem(System):
             pos = entity.get_component(PosComponent)
 
             render.update(ctl.deltatime)
-            
+
             origin = screen.get_pos(pos.value)
             dest_pos = (origin[0] - render.origin[0], origin[1] - render.origin[1])
 

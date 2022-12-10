@@ -51,7 +51,6 @@ class Menu(ABC, Listener):
             self._dirty = False
             self.fresh_render()
 
-        
         self.__render_strategy.render()
 
     def fresh_render(self):

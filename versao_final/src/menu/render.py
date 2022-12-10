@@ -7,34 +7,32 @@ from ..library import Screen
 from .components import MenuComponent
 from time import time
 
+
 class Render(ABC):
     """
     classe base para a renderização do menu
     """
 
     _components: List[MenuComponent]
+
     def __init__(self, components: List[List[MenuComponent]]):
         self._components = []
         for listt in components:
             self._components.extend(listt)
 
-
     @abstractmethod
     def render(self):
         ...
-    
+
     @abstractmethod
     def fresh_render(self):
         ...
 
     def setup(self):
         ...
-    
+
     def reset(self):
         ...
-    
-    
-
 
 
 class DefaultRender(Render):
@@ -80,7 +78,7 @@ class BackgroundRender(Render):
         menu_pos: pg.Vector2,
         menu_size: pg.Vector2,
         fade: bool = False,
-        fade_duration: float = 0.5
+        fade_duration: float = 0.5,
     ) -> None:
         super().__init__(components)
         self.__screen = screen
@@ -92,12 +90,13 @@ class BackgroundRender(Render):
         self.__fade_duration = fade_duration
         self.__fade_start = 0
 
-
     def render(self):
         screen = self.__screen.display
         bg = self.__bg
 
-        render_with_fade = self.__fade and time() - self.__fade_start < self.__fade_duration
+        render_with_fade = (
+            self.__fade and time() - self.__fade_start < self.__fade_duration
+        )
         render_once_without_fade = not self.__fade and not self.__rendered
 
         if render_with_fade or render_once_without_fade:
@@ -122,7 +121,6 @@ class BackgroundRender(Render):
 
     def setup(self):
         self.__fade_start = time()
-
 
 
 class TransparencyBackgroundRender(Render):
@@ -151,7 +149,7 @@ class TransparencyBackgroundRender(Render):
         menu_size: pg.Vector2,
         transparency_color: Union[pg.Color, Tuple[int, int, int, int]],
         transparency_layer_fade: bool = False,
-        fade_duration: int = 0.6
+        fade_duration: int = 0.6,
     ) -> None:
         super().__init__(components)
         self.__screen = screen
@@ -164,26 +162,29 @@ class TransparencyBackgroundRender(Render):
         self.__size = menu_size
         self.__fade_duration = fade_duration
         self.__fade_start = 0
-        
 
     def render(self):
-        render_with_fade = self.__transparent_layer_fade and time() - self.__fade_start < self.__fade_duration
-        render_once_without_fade = not self.__transparent_layer_fade and not self.__rendered
-        
-        if render_with_fade or render_once_without_fade:   
+        render_with_fade = (
+            self.__transparent_layer_fade
+            and time() - self.__fade_start < self.__fade_duration
+        )
+        render_once_without_fade = (
+            not self.__transparent_layer_fade and not self.__rendered
+        )
+
+        if render_with_fade or render_once_without_fade:
             # renderiza apenas uma vez caso não haja fade ou várias se houver
             self.__transparent_layer.fill(self.__transparent_color)
             self.__bg.fill(self.__bg_color)
             self.__transparent_layer.blit(self.__bg, self.__pos)
             self.__screen.display.blit(self.__transparent_layer, (0, 0))
 
-
         for component in self._components:
             if render_with_fade or render_once_without_fade:
                 component.fresh_render(self.__screen.display)
             else:
                 component.render(self.__screen.display)
-        
+
         self.__rendered = True
 
     def fresh_render(self):

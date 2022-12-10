@@ -22,6 +22,7 @@ from ..system import (
 from .scene import Scene
 from ..components import MoveComponent
 
+
 class MainScene(Scene):
     __paused: bool
     __entered: bool = False

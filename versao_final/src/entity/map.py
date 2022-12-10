@@ -2,6 +2,7 @@ from ..config import Config
 
 import pygame as pg
 
+
 class Map:
     def __init__(self, lane_width: float, lane_amount: int, center_x: float = None):
         self.__lane_width = lane_width
@@ -49,7 +50,7 @@ class Map:
         min, max = self.total_boundary
 
         return min <= x <= max
-    
+
     def get_default_surface(self):
         size = Config().screen_size
         surface = pg.Surface(size)

@@ -19,8 +19,8 @@ class InputText(MenuComponent):
         shade_multiplier: float = 0.5,
         pos: Union[pg.Vector2, Tuple[int, int]] = None,
         key: str = None,
-        spacing: Tuple[int,int] = None,
-        font_size: int = 20
+        spacing: Tuple[int, int] = None,
+        font_size: int = 20,
     ):
 
         size = pg.Vector2(size)
@@ -28,7 +28,7 @@ class InputText(MenuComponent):
         surface = pg.Surface(size)
         surface.fill(color)
         spacing = pg.Vector2(spacing) if spacing is not None else spacing
-        super().__init__(pos, size, surface, key,spacing=spacing)
+        super().__init__(pos, size, surface, key, spacing=spacing)
 
         color = pg.Color(color)
         color_tuple = (color.r, color.g, color.b, color.a)
@@ -42,7 +42,7 @@ class InputText(MenuComponent):
         self.__color_when_pressed = color_when_pressed
         self.__word_limit = word_limit
         self.__is_pressed = False
-        self.__text = Text(label, font_color=label_color, pos=pos,font_size=font_size)
+        self.__text = Text(label, font_color=label_color, pos=pos, font_size=font_size)
         if pos is not None:
             self.__left_align_text()
 
@@ -124,7 +124,6 @@ class InputText(MenuComponent):
     def label(self):
         return self.__label
 
-    
     @MenuComponent.pos.setter
     def pos(self, pos):
         self._pos = pg.Vector2(pos)

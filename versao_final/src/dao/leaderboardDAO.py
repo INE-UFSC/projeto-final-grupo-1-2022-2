@@ -64,9 +64,7 @@ class LeaderboardDAO(ResourceDAO):
 
         return sorted(players_score, key=lambda p: p.value, reverse=True)
 
-    
-    
-    def get_player_highscore(self,name: str, difficulty: str):
+    def get_player_highscore(self, name: str, difficulty: str):
         players = self._cache.get("players", {})
         player = players.get(name, {})
         diff = player.get(difficulty, {})
@@ -83,4 +81,4 @@ class LeaderboardDAO(ResourceDAO):
         return self._cache.get("player_name", None)
 
     def set_player_name(self, name: str):
-        self._cache["player_name"] = name    
+        self._cache["player_name"] = name

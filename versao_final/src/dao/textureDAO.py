@@ -44,9 +44,9 @@ class TextureDAO(ResourceDAO):
 
             if texture:
                 loaded.append(texture)
-        
+
         return loaded
-    
+
     def load_sequence(
         self,
         directory_path: Union[str, Tuple[str]],
@@ -61,13 +61,12 @@ class TextureDAO(ResourceDAO):
             texture = self.load(path / f"{i}.png", default)
 
             sequence.append(texture)
-        
-        return tuple(sequence)
 
+        return tuple(sequence)
 
     def save(self, relative_path: Union[str, Tuple[str]], surface: pg.Surface):
         path = self.get_path(relative_path)
-        
+
         Path(path).parent.mkdir(parents=True, exist_ok=True)
 
         pg.image.save(surface, path)

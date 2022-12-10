@@ -20,9 +20,10 @@ class RenderComponent(Component):
         self.__index = 0
 
         self.set_frame("default")
-    
+
     def set_frame(self, name: str):
-        if name == self.__current_id: return
+        if name == self.__current_id:
+            return
 
         frame = self.__frames.get(name)
 
@@ -30,16 +31,16 @@ class RenderComponent(Component):
         self.__timer = 0
         self.__current = self.convert(frame)
         self.__current_id = name
-    
+
     def set_duration(self, value: float):
         self.__duration = value
-    
+
     @cache
     def convert(self, value: Union[pg.Surface, Iterable[pg.Surface]]):
         if isinstance(value, Iterable):
             return [self.convert(v) for v in value]
         return value.convert_alpha() if self.__alpha else value.convert()
-    
+
     def update(self, deltatime: float):
         if isinstance(self.__current, Iterable):
             self.__timer += deltatime
@@ -49,7 +50,11 @@ class RenderComponent(Component):
 
     @property
     def surface(self):
-        return self.__current[self.__index] if isinstance(self.__current, Iterable) else self.__current
+        return (
+            self.__current[self.__index]
+            if isinstance(self.__current, Iterable)
+            else self.__current
+        )
 
     @property
     def size(self):

@@ -16,7 +16,7 @@ class Background(Entity):
     def __init__(
         self,
         pos: Tuple[int, int, int] = (0, -1, 0),
-        default_surface: Union[pg.Surface, Callable[..., pg.Surface]] = None
+        default_surface: Union[pg.Surface, Callable[..., pg.Surface]] = None,
     ):
         pos = PosComponent(pos)
 

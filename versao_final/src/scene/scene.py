@@ -25,7 +25,7 @@ class Scene(Listener, ABC):
 
         for system in self.__systems:
             self.subscribe(system)
-        
+
         self.subscribe("*", self.__foward_event_to_menu)
 
     def __foward_event_to_menu(self, event_name: str, *args, **kwargs):
@@ -79,11 +79,11 @@ class Scene(Listener, ABC):
     def update(self):
         if self.current_menu:
             self.current_menu.update()
-        
+
         if self.next_scene is not None:
             self.control.transition(self.next_scene)
             self.next_scene = None
-        
+
         if self.next_menu and self.current_menu:
             self.current_menu.leave()
 

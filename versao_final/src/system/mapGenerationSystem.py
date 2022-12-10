@@ -55,7 +55,7 @@ class MapGenerationSystem(System):
         map = dao.load(path)
 
         self.__patterns = map["patterns"]
-    
+
     def setup(self):
         self.__last_obstacle_z_pos = 0
         self.__last_background_z_pos = -self.control.screen.size[1]
@@ -80,7 +80,7 @@ class MapGenerationSystem(System):
 
         while z_pos > self.__last_background_z_pos:
             self.spawn_background()
-        
+
     def skip_tiles(self, amount: int):
         self.__last_obstacle_z_pos += self.control.config.lane_width * amount
 
@@ -112,7 +112,9 @@ class MapGenerationSystem(System):
         z = self.__last_background_z_pos
         x = self.control.map.center
 
-        background = Background(pos=(x, -1, z), default_surface=self.control.map.get_default_surface)
+        background = Background(
+            pos=(x, -1, z), default_surface=self.control.map.get_default_surface
+        )
 
         render = background.get_component(RenderComponent)
         background_height = render.size[1]

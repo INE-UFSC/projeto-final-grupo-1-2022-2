@@ -7,6 +7,7 @@ from .menu import Menu
 from .render import TransparencyBackgroundRender
 from ..dao import LeaderboardDAO
 
+
 class EndMenu(Menu):
     def __init__(self, control: IControl):
 
@@ -22,10 +23,18 @@ class EndMenu(Menu):
             control.screen.size,
             center_x=True,
             center_y=True,
-            padding=(25,25)
+            padding=(25, 25),
         )
 
-        render = TransparencyBackgroundRender(control.screen, components, "black", layout.get_pos(), layout.get_size(), (40,40,40,10), True)
+        render = TransparencyBackgroundRender(
+            control.screen,
+            components,
+            "black",
+            layout.get_pos(),
+            layout.get_size(),
+            (40, 40, 40, 10),
+            True,
+        )
 
         super().__init__(control, layout, render)
 

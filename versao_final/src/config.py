@@ -37,7 +37,6 @@ class Config(metaclass=Singleton):
         )
         self.__args = parser.parse_args()
 
-
     @property
     def args(self):
         return self.__args
@@ -57,7 +56,6 @@ class Config(metaclass=Singleton):
     @property
     def default_player_name(self):
         return self.__default_player_name
-
 
     @property
     def lane_amount(self):

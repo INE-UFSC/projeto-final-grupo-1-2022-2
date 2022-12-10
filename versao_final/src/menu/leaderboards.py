@@ -61,7 +61,13 @@ class LeaderBoardMenu(Menu):
             center_y=True,
         )
 
-        render = BackgroundRender(control.screen, components, (0,0,0,175), layout.get_pos(), layout.get_size())
+        render = BackgroundRender(
+            control.screen,
+            components,
+            (0, 0, 0, 175),
+            layout.get_pos(),
+            layout.get_size(),
+        )
 
         super().__init__(control, layout, render)
 

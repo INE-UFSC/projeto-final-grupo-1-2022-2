@@ -5,7 +5,6 @@ from ..library import Listener
 from .system import System
 
 
-
 class MoveControlSystem(System):
     def setup(self):
         self.__next_move = None

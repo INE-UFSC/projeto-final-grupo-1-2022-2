@@ -27,7 +27,7 @@ class Button(MenuComponent):
         pos: Union[pg.Vector2, Tuple[int, int]] = None,
         key: str = None,
         on_click: Callable = None,
-        spacing: Tuple[int,int] = None
+        spacing: Tuple[int, int] = None,
     ):
         key = label if key is None else key
 
@@ -130,7 +130,6 @@ class Button(MenuComponent):
     @property
     def label(self):
         return self.__label
-
 
     @property
     def on_click(self):

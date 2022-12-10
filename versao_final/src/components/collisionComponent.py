@@ -14,7 +14,7 @@ class CollisionComponent(Component):
     def __init__(self, shape, climb_height=-1):
         self.__shape = shape
         self.__climb_height = climb_height
-    
+
     @property
     def shape(self):
         return self.__shape

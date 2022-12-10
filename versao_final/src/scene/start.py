@@ -25,7 +25,7 @@ class StartScene(Scene):
 
     def update(self):
         if self.current_menu and self.next_menu:
-            self.__render_background() # renderiza o background quando o menu atual é mudado
+            self.__render_background()  # renderiza o background quando o menu atual é mudado
 
         super().update()
 

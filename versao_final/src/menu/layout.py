@@ -1,11 +1,10 @@
 from abc import ABC, abstractmethod
-from typing import Tuple, List,Dict
+from typing import Tuple, List, Dict
 from functools import reduce
 
 import pygame as pg
 
 from .components import MenuComponent
-
 
 
 class Layout(ABC):
@@ -40,7 +39,7 @@ class GridLayout(Layout):
         padding: pg.Vector2 = pg.Vector2(50, 50),
         center_x: bool = False,
         center_y: bool = False,
-        pos: Tuple[int,int] = None
+        pos: Tuple[int, int] = None,
     ) -> None:
         """
         Layout grid utilizado para posicionar os componentes na tela
@@ -65,24 +64,34 @@ class GridLayout(Layout):
 
         if pos is None:
             x_boundary = surface_size[0] // 2 if center_x else padding[0]
-            y_boundary = surface_size[1] // 2 - (self.get_size().y - self.__padding.y*2) // 2 if center_y else padding[1]
+            y_boundary = (
+                surface_size[1] // 2 - (self.get_size().y - self.__padding.y * 2) // 2
+                if center_y
+                else padding[1]
+            )
         else:
             size = self.get_size()
             x_boundary = pos[0] + size.x // 2 if center_x else pos[0] + padding[0]
-            y_boundary = surface_size[1] // 2 - (size.y - padding[1]*2) // 2 if center_y and pos[1] == None else  pos[1] + padding[1]
+            y_boundary = (
+                surface_size[1] // 2 - (size.y - padding[1] * 2) // 2
+                if center_y and pos[1] == None
+                else pos[1] + padding[1]
+            )
 
         self.__create_grid_layout(x_boundary, y_boundary, center_x, center_y)
 
-    def __create_grid_layout(self, x_boundary: float, y_boundary: float, center_x: bool, center_y: bool) -> None:
+    def __create_grid_layout(
+        self, x_boundary: float, y_boundary: float, center_x: bool, center_y: bool
+    ) -> None:
         """
         cria um grid com os `components` por meio da
         alteração da posição destes
         """
-        
+
         prev_y_pos = 0
         top_boundary = y_boundary
         for line in self.__lines:
-            line_y_pos = 0 # posição do ponto mais baixpo do maior elemento da linha anterior + espaçamento
+            line_y_pos = 0  # posição do ponto mais baixpo do maior elemento da linha anterior + espaçamento
             prev_x_pos = 0  # posição do ponto mais a direita do elemento anterior da linha + espaçamento
 
             left_boundary = x_boundary
@@ -92,14 +101,27 @@ class GridLayout(Layout):
             for component in line.components.values():
                 if component.pos is None:
                     component.pos = (
-                        left_boundary + prev_x_pos, top_boundary + prev_y_pos
+                        left_boundary + prev_x_pos,
+                        top_boundary + prev_y_pos,
                     )
 
-                prev_x_pos = component.pos.x + self.__spacing.x + component.size.x + component.spacing.x - left_boundary
-                line_y_pos = max(component.pos.y + self.__spacing.y + component.size.y + component.spacing.y - top_boundary, line_y_pos)
-            
-            prev_y_pos = line_y_pos
+                prev_x_pos = (
+                    component.pos.x
+                    + self.__spacing.x
+                    + component.size.x
+                    + component.spacing.x
+                    - left_boundary
+                )
+                line_y_pos = max(
+                    component.pos.y
+                    + self.__spacing.y
+                    + component.size.y
+                    + component.spacing.y
+                    - top_boundary,
+                    line_y_pos,
+                )
 
+            prev_y_pos = line_y_pos
 
     def get_all_components(self) -> List[MenuComponent]:
         components = []
