@@ -28,6 +28,7 @@ class GameControl(IControl):
 
     def __init__(self):
         pg.init()
+        pg.display.set_caption("Corre pro RU")
         
         self.__running = False
         self.__deltatime = 0
