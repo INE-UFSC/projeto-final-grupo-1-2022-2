@@ -5,7 +5,6 @@ import pygame as pg
 from ..components import CollisionComponent, PosComponent, RenderComponent
 from ..entity import Entity
 from .system import System
-from ..library import class_name
 
 
 def compare_pos(a: Entity, b: Entity) -> int:

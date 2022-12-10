@@ -1,5 +1,5 @@
 from random import choice
-from typing import Callable, List
+from typing import Callable
 import pygame as pg
 
 from ..components import (

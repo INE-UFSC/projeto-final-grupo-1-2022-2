@@ -1,4 +1,3 @@
-from .backgroundComponent import BackgroundComponent
 from .collisionComponent import CollisionComponent
 from .component import Component
 from .moveComponent import MoveComponent
@@ -13,5 +12,4 @@ __all__ = [
     "CollisionComponent",
     "RenderComponent",
     "SlideComponent",
-    "BackgroundComponent",
 ]

@@ -6,15 +6,13 @@ from .config import Config
 from .dao import TextureDAO
 from .entity import EntityManager, Map
 from .icontrol import IControl
-from .library import Camera, EventBus, Keyboard, Mouse, Screen
+from .library import EventBus, Screen
 from .scene import Scene, SceneManager, EndScene, MainScene, StartScene
 
 
 class GameControl(IControl):
     __config: Config
     __event: EventBus
-    __keyboard: Keyboard
-    __mouse: Mouse
     __clock: pg.time.Clock
 
     __scene: SceneManager
@@ -22,9 +20,7 @@ class GameControl(IControl):
     __map: Map
     __running: bool
 
-    __framerate: int
     __deltatime: int
-    __max_deltatime: int
 
     def __init__(self):
         pg.init()

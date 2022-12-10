@@ -1,9 +1,7 @@
-from typing import Dict
-
 import pygame as pg
 
 from ..dao import LeaderboardDAO
-from ..entity import Background, Player
+from ..entity import Player
 from ..icontrol import IControl
 from ..library import Listener
 from ..menu import GameplayMenu, PauseMenu
@@ -20,8 +18,6 @@ from ..system import (
     AnimationSystem,
 )
 from .scene import Scene
-from ..components import MoveComponent
-
 
 class MainScene(Scene):
     __paused: bool

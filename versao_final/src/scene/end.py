@@ -1,7 +1,3 @@
-from typing import Dict
-
-import pygame as pg
-
 from ..icontrol import IControl
 from ..library import Listener
 from ..menu import EndMenu

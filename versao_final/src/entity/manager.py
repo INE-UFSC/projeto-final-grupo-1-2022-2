@@ -1,4 +1,4 @@
-from typing import Dict, List, Set, Type, Union
+from typing import Dict, Set, Type
 
 from ..components import Component
 from .entity import Entity
