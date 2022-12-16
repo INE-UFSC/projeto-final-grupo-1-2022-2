@@ -1,4 +1,4 @@
-from functools import cache
+from functools import lru_cache
 from typing import Iterable, Union
 
 import pygame as pg
@@ -35,7 +35,7 @@ class RenderComponent(Component):
     def set_duration(self, value: float):
         self.__duration = value
 
-    @cache
+    @lru_cache(maxsize=None)
     def convert(self, value: Union[pg.Surface, Iterable[pg.Surface]]):
         if isinstance(value, Iterable):
             return [self.convert(v) for v in value]
